@@ -1,4 +1,5 @@
 import type { RiskLevel, Recommendation } from "@/lib/risk";
+import { realCasesV2, type RealCaseDemo } from "@/data/v2";
 
 export type DealStatus = "novo" | "em_analise" | "concluido" | "comite" | "rejeitado";
 
@@ -16,6 +17,9 @@ export type Deal = {
   status: DealStatus;
   owner: string;
   updatedAt: string;
+  processNumber?: string;
+  court?: string;
+  dataStatus: RealCaseDemo["dataStatus"];
 };
 
 export const dealStatusLabel: Record<DealStatus, string> = {
@@ -26,127 +30,80 @@ export const dealStatusLabel: Record<DealStatus, string> = {
   rejeitado: "Rejeitado",
 };
 
-export const mockDeals: Deal[] = [
-  {
-    id: "atlas-energia-delta",
-    name: "Fundo Atlas × Energia Delta",
-    sector: "Energia",
-    caseValue: 482_000_000,
-    potentialTicket: 96_000_000,
-    proceduralPhase: "Recurso Especial",
-    evidiaScore: 72,
-    evidenceRisk: "alto",
-    hiddenUpside: 38_000_000,
-    recommendation: "reprecificar",
-    status: "em_analise",
-    owner: "M. Almeida",
-    updatedAt: "2026-05-18",
-  },
-  {
-    id: "aurora-norte",
-    name: "Construtora Aurora × Consórcio Norte",
-    sector: "Infraestrutura",
-    caseValue: 318_000_000,
-    potentialTicket: 64_000_000,
-    proceduralPhase: "Sentença 1ª instância",
-    evidiaScore: 58,
-    evidenceRisk: "critico",
-    hiddenUpside: 22_500_000,
-    recommendation: "negociar",
-    status: "comite",
-    owner: "R. Tavares",
-    updatedAt: "2026-05-15",
-  },
-  {
-    id: "xpto-beta",
-    name: "Credores XPTO × Grupo Industrial Beta",
-    sector: "Recuperação Judicial",
-    caseValue: 1_240_000_000,
-    potentialTicket: 180_000_000,
-    proceduralPhase: "Plano aprovado",
-    evidiaScore: 81,
-    evidenceRisk: "moderado",
-    hiddenUpside: 92_000_000,
-    recommendation: "avancar",
-    status: "novo",
-    owner: "C. Bernardes",
-    updatedAt: "2026-05-20",
-  },
-  {
-    id: "orion-sigma",
-    name: "Banco Orion × Recuperanda Sigma",
-    sector: "Financeiro",
-    caseValue: 670_000_000,
-    potentialTicket: 120_000_000,
-    proceduralPhase: "Habilitação de crédito",
-    evidiaScore: 64,
-    evidenceRisk: "alto",
-    hiddenUpside: 31_000_000,
-    recommendation: "reprecificar",
-    status: "em_analise",
-    owner: "F. Khouri",
-    updatedAt: "2026-05-19",
-  },
-  {
-    id: "prisma-valesul",
-    name: "Fundo Prisma × Operadora ValeSul",
-    sector: "Logística",
-    caseValue: 215_000_000,
-    potentialTicket: 38_000_000,
-    proceduralPhase: "Apelação",
-    evidiaScore: 44,
-    evidenceRisk: "critico",
-    hiddenUpside: 8_000_000,
-    recommendation: "rejeitar",
-    status: "rejeitado",
-    owner: "J. Lima",
-    updatedAt: "2026-05-10",
-  },
-  {
-    id: "vega-helios",
-    name: "Vega Capital × Helios Mineração",
-    sector: "Mineração",
-    caseValue: 890_000_000,
-    potentialTicket: 145_000_000,
-    proceduralPhase: "Acórdão TJ",
-    evidiaScore: 76,
-    evidenceRisk: "moderado",
-    hiddenUpside: 54_000_000,
-    recommendation: "avancar",
-    status: "comite",
-    owner: "P. Setti",
-    updatedAt: "2026-05-17",
-  },
-  {
-    id: "norte-zenit",
-    name: "Norte Asset × Zenit Telecom",
-    sector: "Telecom",
-    caseValue: 412_000_000,
-    potentialTicket: 78_000_000,
-    proceduralPhase: "Liquidação de sentença",
-    evidiaScore: 69,
-    evidenceRisk: "alto",
-    hiddenUpside: 27_000_000,
-    recommendation: "negociar",
-    status: "em_analise",
-    owner: "A. Nunes",
-    updatedAt: "2026-05-16",
-  },
-  {
-    id: "delta-petrobeta",
-    name: "Delta Litig × Petrobeta Refino",
-    sector: "Óleo & Gás",
-    caseValue: 1_580_000_000,
-    potentialTicket: 240_000_000,
-    proceduralPhase: "Pericial técnica",
-    evidiaScore: 85,
-    evidenceRisk: "baixo",
-    hiddenUpside: 132_000_000,
-    recommendation: "avancar",
-    status: "concluido",
-    owner: "M. Almeida",
-    updatedAt: "2026-05-13",
-  },
-];
+const riskLevelMap: Record<RealCaseDemo["auditBlocks"][number]["riskLevel"], RiskLevel> = {
+  low: "baixo",
+  moderate: "moderado",
+  high: "alto",
+  critical: "critico",
+};
 
-export const featuredDealId = "atlas-energia-delta";
+const recommendationMap: Record<RealCaseDemo["recommendation"], Recommendation> = {
+  invest: "avancar",
+  reprice: "reprecificar",
+  hold: "negociar",
+  reject: "rejeitar",
+  human_review: "reprecificar",
+};
+
+const statusByRole: Record<RealCaseDemo["portfolioRole"], DealStatus> = {
+  flagship: "em_analise",
+  secondary: "comite",
+  placeholder: "novo",
+};
+
+const ownerByCase: Record<string, string> = {
+  "case-feb-sap": "M. Almeida",
+  "case-paulo-gritti-matsuda": "R. Tavares",
+  "case-cobex-bradesco": "C. Bernardes",
+  "case-cami-sankhya": "F. Khouri",
+  "case-lagoa-xupe-nexa": "P. Setti",
+};
+
+const updatedByCase: Record<string, string> = {
+  "case-feb-sap": "2026-07-31",
+  "case-paulo-gritti-matsuda": "2026-03-03",
+  "case-cobex-bradesco": "2026-05-10",
+  "case-cami-sankhya": "2026-05-12",
+  "case-lagoa-xupe-nexa": "2026-05-14",
+};
+
+function toRiskFromScore(score: number): RiskLevel {
+  if (score >= 80) return "critico";
+  if (score >= 60) return "alto";
+  if (score >= 40) return "moderado";
+  return "baixo";
+}
+
+function toDeal(c: RealCaseDemo): Deal {
+  const evidiaScore = Math.round((c.legalScore + c.evidenceScore) / 2);
+  const claim = c.claimValue ?? 0;
+  const potential = c.valuation?.recommendedPrice ?? Math.round(claim * 0.3);
+  const upside = c.valuation
+    ? Math.max(0, c.valuation.scenarios[c.valuation.scenarios.length - 1].expectedRecovery - c.valuation.recommendedPrice)
+    : 0;
+  return {
+    id: c.id,
+    name: c.displayName,
+    sector: c.sector,
+    caseValue: claim,
+    potentialTicket: potential,
+    proceduralPhase: c.proceduralStage,
+    evidiaScore,
+    evidenceRisk: c.dataStatus === "awaiting_documents" ? "moderado" : toRiskFromScore(c.nullityRiskScore),
+    hiddenUpside: upside,
+    recommendation: recommendationMap[c.recommendation],
+    status: statusByRole[c.portfolioRole],
+    owner: ownerByCase[c.id] ?? "Equipe EvidIA",
+    updatedAt: updatedByCase[c.id] ?? "2026-05-01",
+    processNumber: c.processNumber,
+    court: c.court,
+    dataStatus: c.dataStatus,
+  };
+}
+
+export const mockDeals: Deal[] = realCasesV2.map(toDeal);
+
+export const featuredDealId = "case-feb-sap";
+
+// Re-exported for callers that need the mapping helpers
+export { riskLevelMap };
