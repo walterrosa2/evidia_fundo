@@ -1,3 +1,5 @@
+import { febSapCase } from "@/data/v2";
+
 export type ValuationScenario = {
   id: string;
   name: "Conservador" | "Base" | "Agressivo";
@@ -10,46 +12,45 @@ export type ValuationScenario = {
   expectedROI: number;
 };
 
-export const valuationScenarios: ValuationScenario[] = [
-  {
-    id: "conservador",
-    name: "Conservador",
-    grossClaimValue: 482_000_000,
-    initialPurchasePrice: 96_000_000,
-    evidenceRiskAdjustment: -22_000_000,
-    nullityAdjustment: -14_000_000,
-    settlementLeverageAdjustment: 6_000_000,
-    recommendedPrice: 66_000_000,
-    expectedROI: 1.6,
-  },
-  {
-    id: "base",
-    name: "Base",
-    grossClaimValue: 482_000_000,
-    initialPurchasePrice: 96_000_000,
-    evidenceRiskAdjustment: -14_000_000,
-    nullityAdjustment: -8_000_000,
-    settlementLeverageAdjustment: 12_000_000,
-    recommendedPrice: 86_000_000,
-    expectedROI: 2.4,
-  },
-  {
-    id: "agressivo",
-    name: "Agressivo",
-    grossClaimValue: 482_000_000,
-    initialPurchasePrice: 96_000_000,
-    evidenceRiskAdjustment: -6_000_000,
-    nullityAdjustment: -2_000_000,
-    settlementLeverageAdjustment: 22_000_000,
-    recommendedPrice: 110_000_000,
-    expectedROI: 3.1,
-  },
-];
+const nameMap = {
+  conservative: "Conservador",
+  base: "Base",
+  aggressive: "Agressivo",
+} as const;
+
+const v = febSapCase.valuation!;
+
+// Distribute the case-level adjustments between scenarios for demo purposes.
+const evidenceAdj =
+  -1 *
+  (v.adjustments.find((a) => a.label.toLowerCase().includes("prova"))?.amount ?? 0);
+const nullityAdj =
+  -1 *
+  (v.adjustments.find((a) => a.label.toLowerCase().includes("responsabilidade"))
+    ?.amount ?? 0);
+const settlementAdj =
+  v.adjustments.find((a) => a.direction === "positive")?.amount ?? 0;
+
+export const valuationScenarios: ValuationScenario[] = v.scenarios.map((s) => ({
+  id: s.id,
+  name: nameMap[s.id],
+  grossClaimValue: v.grossClaimValue,
+  initialPurchasePrice: v.initialReferencePrice,
+  evidenceRiskAdjustment: evidenceAdj,
+  nullityAdjustment: nullityAdj,
+  settlementLeverageAdjustment: settlementAdj,
+  recommendedPrice: s.recommendedPrice,
+  expectedROI: s.roiMultiple,
+}));
+
+const base = valuationScenarios.find((s) => s.id === "base")!;
 
 export const waterfallData = [
-  { name: "Preço inicial", value: 96, fill: "var(--cyan)" },
-  { name: "Risco probatório", value: -14, fill: "var(--risk-high)" },
-  { name: "Nulidades", value: -8, fill: "var(--risk-critical)" },
-  { name: "Alavanca acordo", value: 12, fill: "var(--risk-low)" },
-  { name: "Preço recomendado", value: 86, fill: "var(--violet)" },
+  { name: "Preço inicial", value: Math.round(base.initialPurchasePrice / 1000), fill: "var(--cyan)" },
+  { name: "Risco probatório", value: Math.round(base.evidenceRiskAdjustment / 1000), fill: "var(--risk-high)" },
+  { name: "Nulidades", value: Math.round(base.nullityAdjustment / 1000), fill: "var(--risk-critical)" },
+  { name: "Alavanca acordo", value: Math.round(base.settlementLeverageAdjustment / 1000), fill: "var(--risk-low)" },
+  { name: "Preço recomendado", value: Math.round(base.recommendedPrice / 1000), fill: "var(--violet)" },
 ];
+
+export const valuationDisclaimer = v.disclaimer;
