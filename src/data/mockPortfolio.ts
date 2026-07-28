@@ -2,9 +2,7 @@ import { realCasesV2, documentedCasesV2 } from "@/data/v2";
 
 const totalClaim = realCasesV2.reduce((acc, c) => acc + (c.claimValue ?? 0), 0);
 const criticalCount = documentedCasesV2.reduce(
-  (acc, c) =>
-    acc +
-    c.findings.filter((f) => f.riskLevel === "critical").length,
+  (acc, c) => acc + c.findings.filter((f) => f.riskLevel === "critical").length,
   0,
 );
 const avgNullity =
@@ -15,16 +13,10 @@ export const mockPortfolio = {
   dealsAnalyzed: realCasesV2.length,
   capitalUnderAnalysis: totalClaim,
   averageEvidenceRisk: Math.round(avgNullity),
-  hiddenOpportunitiesFound: documentedCasesV2.reduce(
-    (acc, c) => acc + c.evidences.length,
-    0,
-  ),
+  hiddenOpportunitiesFound: documentedCasesV2.reduce((acc, c) => acc + c.evidences.length, 0),
   estimatedSavings: documentedCasesV2.reduce(
     (acc, c) =>
-      acc +
-      (c.valuation
-        ? c.valuation.initialReferencePrice - c.valuation.recommendedPrice
-        : 0),
+      acc + (c.valuation ? c.valuation.initialReferencePrice - c.valuation.recommendedPrice : 0),
     0,
   ),
   averageAnalysisTime: "4h 20min",

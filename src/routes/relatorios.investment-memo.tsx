@@ -25,15 +25,35 @@ function Memo() {
   return (
     <AppShell context="Relatórios · Investment Memo">
       <SectionHeader
-        eyebrow={`v1.3 · gerado 20/05/2026 · ${caseDetail.caseNumber}`}
+        eyebrow={`v1.3 · gerado 28/07/2026 · ${caseDetail.caseNumber}`}
         title="Investment Memo"
         subtitle={caseDetail.name}
         actions={
           <div className="flex flex-wrap gap-2">
-            <button onClick={() => fakeAction("Gerando Word…")} className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"><FileDown className="size-4" /> Gerar Word</button>
-            <button onClick={() => fakeAction("Exportando PDF executivo…")} className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"><Download className="size-4" /> PDF Executivo</button>
-            <button onClick={() => fakeAction("Memo enviado ao comitê")} className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"><Send className="size-4" /> Enviar ao comitê</button>
-            <button onClick={() => fakeAction("Versão v1.4 salva")} className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"><Save className="size-4" /> Salvar versão</button>
+            <button
+              onClick={() => fakeAction("Gerando Word…")}
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"
+            >
+              <FileDown className="size-4" /> Gerar Word
+            </button>
+            <button
+              onClick={() => fakeAction("Exportando PDF executivo…")}
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"
+            >
+              <Download className="size-4" /> PDF Executivo
+            </button>
+            <button
+              onClick={() => fakeAction("Memo enviado ao comitê")}
+              className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+            >
+              <Send className="size-4" /> Enviar ao comitê
+            </button>
+            <button
+              onClick={() => fakeAction("Versão v1.4 salva")}
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"
+            >
+              <Save className="size-4" /> Salvar versão
+            </button>
           </div>
         }
       />
@@ -46,9 +66,13 @@ function Memo() {
 
       <article className="rounded-xl border border-border bg-card p-8 lg:p-10 max-w-4xl mx-auto">
         <div className="border-b border-border pb-6">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-primary">EvidIA · Investment Memo</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-primary">
+            EvidIA · Investment Memo
+          </div>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">{caseDetail.name}</h1>
-          <div className="mt-2 text-sm text-muted-foreground">{caseDetail.court} · {caseDetail.caseNumber}</div>
+          <div className="mt-2 text-sm text-muted-foreground">
+            {caseDetail.court} · {caseDetail.caseNumber}
+          </div>
         </div>
 
         <Section title="1. Resumo executivo">
@@ -56,34 +80,57 @@ function Memo() {
         </Section>
 
         <Section title="2. Tese de investimento">
-          <p>{caseDetail.thesis} Estimativa de upside líquido em cenário base superior a {formatCurrency(54_000_000, { compact: true })}, com janela de saída via Recurso Especial em 18–24 meses.</p>
+          <p>
+            {caseDetail.thesis} Estimativa de upside líquido em cenário base superior a{" "}
+            {formatCurrency(54_000_000, { compact: true })}, com janela de saída via Recurso
+            Especial em 18–24 meses.
+          </p>
         </Section>
 
         <Section title="3. Riscos identificados">
           <ul className="space-y-2">
-            {mockFindings.filter((f) => f.includedInReport).map((f) => (
-              <li key={f.id} className="flex items-start gap-3">
-                <RiskBadge level={f.riskLevel} />
-                <span><b>{f.question}</b> — {f.inference}</span>
-              </li>
-            ))}
+            {mockFindings
+              .filter((f) => f.includedInReport)
+              .map((f) => (
+                <li key={f.id} className="flex items-start gap-3">
+                  <RiskBadge level={f.riskLevel} />
+                  <span>
+                    <b>{f.question}</b> — {f.inference}
+                  </span>
+                </li>
+              ))}
           </ul>
         </Section>
 
         <Section title="4. Red Team — síntese">
-          <p>Probabilidade média de êxito dos ataques mapeados: 60%. Com adoção das mitigações sugeridas (contraprova documental, complementação pericial preventiva e parecer técnico de equivalência metodológica), a exposição cai para zona aceitável.</p>
+          <p>
+            Probabilidade média de êxito dos ataques mapeados: 60%. Com adoção das mitigações
+            sugeridas (contraprova documental, complementação pericial preventiva e parecer técnico
+            de equivalência metodológica), a exposição cai para zona aceitável.
+          </p>
         </Section>
 
         <Section title="5. Impacto financeiro">
           <div className="grid grid-cols-3 gap-3 not-prose">
-            <KV k="Preço inicial" v={formatCurrency(base.initialPurchasePrice, { compact: true })} />
-            <KV k="Preço recomendado" v={formatCurrency(base.recommendedPrice, { compact: true })} highlight />
+            <KV
+              k="Preço inicial"
+              v={formatCurrency(base.initialPurchasePrice, { compact: true })}
+            />
+            <KV
+              k="Preço recomendado"
+              v={formatCurrency(base.recommendedPrice, { compact: true })}
+              highlight
+            />
             <KV k="ROI base" v={`${base.expectedROI.toFixed(1)}×`} />
           </div>
         </Section>
 
         <Section title="6. Recomendação">
-          <p className="text-foreground"><b className="text-risk-moderate">Reprecificar</b> — reduzir ticket para {formatCurrency(base.recommendedPrice, { compact: true })} e condicionar aporte à complementação pericial.</p>
+          <p className="text-foreground">
+            <b className="text-risk-moderate">Reprecificar</b> — reduzir ticket para{" "}
+            {formatCurrency(base.recommendedPrice, { compact: true })} e condicionar aporte à
+            complementação pericial.
+          </p>
         </Section>
 
         <Section title="7. Próximos passos">
@@ -97,7 +144,7 @@ function Memo() {
 
         <Section title="8. Registro de versão">
           <ul className="text-sm text-muted-foreground space-y-1">
-            <li>v1.3 — 20/05/2026 · M. Almeida · revisão final</li>
+            <li>v1.3 — 28/07/2026 · M. Almeida · revisão final</li>
             <li>v1.2 — 19/05/2026 · C. Bernardes · inclusão de Red Team</li>
             <li>v1.1 — 18/05/2026 · sistema · geração inicial pela EvidIA</li>
           </ul>
@@ -118,9 +165,13 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function KV({ k, v, highlight }: { k: string; v: string; highlight?: boolean }) {
   return (
-    <div className={`rounded-md border p-3 ${highlight ? "border-primary/40 bg-primary/5" : "border-border bg-surface"}`}>
+    <div
+      className={`rounded-md border p-3 ${highlight ? "border-primary/40 bg-primary/5" : "border-border bg-surface"}`}
+    >
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{k}</div>
-      <div className={`mt-1 text-lg font-semibold tabular-nums ${highlight ? "text-primary" : ""}`}>{v}</div>
+      <div className={`mt-1 text-lg font-semibold tabular-nums ${highlight ? "text-primary" : ""}`}>
+        {v}
+      </div>
     </div>
   );
 }

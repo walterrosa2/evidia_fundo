@@ -5,6 +5,7 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { RiskBadge } from "@/components/shared/RiskBadge";
 import { mockFindings, findingStatusLabel } from "@/data/mockFindings";
 import { ChevronLeft, ChevronRight, FileText } from "lucide-react";
+import { caseDetail } from "@/data/mockCaseDetail";
 
 export const Route = createFileRoute("/nulidade360/evidencias")({
   component: Evidencias,
@@ -27,12 +28,24 @@ function Evidencias() {
           <div className="flex items-center justify-between border-b border-border px-4 py-3 bg-surface/40">
             <div className="flex items-center gap-2 text-sm">
               <FileText className="size-4 text-primary" />
-              <span className="font-medium">laudo_pericial_v3.2.pdf</span>
-              <span className="text-muted-foreground">· pág. {f.page ?? "—"} / 412</span>
+              <span className="font-medium">laudo_pericial_principal.pdf</span>
+              <span className="text-muted-foreground">
+                · pág. {f.page ?? "—"} / {caseDetail.pagesAnalyzed}
+              </span>
             </div>
             <div className="flex gap-1">
-              <button onClick={() => setIdx((i) => Math.max(0, i - 1))} className="grid size-7 place-items-center rounded border border-border hover:bg-secondary"><ChevronLeft className="size-3.5" /></button>
-              <button onClick={() => setIdx((i) => Math.min(mockFindings.length - 1, i + 1))} className="grid size-7 place-items-center rounded border border-border hover:bg-secondary"><ChevronRight className="size-3.5" /></button>
+              <button
+                onClick={() => setIdx((i) => Math.max(0, i - 1))}
+                className="grid size-7 place-items-center rounded border border-border hover:bg-secondary"
+              >
+                <ChevronLeft className="size-3.5" />
+              </button>
+              <button
+                onClick={() => setIdx((i) => Math.min(mockFindings.length - 1, i + 1))}
+                className="grid size-7 place-items-center rounded border border-border hover:bg-secondary"
+              >
+                <ChevronRight className="size-3.5" />
+              </button>
             </div>
           </div>
           <div className="p-6 min-h-[28rem] bg-[oklch(0.97_0.005_250)] text-[oklch(0.2_0.02_250)]">
@@ -40,7 +53,10 @@ function Evidencias() {
               <div className="text-center text-[10px] uppercase tracking-widest opacity-60 mb-4">
                 — Laudo Pericial — pág. {f.page ?? "—"} —
               </div>
-              <p className="mb-3">Trata-se de análise técnica vinculada ao processo nº 0034567-89.2022.8.26.0100, em curso perante a 2ª Câmara de Direito Público do TJSP.</p>
+              <p className="mb-3">
+                Trata-se de análise técnica vinculada ao processo nº {caseDetail.caseNumber}, em
+                curso perante {caseDetail.court}.
+              </p>
               {f.excerpt ? (
                 <p className="mb-3 rounded bg-[oklch(0.85_0.16_85_/0.45)] px-1 py-0.5 ring-1 ring-[oklch(0.7_0.18_45_/0.6)]">
                   {f.excerpt}
@@ -50,8 +66,14 @@ function Evidencias() {
                   [Trecho ausente — ausência relevante registrada]: {f.absenceExplanation}
                 </p>
               )}
-              <p className="mb-3">A análise prosseguiu conforme metodologia declarada, observando-se eventuais adaptações descritas no item 4.3 do presente laudo.</p>
-              <p>Os resultados constam das tabelas anexas, com base nos parâmetros aferidos durante os ensaios realizados em campo e laboratório.</p>
+              <p className="mb-3">
+                A análise prosseguiu conforme metodologia declarada, observando-se eventuais
+                adaptações descritas no item 4.3 do presente laudo.
+              </p>
+              <p>
+                Os resultados constam das tabelas anexas, com base nos parâmetros aferidos durante
+                os ensaios realizados em campo e laboratório.
+              </p>
             </div>
           </div>
         </div>
@@ -60,7 +82,9 @@ function Evidencias() {
           <div className="flex items-center gap-2">
             <RiskBadge level={f.riskLevel} />
             <span className="text-xs text-muted-foreground">{findingStatusLabel[f.status]}</span>
-            <span className="ml-auto text-xs text-muted-foreground">Achado {idx + 1} / {mockFindings.length}</span>
+            <span className="ml-auto text-xs text-muted-foreground">
+              Achado {idx + 1} / {mockFindings.length}
+            </span>
           </div>
           <h3 className="mt-3 text-lg font-semibold leading-tight">{f.question}</h3>
 
@@ -114,10 +138,14 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function Btn({ children, variant }: { children: React.ReactNode; variant?: "ghost" }) {
   return (
-    <button className={`rounded-md px-3 py-1.5 text-xs transition ${
-      variant === "ghost"
-        ? "border border-border bg-surface hover:bg-secondary text-foreground"
-        : "bg-primary/10 text-primary border border-primary/30 hover:bg-primary/15"
-    }`}>{children}</button>
+    <button
+      className={`rounded-md px-3 py-1.5 text-xs transition ${
+        variant === "ghost"
+          ? "border border-border bg-surface hover:bg-secondary text-foreground"
+          : "bg-primary/10 text-primary border border-primary/30 hover:bg-primary/15"
+      }`}
+    >
+      {children}
+    </button>
   );
 }

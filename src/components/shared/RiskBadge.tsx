@@ -7,7 +7,9 @@ export function RiskBadge({ level, className = "" }: { level: RiskLevel; classNa
     >
       <span
         className="size-1.5 rounded-full"
-        style={{ background: `var(--risk-${level === "critico" ? "critical" : level === "alto" ? "high" : level === "moderado" ? "moderate" : "low"})` }}
+        style={{
+          background: `var(--risk-${level === "critico" ? "critical" : level === "alto" ? "high" : level === "moderado" ? "moderate" : "low"})`,
+        }}
       />
       {riskLabel[level]}
     </span>

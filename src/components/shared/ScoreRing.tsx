@@ -40,9 +40,7 @@ export function ScoreRing({
       <div className="absolute inset-0 grid place-items-center text-center">
         <div>
           <div className="text-3xl font-semibold tracking-tight">{value}</div>
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-            {label}
-          </div>
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
           <div className="text-[10px] mt-0.5" style={{ color }}>
             Risco {riskLabel[risk]}
           </div>

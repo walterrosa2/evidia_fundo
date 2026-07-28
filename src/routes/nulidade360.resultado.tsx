@@ -5,6 +5,7 @@ import { ScoreRing } from "@/components/shared/ScoreRing";
 import { RiskBadge } from "@/components/shared/RiskBadge";
 import { blocks, mockFindings } from "@/data/mockFindings";
 import { FileText, Layers, Search, Swords } from "lucide-react";
+import { caseDetail } from "@/data/mockCaseDetail";
 
 export const Route = createFileRoute("/nulidade360/resultado")({
   component: Resultado,
@@ -22,7 +23,7 @@ function Resultado() {
   return (
     <AppShell context="Nulidade360 · Resultado">
       <SectionHeader
-        eyebrow="Resultado executivo · Fundo Atlas × Energia Delta"
+        eyebrow={`Resultado executivo · ${caseDetail.name}`}
         title="Reprecificar — risco probatório alto"
         subtitle="A EvidIA identificou fragilidades estruturais que justificam ajuste no preço de entrada. Recomendação suportada por achados em B1, B2 e B4."
       />
@@ -31,7 +32,9 @@ function Resultado() {
         <div className="rounded-xl border border-border bg-card p-6 flex flex-col items-center">
           <ScoreRing value={overall} size={170} />
           <div className="mt-4 text-center">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Recomendação</div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Recomendação
+            </div>
             <div className="mt-1 text-lg font-semibold text-risk-moderate">Reprecificar</div>
             <div className="mt-1 text-xs text-muted-foreground max-w-[16rem]">
               Reduzir ticket em 10–15% e provocar complementação pericial preventiva.
@@ -45,12 +48,16 @@ function Resultado() {
             {blocks.map((b) => (
               <div key={b.id} className="rounded-lg border border-border bg-surface p-3">
                 <div className="flex items-center justify-between">
-                  <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{b.code}</div>
+                  <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                    {b.code}
+                  </div>
                   <RiskBadge level={b.risk} />
                 </div>
                 <div className="mt-1 text-sm font-medium leading-tight">{b.name}</div>
                 <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                  <span>Score <b className="text-foreground">{b.score}</b></span>
+                  <span>
+                    Score <b className="text-foreground">{b.score}</b>
+                  </span>
                   <span>{b.findingsCount} achados</span>
                 </div>
               </div>
@@ -69,12 +76,8 @@ function Resultado() {
                   <div className="text-sm font-medium">{f.question}</div>
                   <RiskBadge level={f.riskLevel} />
                 </div>
-                <div className="mt-1 text-xs text-muted-foreground">
-                  {f.inference}
-                </div>
-                <div className="mt-2 text-[11px] text-primary">
-                  Impacto: {f.proceduralImpact}
-                </div>
+                <div className="mt-1 text-xs text-muted-foreground">{f.inference}</div>
+                <div className="mt-2 text-[11px] text-primary">Impacto: {f.proceduralImpact}</div>
               </li>
             ))}
           </ul>
@@ -94,10 +97,15 @@ function Resultado() {
               <li key={r.k}>
                 <div className="flex items-center justify-between text-xs">
                   <span>{r.k}</span>
-                  <span className="text-muted-foreground">peso {r.w}% · {r.v}</span>
+                  <span className="text-muted-foreground">
+                    peso {r.w}% · {r.v}
+                  </span>
                 </div>
                 <div className="mt-1 h-1.5 rounded-full bg-border overflow-hidden">
-                  <div className="h-full rounded-full bg-gradient-to-r from-cyan to-violet" style={{ width: `${r.v}%` }} />
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-cyan to-violet"
+                    style={{ width: `${r.v}%` }}
+                  />
                 </div>
               </li>
             ))}
@@ -107,7 +115,11 @@ function Resultado() {
 
       <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
         {ctas.map((c) => (
-          <Link key={c.to} to={c.to} className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 hover:border-primary/40 transition">
+          <Link
+            key={c.to}
+            to={c.to}
+            className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 hover:border-primary/40 transition"
+          >
             <div className="grid size-9 place-items-center rounded-md border border-border text-primary">
               <c.icon className="size-4" />
             </div>

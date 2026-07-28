@@ -35,11 +35,7 @@ export function MetricCard({
       <div className="mt-3 text-2xl font-semibold tracking-tight">{value}</div>
       <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
         {delta && (
-          <span
-            className={
-              delta.positive ? "text-risk-low" : "text-risk-high"
-            }
-          >
+          <span className={delta.positive ? "text-risk-low" : "text-risk-high"}>
             {delta.positive ? "▲" : "▼"} {delta.value}
           </span>
         )}

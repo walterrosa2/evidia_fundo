@@ -33,6 +33,7 @@ export const recommendationLabel = {
   reprecificar: "Reprecificar",
   negociar: "Negociar",
   rejeitar: "Rejeitar",
+  revisar: "Revisão humana",
 } as const;
 
 export type Recommendation = keyof typeof recommendationLabel;
@@ -42,4 +43,5 @@ export const recommendationClasses: Record<Recommendation, string> = {
   reprecificar: "bg-risk-moderate/15 text-risk-moderate border-risk-moderate/30",
   negociar: "bg-cyan/15 text-cyan border-cyan/30",
   rejeitar: "bg-risk-critical/15 text-risk-critical border-risk-critical/30",
+  revisar: "bg-violet/15 text-violet border-violet/30",
 };

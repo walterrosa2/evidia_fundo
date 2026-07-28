@@ -26,7 +26,12 @@ import { MetricCard } from "@/components/shared/MetricCard";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { RiskBadge } from "@/components/shared/RiskBadge";
 import { formatCurrency } from "@/lib/formatters";
-import { mockPortfolio, riskDistribution, financialExposure, recurringRisks } from "@/data/mockPortfolio";
+import {
+  mockPortfolio,
+  riskDistribution,
+  financialExposure,
+  recurringRisks,
+} from "@/data/mockPortfolio";
 import { mockDeals } from "@/data/mockDeals";
 
 export const Route = createFileRoute("/dashboard")({
@@ -52,29 +57,93 @@ function Dashboard() {
       />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard label="Deals analisados" value={mockPortfolio.dealsAnalyzed} icon={Briefcase} accent="cyan" delta={{ value: "+12 vs mês anterior", positive: true }} />
-        <MetricCard label="Capital sob análise" value={formatCurrency(mockPortfolio.capitalUnderAnalysis, { compact: true })} icon={DollarSign} accent="violet" hint="em 184 ativos" />
-        <MetricCard label="Risco probatório médio" value={`${mockPortfolio.averageEvidenceRisk}/100`} icon={ShieldAlert} accent="risk-high" hint="zona Alto" />
-        <MetricCard label="Oportunidades ocultas" value={mockPortfolio.hiddenOpportunitiesFound} icon={Sparkles} accent="gold" delta={{ value: "+8 essa semana", positive: true }} />
-        <MetricCard label="Economia estimada" value={formatCurrency(mockPortfolio.estimatedSavings, { compact: true })} icon={TrendingUp} accent="risk-low" hint="reprecificações sugeridas" />
-        <MetricCard label="Tempo médio de análise" value={mockPortfolio.averageAnalysisTime} icon={Clock} accent="cyan" hint="vs 14 dias manual" />
-        <MetricCard label="Deals críticos" value={mockPortfolio.criticalDeals} icon={AlertTriangle} accent="risk-critical" hint="exigem atenção imediata" />
-        <MetricCard label="Upside estimado" value={formatCurrency(mockPortfolio.estimatedUpside, { compact: true })} icon={TrendingUp} accent="violet" hint="cenário base" />
+        <MetricCard
+          label="Deals analisados"
+          value={mockPortfolio.dealsAnalyzed}
+          icon={Briefcase}
+          accent="cyan"
+          delta={{ value: "+12 vs mês anterior", positive: true }}
+        />
+        <MetricCard
+          label="Capital sob análise"
+          value={formatCurrency(mockPortfolio.capitalUnderAnalysis, { compact: true })}
+          icon={DollarSign}
+          accent="violet"
+          hint={`em ${mockPortfolio.dealsAnalyzed} ativos`}
+        />
+        <MetricCard
+          label="Risco probatório médio"
+          value={`${mockPortfolio.averageEvidenceRisk}/100`}
+          icon={ShieldAlert}
+          accent="risk-high"
+          hint="zona Alto"
+        />
+        <MetricCard
+          label="Oportunidades ocultas"
+          value={mockPortfolio.hiddenOpportunitiesFound}
+          icon={Sparkles}
+          accent="gold"
+          delta={{ value: "+8 essa semana", positive: true }}
+        />
+        <MetricCard
+          label="Economia estimada"
+          value={formatCurrency(mockPortfolio.estimatedSavings, { compact: true })}
+          icon={TrendingUp}
+          accent="risk-low"
+          hint="reprecificações sugeridas"
+        />
+        <MetricCard
+          label="Tempo médio de análise"
+          value={mockPortfolio.averageAnalysisTime}
+          icon={Clock}
+          accent="cyan"
+          hint="vs 14 dias manual"
+        />
+        <MetricCard
+          label="Deals críticos"
+          value={mockPortfolio.criticalDeals}
+          icon={AlertTriangle}
+          accent="risk-critical"
+          hint="exigem atenção imediata"
+        />
+        <MetricCard
+          label="Upside estimado"
+          value={formatCurrency(mockPortfolio.estimatedUpside, { compact: true })}
+          icon={TrendingUp}
+          accent="violet"
+          hint="cenário base"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
         <div className="rounded-xl border border-border bg-card p-5 lg:col-span-1">
           <div className="text-sm font-semibold">Distribuição por risco probatório</div>
-          <div className="mt-1 text-xs text-muted-foreground">184 deals · base atual</div>
+          <div className="mt-1 text-xs text-muted-foreground">
+            {mockPortfolio.dealsAnalyzed} deals · base atual
+          </div>
           <div className="h-60 mt-4">
             <ResponsiveContainer>
               <PieChart>
-                <Pie data={riskDistribution} dataKey="value" innerRadius={55} outerRadius={85} paddingAngle={2} stroke="none">
+                <Pie
+                  data={riskDistribution}
+                  dataKey="value"
+                  innerRadius={55}
+                  outerRadius={85}
+                  paddingAngle={2}
+                  stroke="none"
+                >
                   {riskDistribution.map((d) => (
                     <Cell key={d.name} fill={d.color} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }} />
+                <Tooltip
+                  contentStyle={{
+                    background: "var(--popover)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 8,
+                    fontSize: 12,
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -95,7 +164,9 @@ function Dashboard() {
           <div className="flex items-end justify-between">
             <div>
               <div className="text-sm font-semibold">Exposição financeira por risco</div>
-              <div className="mt-1 text-xs text-muted-foreground">R$ milhões · capital sob análise</div>
+              <div className="mt-1 text-xs text-muted-foreground">
+                R$ milhões · capital sob análise
+              </div>
             </div>
             <div className="text-xs text-muted-foreground">Atualizado há 4 min</div>
           </div>
@@ -105,7 +176,15 @@ function Dashboard() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="risco" stroke="var(--muted-foreground)" fontSize={12} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={12} />
-                <Tooltip cursor={{ fill: "color-mix(in oklab, var(--cyan) 10%, transparent)" }} contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }} />
+                <Tooltip
+                  cursor={{ fill: "color-mix(in oklab, var(--cyan) 10%, transparent)" }}
+                  contentStyle={{
+                    background: "var(--popover)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 8,
+                    fontSize: 12,
+                  }}
+                />
                 <Bar dataKey="exposicao" radius={[6, 6, 0, 0]} fill="var(--cyan)" />
               </BarChart>
             </ResponsiveContainer>
@@ -156,12 +235,22 @@ function Dashboard() {
                     <td className="py-3">
                       <Link to="/deals/$id" params={{ id: d.id }} className="hover:text-primary">
                         <div className="font-medium">{d.name}</div>
-                        <div className="text-[11px] text-muted-foreground">{d.sector} · {d.proceduralPhase}</div>
+                        <div className="text-[11px] text-muted-foreground">
+                          {d.sector} · {d.proceduralPhase}
+                        </div>
                       </Link>
                     </td>
-                    <td className="py-3 tabular-nums">{formatCurrency(d.potentialTicket, { compact: true })}</td>
-                    <td className="py-3 tabular-nums">{d.evidiaScore}</td>
-                    <td className="py-3"><RiskBadge level={d.evidenceRisk} /></td>
+                    <td className="py-3 tabular-nums">
+                      {d.potentialTicket
+                        ? formatCurrency(d.potentialTicket, { compact: true })
+                        : "A confirmar"}
+                    </td>
+                    <td className="py-3 tabular-nums">
+                      {d.dataStatus === "awaiting_documents" ? "—" : d.evidiaScore}
+                    </td>
+                    <td className="py-3">
+                      <RiskBadge level={d.evidenceRisk} />
+                    </td>
                   </tr>
                 ))}
               </tbody>

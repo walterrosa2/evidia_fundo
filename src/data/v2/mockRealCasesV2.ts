@@ -161,11 +161,9 @@ export interface RealCaseDemo {
   demoNotice: string;
 }
 
-const febSource =
-  "resultado_paginado_FEB x SAP_20260715-1629_20260716-0755_v2.txt";
+const febSource = "resultado_paginado_FEB x SAP_20260715-1629_20260716-0755_v2.txt";
 
-const grittiSource =
-  "resultado_PAULO GRITTI x MATSUDA_20260716-0806.txt";
+const grittiSource = "resultado_PAULO GRITTI x MATSUDA_20260716-0806.txt";
 
 export const febSapCase: RealCaseDemo = {
   id: "case-feb-sap",
@@ -256,8 +254,7 @@ export const febSapCase: RealCaseDemo = {
     {
       date: "2025-05-05",
       title: "Novo pedido de substituição e perícia conjunta",
-      description:
-        "A FEB pede substituição dos experts e realização coordenada com ação conexa.",
+      description: "A FEB pede substituição dos experts e realização coordenada com ação conexa.",
       nature: "party_allegation",
       source: {
         sourceFile: febSource,
@@ -294,8 +291,7 @@ export const febSapCase: RealCaseDemo = {
         nature: "party_allegation",
         excerpt: "todos os quesitos apresentados pelas partes referem-se à matéria técnica",
       },
-      demoUse:
-        "Mostrar alerta de completude do checklist e contador de perguntas sem resposta.",
+      demoUse: "Mostrar alerta de completude do checklist e contador de perguntas sem resposta.",
     },
     {
       id: "feb-ev-02",
@@ -310,8 +306,7 @@ export const febSapCase: RealCaseDemo = {
         nature: "court_statement",
         excerpt: "não tendo o perito examinado os backups",
       },
-      demoUse:
-        "Apresentar como requisito pericial não cumprido e evidência digital não auditada.",
+      demoUse: "Apresentar como requisito pericial não cumprido e evidência digital não auditada.",
     },
     {
       id: "feb-ev-03",
@@ -326,8 +321,7 @@ export const febSapCase: RealCaseDemo = {
         nature: "expert_statement",
         excerpt: "restando prejudicadas as respostas aos quesitos sobre estes temas",
       },
-      demoUse:
-        "Comparar escopo judicial, escopo executado e lacunas resultantes.",
+      demoUse: "Comparar escopo judicial, escopo executado e lacunas resultantes.",
     },
     {
       id: "feb-ev-04",
@@ -342,8 +336,7 @@ export const febSapCase: RealCaseDemo = {
         nature: "party_allegation",
         excerpt: "não adentrar a méritos jurídicos de litisconsórcio passivo",
       },
-      demoUse:
-        "Exibir detector de fronteira entre análise técnica e conclusão jurídica.",
+      demoUse: "Exibir detector de fronteira entre análise técnica e conclusão jurídica.",
     },
     {
       id: "feb-ev-05",
@@ -358,8 +351,7 @@ export const febSapCase: RealCaseDemo = {
         nature: "party_allegation",
         excerpt: "mais de 20 quesitos por ele ignorados",
       },
-      demoUse:
-        "Painel de cobertura: respondido, parcial, prejudicado e não respondido.",
+      demoUse: "Painel de cobertura: respondido, parcial, prejudicado e não respondido.",
     },
     {
       id: "feb-ev-06",
@@ -421,8 +413,7 @@ export const febSapCase: RealCaseDemo = {
       id: "feb-f-01",
       blockId: "feb-b1",
       title: "Diligência digital não executada",
-      auditQuestion:
-        "Os backups indicados na decisão judicial foram efetivamente examinados?",
+      auditQuestion: "Os backups indicados na decisão judicial foram efetivamente examinados?",
       status: "relevant_absence",
       riskLevel: "critical",
       riskScore: 92,
@@ -463,8 +454,7 @@ export const febSapCase: RealCaseDemo = {
       id: "feb-f-03",
       blockId: "feb-b2",
       title: "Quesitos técnicos sem resposta conclusiva",
-      auditQuestion:
-        "Todos os quesitos deferidos possuem resposta objetiva e fundamentada?",
+      auditQuestion: "Todos os quesitos deferidos possuem resposta objetiva e fundamentada?",
       status: "relevant_absence",
       riskLevel: "critical",
       riskScore: 90,
@@ -537,8 +527,7 @@ export const febSapCase: RealCaseDemo = {
       evidenceIds: ["feb-ev-06"],
       inference:
         "A existência de alegações e contra-alegações não permite conclusão automática de parcialidade.",
-      proceduralImpact:
-        "Decisão depende de avaliação judicial e revisão humana qualificada.",
+      proceduralImpact: "Decisão depende de avaliação judicial e revisão humana qualificada.",
       recommendedAction:
         "Não apresentar a substituição como resultado automático; exibir argumentos de ambas as partes.",
       includedInReport: true,
@@ -643,8 +632,7 @@ export const febSapCase: RealCaseDemo = {
         amount: 28000,
         direction: "positive",
         nature: "simulated_metric",
-        rationale:
-          "Ajuste ilustrativo relacionado à reabertura da discussão probatória.",
+        rationale: "Ajuste ilustrativo relacionado à reabertura da discussão probatória.",
       },
       {
         label: "Incerteza sobre responsabilidade SAP/KPIT",
@@ -697,8 +685,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
     {
       date: "2017-05-04",
       title: "Ação distribuída",
-      description:
-        "Procedimento comum cível, com valor da causa de R$ 63.640,00.",
+      description: "Procedimento comum cível, com valor da causa de R$ 63.640,00.",
       nature: "source_fact",
       source: {
         sourceFile: grittiSource,
@@ -762,8 +749,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
     {
       date: "2026-03-03",
       title: "Expert intimado para esclarecimentos",
-      description:
-        "O juízo determina manifestação do perito sobre a impugnação ao laudo.",
+      description: "O juízo determina manifestação do perito sobre a impugnação ao laudo.",
       nature: "court_statement",
       source: {
         sourceFile: grittiSource,
@@ -794,8 +780,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
       id: "pg-ev-02",
       title: "Metodologia documental e geoespacial",
       evidenceType: "methodology_gap",
-      summary:
-        "O trabalho usou documentos, imagens de satélite, oitivas e software de apoio.",
+      summary: "O trabalho usou documentos, imagens de satélite, oitivas e software de apoio.",
       source: {
         sourceFile: grittiSource,
         sourcePage: 41,
@@ -803,8 +788,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         nature: "expert_statement",
         excerpt: "análises e interpretações técnica de documentos, geoprocessamento de imagens",
       },
-      demoUse:
-        "Classificar o método como indireto e exigir limites de inferência causal.",
+      demoUse: "Classificar o método como indireto e exigir limites de inferência causal.",
     },
     {
       id: "pg-ev-03",
@@ -819,8 +803,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         nature: "party_allegation",
         excerpt: "inexiste análise química e física do solo",
       },
-      demoUse:
-        "Exibir lacuna probatória crítica na matriz de causalidade.",
+      demoUse: "Exibir lacuna probatória crítica na matriz de causalidade.",
     },
     {
       id: "pg-ev-04",
@@ -835,8 +818,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         nature: "party_allegation",
         excerpt: "realizado após 166 dias do início",
       },
-      demoUse:
-        "Destacar distância temporal entre evento, inspeção e documento.",
+      demoUse: "Destacar distância temporal entre evento, inspeção e documento.",
     },
     {
       id: "pg-ev-05",
@@ -851,8 +833,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         nature: "party_allegation",
         excerpt: "solo encontrava-se molhado... solo estava arenoso",
       },
-      demoUse:
-        "Ativar visualização comparativa de documentos e detector de contradições.",
+      demoUse: "Ativar visualização comparativa de documentos e detector de contradições.",
     },
     {
       id: "pg-ev-06",
@@ -867,8 +848,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         nature: "party_allegation",
         excerpt: "a prova do dano, e não a prova da sua causa",
       },
-      demoUse:
-        "Separar visualmente detecção de evento, hipótese causal e conclusão.",
+      demoUse: "Separar visualmente detecção de evento, hipótese causal e conclusão.",
     },
     {
       id: "pg-ev-07",
@@ -883,8 +863,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         nature: "expert_statement",
         excerpt: "os prejuízos alegados decorrem de falhas operacionais no plantio",
       },
-      demoUse:
-        "Usar como tese principal da defesa no Red Team.",
+      demoUse: "Usar como tese principal da defesa no Red Team.",
     },
     {
       id: "pg-ev-08",
@@ -897,10 +876,10 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         sourcePage: 10,
         documentLabel: "Impugnação ao laudo",
         nature: "party_allegation",
-        excerpt: "germinação irregular observada é... sintoma de um lote de sementes de baixo vigor",
+        excerpt:
+          "germinação irregular observada é... sintoma de um lote de sementes de baixo vigor",
       },
-      demoUse:
-        "Exibir controvérsia técnica com duas hipóteses concorrentes.",
+      demoUse: "Exibir controvérsia técnica com duas hipóteses concorrentes.",
     },
   ],
   auditBlocks: [
@@ -927,8 +906,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
       name: "Documentação da ré",
       integrityScore: 47,
       riskLevel: "high",
-      summary:
-        "Documentos extemporâneos e alegadas contradições exigem valoração comparativa.",
+      summary: "Documentos extemporâneos e alegadas contradições exigem valoração comparativa.",
       findingIds: ["pg-f-05", "pg-f-06"],
     },
     {
@@ -936,8 +914,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
       name: "Hipóteses agronômicas concorrentes",
       integrityScore: 52,
       riskLevel: "high",
-      summary:
-        "Manejo/profundidade e baixo vigor aparecem como explicações alternativas.",
+      summary: "Manejo/profundidade e baixo vigor aparecem como explicações alternativas.",
       findingIds: ["pg-f-07"],
     },
   ],
@@ -967,8 +944,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
       id: "pg-f-02",
       blockId: "pg-b1",
       title: "Evento não reproduzível e ausência de dados do solo",
-      auditQuestion:
-        "Existem medições químicas, físicas e de umidade contemporâneas ao plantio?",
+      auditQuestion: "Existem medições químicas, físicas e de umidade contemporâneas ao plantio?",
       status: "relevant_absence",
       riskLevel: "critical",
       riskScore: 91,
@@ -988,8 +964,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
       id: "pg-f-03",
       blockId: "pg-b2",
       title: "NDVI usado além do limite diagnóstico",
-      auditQuestion:
-        "As imagens de satélite comprovam apenas o dano ou também sua causa?",
+      auditQuestion: "As imagens de satélite comprovam apenas o dano ou também sua causa?",
       status: "requires_human_review",
       riskLevel: "high",
       riskScore: 85,
@@ -999,10 +974,8 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
       evidenceIds: ["pg-ev-02", "pg-ev-06"],
       inference:
         "O NDVI pode sustentar falha de estabelecimento, mas não isola, por si só, a variável causal.",
-      proceduralImpact:
-        "Risco de confundir correlação espacial/temporal com causalidade técnica.",
-      recommendedAction:
-        "Exibir badge 'dano observado' separado de 'causa não comprovada'.",
+      proceduralImpact: "Risco de confundir correlação espacial/temporal com causalidade técnica.",
+      recommendedAction: "Exibir badge 'dano observado' separado de 'causa não comprovada'.",
       includedInReport: true,
     },
     {
@@ -1018,8 +991,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
       thesisSide: "neutral",
       nature: "demo_inference",
       evidenceIds: ["pg-ev-07"],
-      inference:
-        "A conclusão sobre manejo depende de relatos e inferências posteriores ao evento.",
+      inference: "A conclusão sobre manejo depende de relatos e inferências posteriores ao evento.",
       proceduralImpact:
         "Pode reduzir a força probatória da conclusão ou exigir explicitação de incerteza.",
       recommendedAction:
@@ -1064,8 +1036,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         "Referências divergentes podem enfraquecer a narrativa causal baseada exclusivamente na documentação defensiva.",
       proceduralImpact:
         "Revisão do peso atribuído aos documentos e possível necessidade de esclarecimentos.",
-      recommendedAction:
-        "Abrir comparação sincronizada dos trechos contraditórios.",
+      recommendedAction: "Abrir comparação sincronizada dos trechos contraditórios.",
       includedInReport: true,
     },
     {
@@ -1085,8 +1056,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         "O mesmo fato é usado para sustentar explicações opostas: falha de manejo e baixo vigor.",
       proceduralImpact:
         "A plataforma deve evitar conclusão binária e destacar necessidade de validação técnica especializada.",
-      recommendedAction:
-        "Mostrar matriz de hipóteses concorrentes e grau de suporte de cada uma.",
+      recommendedAction: "Mostrar matriz de hipóteses concorrentes e grau de suporte de cada uma.",
       includedInReport: true,
     },
   ],
@@ -1189,8 +1159,7 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
         amount: 7000,
         direction: "negative",
         nature: "simulated_metric",
-        rationale:
-          "Desconto pela dificuldade de comprovar defeito intrínseco do lote.",
+        rationale: "Desconto pela dificuldade de comprovar defeito intrínseco do lote.",
       },
       {
         label: "Hipóteses causais concorrentes",
@@ -1220,10 +1189,8 @@ export const thesisOnlyCaseSeeds: RealCaseDemo[] = [
     proceduralStage: "A confirmar",
     executiveSummary:
       "Caso reservado para demonstração de nulidade processual, erro interpretativo do juízo, julgamento sem exame técnico adequado e impacto sobre lucros cessantes.",
-    centralDemoThesis:
-      "Nulidade e esvaziamento ou redução do quantum debeatur.",
-    opposingThesis:
-      "Defesa baseada em redução do quantum, causalidade e necessidade de perícia.",
+    centralDemoThesis: "Nulidade e esvaziamento ou redução do quantum debeatur.",
+    opposingThesis: "Defesa baseada em redução do quantum, causalidade e necessidade de perícia.",
     recommendation: "human_review",
     legalScore: 0,
     evidenceScore: 0,
@@ -1253,8 +1220,7 @@ export const thesisOnlyCaseSeeds: RealCaseDemo[] = [
       "Caso reservado para demonstração da imprescindibilidade de perícia e incapacidade técnica do expert.",
     centralDemoThesis:
       "Nulidade absoluta por incapacidade técnica do perito e insuficiência da prova.",
-    opposingThesis:
-      "Defesa da suficiência do laudo e da qualificação do expert.",
+    opposingThesis: "Defesa da suficiência do laudo e da qualificação do expert.",
     recommendation: "human_review",
     legalScore: 0,
     evidenceScore: 0,
@@ -1282,8 +1248,7 @@ export const thesisOnlyCaseSeeds: RealCaseDemo[] = [
     proceduralStage: "A confirmar",
     executiveSummary:
       "Caso reservado para vícios formais de nomeação, falhas metodológicas, cadeia de custódia e uso de documento extemporâneo.",
-    centralDemoThesis:
-      "Nulidades do rito, vícios metodológicos e falha de checagem probatória.",
+    centralDemoThesis: "Nulidades do rito, vícios metodológicos e falha de checagem probatória.",
     opposingThesis:
       "Regularidade da nomeação, confiabilidade metodológica e admissibilidade dos documentos.",
     recommendation: "human_review",

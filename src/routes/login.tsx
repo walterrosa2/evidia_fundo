@@ -13,7 +13,7 @@ function LoginPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => navigate({ to: "/dashboard" }), 700);
+    setTimeout(() => navigate({ to: "/pipeline" }), 700);
   };
 
   return (
@@ -31,14 +31,16 @@ function LoginPage() {
           </div>
         </div>
         <div className="relative">
-          <div className="text-[11px] uppercase tracking-[0.2em] text-primary mb-3">Investor Demo</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-primary mb-3">
+            Investor Demo
+          </div>
           <h2 className="text-4xl font-semibold leading-tight tracking-tight">
             Inteligência probatória <br /> aplicada à decisão de <br />
             <span className="text-gradient">investimento litigioso</span>.
           </h2>
           <p className="mt-6 text-muted-foreground max-w-md">
-            Reduza assimetria informacional, audite a prova, simule ataques adversariais
-            e reprecifique seus deals com confiança.
+            Reduza assimetria informacional, audite a prova, simule ataques adversariais e
+            reprecifique seus deals com confiança.
           </p>
         </div>
         <div className="text-xs text-muted-foreground">
@@ -55,7 +57,9 @@ function LoginPage() {
 
           <div className="mt-8 space-y-4">
             <label className="block">
-              <span className="text-xs uppercase tracking-wider text-muted-foreground">E-mail corporativo</span>
+              <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                E-mail corporativo
+              </span>
               <input
                 defaultValue="socio@atlas.capital"
                 className="mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2.5 text-sm outline-none focus:border-primary"

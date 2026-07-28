@@ -4,6 +4,7 @@ import { CheckCircle2, Loader2, Circle, ArrowRight } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { processingSteps } from "@/data/mockProcessingSteps";
+import { caseDetail } from "@/data/mockCaseDetail";
 
 export const Route = createFileRoute("/nulidade360/processamento")({
   component: Processamento,
@@ -34,25 +35,37 @@ function Processamento() {
         <div className="lg:col-span-2 rounded-xl border border-border bg-card p-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-semibold">Laudo pericial v3.2 — 412 páginas</div>
-              <div className="text-xs text-muted-foreground">Fundo Atlas × Energia Delta</div>
+              <div className="text-sm font-semibold">
+                Laudo pericial — {caseDetail.pagesAnalyzed} páginas
+              </div>
+              <div className="text-xs text-muted-foreground">{caseDetail.name}</div>
             </div>
             <div className="text-2xl font-semibold tabular-nums">{progress}%</div>
           </div>
           <div className="mt-4 h-2 rounded-full bg-border overflow-hidden">
-            <div className="h-full rounded-full bg-gradient-to-r from-cyan to-violet transition-all duration-500" style={{ width: `${progress}%` }} />
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-cyan to-violet transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            />
           </div>
 
           <ol className="mt-6 space-y-2">
             {processingSteps.map((s, i) => {
               const status = i < current ? "done" : i === current ? "running" : "pending";
               return (
-                <li key={s.id} className={`flex items-start gap-3 rounded-md border px-3 py-2.5 transition ${
-                  status === "running" ? "border-primary/40 bg-primary/5" : "border-border bg-surface/40"
-                }`}>
+                <li
+                  key={s.id}
+                  className={`flex items-start gap-3 rounded-md border px-3 py-2.5 transition ${
+                    status === "running"
+                      ? "border-primary/40 bg-primary/5"
+                      : "border-border bg-surface/40"
+                  }`}
+                >
                   <div className="mt-0.5">
                     {status === "done" && <CheckCircle2 className="size-4 text-risk-low" />}
-                    {status === "running" && <Loader2 className="size-4 text-primary animate-spin" />}
+                    {status === "running" && (
+                      <Loader2 className="size-4 text-primary animate-spin" />
+                    )}
                     {status === "pending" && <Circle className="size-4 text-muted-foreground/50" />}
                   </div>
                   <div className="flex-1">
@@ -79,7 +92,8 @@ function Processamento() {
           <div className="mt-3 space-y-1.5 font-mono text-[11px] text-muted-foreground max-h-[28rem] overflow-y-auto">
             {processingSteps.slice(0, current + 1).map((s, i) => (
               <div key={s.id} className="leading-relaxed">
-                <span className="text-primary">[{String(i + 1).padStart(2, "0")}:14]</span> {s.label.toLowerCase()} — {s.detail}
+                <span className="text-primary">[{String(i + 1).padStart(2, "0")}:14]</span>{" "}
+                {s.label.toLowerCase()} — {s.detail}
               </div>
             ))}
           </div>

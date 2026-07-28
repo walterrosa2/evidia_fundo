@@ -42,7 +42,7 @@ const recommendationMap: Record<RealCaseDemo["recommendation"], Recommendation> 
   reprice: "reprecificar",
   hold: "negociar",
   reject: "rejeitar",
-  human_review: "reprecificar",
+  human_review: "revisar",
 };
 
 const statusByRole: Record<RealCaseDemo["portfolioRole"], DealStatus> = {
@@ -79,7 +79,11 @@ function toDeal(c: RealCaseDemo): Deal {
   const claim = c.claimValue ?? 0;
   const potential = c.valuation?.recommendedPrice ?? Math.round(claim * 0.3);
   const upside = c.valuation
-    ? Math.max(0, c.valuation.scenarios[c.valuation.scenarios.length - 1].expectedRecovery - c.valuation.recommendedPrice)
+    ? Math.max(
+        0,
+        c.valuation.scenarios[c.valuation.scenarios.length - 1].expectedRecovery -
+          c.valuation.recommendedPrice,
+      )
     : 0;
   return {
     id: c.id,
@@ -89,7 +93,8 @@ function toDeal(c: RealCaseDemo): Deal {
     potentialTicket: potential,
     proceduralPhase: c.proceduralStage,
     evidiaScore,
-    evidenceRisk: c.dataStatus === "awaiting_documents" ? "moderado" : toRiskFromScore(c.nullityRiskScore),
+    evidenceRisk:
+      c.dataStatus === "awaiting_documents" ? "moderado" : toRiskFromScore(c.nullityRiskScore),
     hiddenUpside: upside,
     recommendation: recommendationMap[c.recommendation],
     status: statusByRole[c.portfolioRole],
