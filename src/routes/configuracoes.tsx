@@ -10,7 +10,11 @@ export const Route = createFileRoute("/configuracoes")({
 function Configuracoes() {
   return (
     <AppShell context="Configurações">
-      <SectionHeader eyebrow="Organização" title="Configurações" subtitle="Visão demonstrativa das configurações da organização. Nenhuma alteração é persistida." />
+      <SectionHeader
+        eyebrow="Organização"
+        title="Configurações"
+        subtitle="Visão demonstrativa das configurações da organização. Nenhuma alteração é persistida."
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card icon={Building2} title="Organização">
@@ -26,7 +30,10 @@ function Configuracoes() {
             ["R. Tavares", "Jurídico"],
             ["F. Khouri", "Compliance"],
           ].map(([n, r]) => (
-            <div key={n} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+            <div
+              key={n}
+              className="flex items-center justify-between py-2 border-b border-border last:border-0"
+            >
               <span className="text-sm">{n}</span>
               <span className="text-xs text-muted-foreground">{r}</span>
             </div>
@@ -47,9 +54,12 @@ function Configuracoes() {
             "Relatório técnico · Jurídico",
             "Sumário de evidências · Auditor",
           ].map((m) => (
-            <div key={m} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+            <div
+              key={m}
+              className="flex items-center justify-between py-2 border-b border-border last:border-0"
+            >
               <span className="text-sm">{m}</span>
-              <button className="text-xs text-primary hover:underline">Editar</button>
+              <span className="text-xs text-muted-foreground">Somente leitura</span>
             </div>
           ))}
         </Card>
@@ -58,7 +68,15 @@ function Configuracoes() {
   );
 }
 
-function Card({ icon: Icon, title, children }: { icon: typeof Building2; title: string; children: React.ReactNode }) {
+function Card({
+  icon: Icon,
+  title,
+  children,
+}: {
+  icon: typeof Building2;
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="rounded-xl border border-border bg-card p-5">
       <div className="flex items-center gap-2 text-sm font-semibold">

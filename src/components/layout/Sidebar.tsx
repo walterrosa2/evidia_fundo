@@ -8,13 +8,24 @@ import {
   TrendingUp,
   FileText,
   Settings,
-  Scale,
+  GitBranch,
 } from "lucide-react";
 
 const nav = [
+  { to: "/pipeline", label: "Como funciona", icon: GitBranch },
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/deals", label: "Deal Flow", icon: Workflow },
-  { to: "/deals/atlas-energia-delta", label: "Casos", icon: Briefcase },
+  {
+    to: "/deals",
+    label: "Deal Flow",
+    icon: Workflow,
+    match: (pathname: string) => pathname === "/deals" || pathname === "/deals/",
+  },
+  {
+    to: "/deals/case-feb-sap",
+    label: "Casos",
+    icon: Briefcase,
+    match: (pathname: string) => pathname.startsWith("/deals/"),
+  },
   { to: "/nulidade360", label: "Nulidade360", icon: ShieldAlert },
   { to: "/red-team", label: "Red Team", icon: Swords },
   { to: "/valuation", label: "Valuation", icon: TrendingUp },
@@ -22,30 +33,36 @@ const nav = [
   { to: "/configuracoes", label: "Configurações", icon: Settings },
 ] as const;
 
-export function Sidebar() {
+export function Sidebar({
+  mobile = false,
+  onNavigate,
+}: {
+  mobile?: boolean;
+  onNavigate?: () => void;
+}) {
   const { pathname } = useLocation();
   return (
-    <aside className="hidden md:flex md:w-64 shrink-0 flex-col border-r border-border bg-surface/60 backdrop-blur">
-      <div className="flex h-16 items-center gap-2.5 px-5 border-b border-border">
-        <div className="grid size-9 place-items-center rounded-lg bg-gradient-to-br from-cyan to-violet">
-          <Scale className="size-5 text-background" />
-        </div>
-        <div className="leading-tight">
-          <div className="font-semibold tracking-tight text-foreground">EvidIA</div>
-          <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-            Investor Suite
-          </div>
-        </div>
+    <aside
+      className={
+        mobile
+          ? "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-background shadow-2xl"
+          : "hidden md:flex md:w-64 shrink-0 flex-col border-r border-border bg-surface/60 backdrop-blur"
+      }
+    >
+      <div className="flex h-16 items-center justify-center overflow-hidden border-b border-border">
+        <img src="/brand/evidia-logo.png" alt="EvidIA" className="h-auto w-40 shrink-0" />
       </div>
       <nav className="flex-1 px-3 py-4 space-y-0.5">
-        {nav.map(({ to, label, icon: Icon }) => {
+        {nav.map(({ to, label, icon: Icon, ...item }) => {
           const active =
-            pathname === to ||
-            (to !== "/dashboard" && pathname.startsWith(to.split("/").slice(0, 2).join("/")));
+            "match" in item
+              ? item.match(pathname)
+              : pathname === to || pathname.startsWith(`${to}/`);
           return (
             <Link
               key={to}
               to={to}
+              onClick={onNavigate}
               className={`group flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
                 active
                   ? "bg-primary/10 text-primary"

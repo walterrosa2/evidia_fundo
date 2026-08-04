@@ -1,5 +1,10 @@
 import type { RiskLevel, Recommendation } from "@/lib/risk";
 import { realCasesV2, type RealCaseDemo } from "@/data/v2";
+import {
+  calcularValorPotencialPorPeriodo,
+  calcularPrecoCompra,
+  type EconomicPotentialCalculation,
+} from "@/lib/economicPotential";
 
 export type DealStatus = "novo" | "em_analise" | "concluido" | "comite" | "rejeitado";
 
@@ -12,7 +17,7 @@ export type Deal = {
   proceduralPhase: string;
   evidiaScore: number;
   evidenceRisk: RiskLevel;
-  hiddenUpside: number;
+  economicPotential: EconomicPotentialCalculation;
   recommendation: Recommendation;
   status: DealStatus;
   owner: string;
@@ -42,7 +47,7 @@ const recommendationMap: Record<RealCaseDemo["recommendation"], Recommendation> 
   reprice: "reprecificar",
   hold: "negociar",
   reject: "rejeitar",
-  human_review: "reprecificar",
+  human_review: "revisar",
 };
 
 const statusByRole: Record<RealCaseDemo["portfolioRole"], DealStatus> = {
@@ -54,17 +59,11 @@ const statusByRole: Record<RealCaseDemo["portfolioRole"], DealStatus> = {
 const ownerByCase: Record<string, string> = {
   "case-feb-sap": "M. Almeida",
   "case-paulo-gritti-matsuda": "R. Tavares",
-  "case-cobex-bradesco": "C. Bernardes",
-  "case-cami-sankhya": "F. Khouri",
-  "case-lagoa-xupe-nexa": "P. Setti",
 };
 
 const updatedByCase: Record<string, string> = {
   "case-feb-sap": "2026-07-31",
   "case-paulo-gritti-matsuda": "2026-03-03",
-  "case-cobex-bradesco": "2026-05-10",
-  "case-cami-sankhya": "2026-05-12",
-  "case-lagoa-xupe-nexa": "2026-05-14",
 };
 
 function toRiskFromScore(score: number): RiskLevel {
@@ -77,10 +76,9 @@ function toRiskFromScore(score: number): RiskLevel {
 function toDeal(c: RealCaseDemo): Deal {
   const evidiaScore = Math.round((c.legalScore + c.evidenceScore) / 2);
   const claim = c.claimValue ?? 0;
-  const potential = c.valuation?.recommendedPrice ?? Math.round(claim * 0.3);
-  const upside = c.valuation
-    ? Math.max(0, c.valuation.scenarios[c.valuation.scenarios.length - 1].expectedRecovery - c.valuation.recommendedPrice)
-    : 0;
+  const filingDate = c.timeline[0]?.date ?? new Date().toISOString().slice(0, 10);
+  const economicPotential = calcularValorPotencialPorPeriodo(claim, filingDate);
+  const potential = calcularPrecoCompra(economicPotential.valorEconomicoPotencial);
   return {
     id: c.id,
     name: c.displayName,
@@ -89,8 +87,9 @@ function toDeal(c: RealCaseDemo): Deal {
     potentialTicket: potential,
     proceduralPhase: c.proceduralStage,
     evidiaScore,
-    evidenceRisk: c.dataStatus === "awaiting_documents" ? "moderado" : toRiskFromScore(c.nullityRiskScore),
-    hiddenUpside: upside,
+    evidenceRisk:
+      c.dataStatus === "awaiting_documents" ? "moderado" : toRiskFromScore(c.nullityRiskScore),
+    economicPotential,
     recommendation: recommendationMap[c.recommendation],
     status: statusByRole[c.portfolioRole],
     owner: ownerByCase[c.id] ?? "Equipe EvidIA",

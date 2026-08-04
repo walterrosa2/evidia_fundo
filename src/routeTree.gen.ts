@@ -9,59 +9,30 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ValuationRouteImport } from './routes/valuation'
-import { Route as RelatoriosRouteImport } from './routes/relatorios'
-import { Route as RedTeamRouteImport } from './routes/red-team'
-import { Route as Nulidade360RouteImport } from './routes/nulidade360'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as DealsRouteImport } from './routes/deals'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as RelatoriosIndexRouteImport } from './routes/relatorios.index'
-import { Route as Nulidade360IndexRouteImport } from './routes/nulidade360.index'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DealsRouteImport } from './routes/deals'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as Nulidade360RouteImport } from './routes/nulidade360'
+import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as RedTeamRouteImport } from './routes/red-team'
+import { Route as RelatoriosRouteImport } from './routes/relatorios'
+import { Route as ValuationRouteImport } from './routes/valuation'
 import { Route as DealsIndexRouteImport } from './routes/deals.index'
-import { Route as RelatoriosInvestmentMemoRouteImport } from './routes/relatorios.investment-memo'
-import { Route as Nulidade360ResultadoRouteImport } from './routes/nulidade360.resultado'
-import { Route as Nulidade360ProcessamentoRouteImport } from './routes/nulidade360.processamento'
-import { Route as Nulidade360NovaAnaliseRouteImport } from './routes/nulidade360.nova-analise'
-import { Route as Nulidade360EvidenciasRouteImport } from './routes/nulidade360.evidencias'
-import { Route as Nulidade360BlocosRouteImport } from './routes/nulidade360.blocos'
 import { Route as DealsIdRouteImport } from './routes/deals.$id'
+import { Route as Nulidade360IndexRouteImport } from './routes/nulidade360.index'
+import { Route as Nulidade360BlocosRouteImport } from './routes/nulidade360.blocos'
+import { Route as Nulidade360EvidenciasRouteImport } from './routes/nulidade360.evidencias'
+import { Route as Nulidade360NovaAnaliseRouteImport } from './routes/nulidade360.nova-analise'
+import { Route as Nulidade360ProcessamentoRouteImport } from './routes/nulidade360.processamento'
+import { Route as Nulidade360ResultadoRouteImport } from './routes/nulidade360.resultado'
+import { Route as RelatoriosIndexRouteImport } from './routes/relatorios.index'
+import { Route as RelatoriosInvestmentMemoRouteImport } from './routes/relatorios.investment-memo'
 
-const ValuationRoute = ValuationRouteImport.update({
-  id: '/valuation',
-  path: '/valuation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RelatoriosRoute = RelatoriosRouteImport.update({
-  id: '/relatorios',
-  path: '/relatorios',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RedTeamRoute = RedTeamRouteImport.update({
-  id: '/red-team',
-  path: '/red-team',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Nulidade360Route = Nulidade360RouteImport.update({
-  id: '/nulidade360',
-  path: '/nulidade360',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DealsRoute = DealsRouteImport.update({
-  id: '/deals',
-  path: '/deals',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
@@ -69,35 +40,74 @@ const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
   path: '/configuracoes',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RelatoriosIndexRoute = RelatoriosIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => RelatoriosRoute,
+const DealsRoute = DealsRouteImport.update({
+  id: '/deals',
+  path: '/deals',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const Nulidade360IndexRoute = Nulidade360IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => Nulidade360Route,
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Nulidade360Route = Nulidade360RouteImport.update({
+  id: '/nulidade360',
+  path: '/nulidade360',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineRoute = PipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RedTeamRoute = RedTeamRouteImport.update({
+  id: '/red-team',
+  path: '/red-team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RelatoriosRoute = RelatoriosRouteImport.update({
+  id: '/relatorios',
+  path: '/relatorios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ValuationRoute = ValuationRouteImport.update({
+  id: '/valuation',
+  path: '/valuation',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DealsIndexRoute = DealsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DealsRoute,
 } as any)
-const RelatoriosInvestmentMemoRoute =
-  RelatoriosInvestmentMemoRouteImport.update({
-    id: '/investment-memo',
-    path: '/investment-memo',
-    getParentRoute: () => RelatoriosRoute,
-  } as any)
-const Nulidade360ResultadoRoute = Nulidade360ResultadoRouteImport.update({
-  id: '/resultado',
-  path: '/resultado',
+const DealsIdRoute = DealsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => DealsRoute,
+} as any)
+const Nulidade360IndexRoute = Nulidade360IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => Nulidade360Route,
+} as any)
+const Nulidade360BlocosRoute = Nulidade360BlocosRouteImport.update({
+  id: '/blocos',
+  path: '/blocos',
+  getParentRoute: () => Nulidade360Route,
+} as any)
+const Nulidade360EvidenciasRoute = Nulidade360EvidenciasRouteImport.update({
+  id: '/evidencias',
+  path: '/evidencias',
+  getParentRoute: () => Nulidade360Route,
+} as any)
+const Nulidade360NovaAnaliseRoute = Nulidade360NovaAnaliseRouteImport.update({
+  id: '/nova-analise',
+  path: '/nova-analise',
   getParentRoute: () => Nulidade360Route,
 } as any)
 const Nulidade360ProcessamentoRoute =
@@ -106,26 +116,22 @@ const Nulidade360ProcessamentoRoute =
     path: '/processamento',
     getParentRoute: () => Nulidade360Route,
   } as any)
-const Nulidade360NovaAnaliseRoute = Nulidade360NovaAnaliseRouteImport.update({
-  id: '/nova-analise',
-  path: '/nova-analise',
+const Nulidade360ResultadoRoute = Nulidade360ResultadoRouteImport.update({
+  id: '/resultado',
+  path: '/resultado',
   getParentRoute: () => Nulidade360Route,
 } as any)
-const Nulidade360EvidenciasRoute = Nulidade360EvidenciasRouteImport.update({
-  id: '/evidencias',
-  path: '/evidencias',
-  getParentRoute: () => Nulidade360Route,
+const RelatoriosIndexRoute = RelatoriosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RelatoriosRoute,
 } as any)
-const Nulidade360BlocosRoute = Nulidade360BlocosRouteImport.update({
-  id: '/blocos',
-  path: '/blocos',
-  getParentRoute: () => Nulidade360Route,
-} as any)
-const DealsIdRoute = DealsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => DealsRoute,
-} as any)
+const RelatoriosInvestmentMemoRoute =
+  RelatoriosInvestmentMemoRouteImport.update({
+    id: '/investment-memo',
+    path: '/investment-memo',
+    getParentRoute: () => RelatoriosRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/deals': typeof DealsRouteWithChildren
   '/login': typeof LoginRoute
   '/nulidade360': typeof Nulidade360RouteWithChildren
+  '/pipeline': typeof PipelineRoute
   '/red-team': typeof RedTeamRoute
   '/relatorios': typeof RelatoriosRouteWithChildren
   '/valuation': typeof ValuationRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/configuracoes': typeof ConfiguracoesRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
+  '/pipeline': typeof PipelineRoute
   '/red-team': typeof RedTeamRoute
   '/valuation': typeof ValuationRoute
   '/deals/$id': typeof DealsIdRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/deals': typeof DealsRouteWithChildren
   '/login': typeof LoginRoute
   '/nulidade360': typeof Nulidade360RouteWithChildren
+  '/pipeline': typeof PipelineRoute
   '/red-team': typeof RedTeamRoute
   '/relatorios': typeof RelatoriosRouteWithChildren
   '/valuation': typeof ValuationRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/login'
     | '/nulidade360'
+    | '/pipeline'
     | '/red-team'
     | '/relatorios'
     | '/valuation'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/configuracoes'
     | '/dashboard'
     | '/login'
+    | '/pipeline'
     | '/red-team'
     | '/valuation'
     | '/deals/$id'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/login'
     | '/nulidade360'
+    | '/pipeline'
     | '/red-team'
     | '/relatorios'
     | '/valuation'
@@ -258,6 +270,7 @@ export interface RootRouteChildren {
   DealsRoute: typeof DealsRouteWithChildren
   LoginRoute: typeof LoginRoute
   Nulidade360Route: typeof Nulidade360RouteWithChildren
+  PipelineRoute: typeof PipelineRoute
   RedTeamRoute: typeof RedTeamRoute
   RelatoriosRoute: typeof RelatoriosRouteWithChildren
   ValuationRoute: typeof ValuationRoute
@@ -265,53 +278,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/valuation': {
-      id: '/valuation'
-      path: '/valuation'
-      fullPath: '/valuation'
-      preLoaderRoute: typeof ValuationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/relatorios': {
-      id: '/relatorios'
-      path: '/relatorios'
-      fullPath: '/relatorios'
-      preLoaderRoute: typeof RelatoriosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/red-team': {
-      id: '/red-team'
-      path: '/red-team'
-      fullPath: '/red-team'
-      preLoaderRoute: typeof RedTeamRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/nulidade360': {
-      id: '/nulidade360'
-      path: '/nulidade360'
-      fullPath: '/nulidade360'
-      preLoaderRoute: typeof Nulidade360RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/deals': {
-      id: '/deals'
-      path: '/deals'
-      fullPath: '/deals'
-      preLoaderRoute: typeof DealsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/configuracoes': {
@@ -321,26 +292,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConfiguracoesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/relatorios/': {
-      id: '/relatorios/'
-      path: '/'
-      fullPath: '/relatorios/'
-      preLoaderRoute: typeof RelatoriosIndexRouteImport
-      parentRoute: typeof RelatoriosRoute
+    '/deals': {
+      id: '/deals'
+      path: '/deals'
+      fullPath: '/deals'
+      preLoaderRoute: typeof DealsRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/nulidade360/': {
-      id: '/nulidade360/'
-      path: '/'
-      fullPath: '/nulidade360/'
-      preLoaderRoute: typeof Nulidade360IndexRouteImport
-      parentRoute: typeof Nulidade360Route
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nulidade360': {
+      id: '/nulidade360'
+      path: '/nulidade360'
+      fullPath: '/nulidade360'
+      preLoaderRoute: typeof Nulidade360RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline': {
+      id: '/pipeline'
+      path: '/pipeline'
+      fullPath: '/pipeline'
+      preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/red-team': {
+      id: '/red-team'
+      path: '/red-team'
+      fullPath: '/red-team'
+      preLoaderRoute: typeof RedTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/relatorios': {
+      id: '/relatorios'
+      path: '/relatorios'
+      fullPath: '/relatorios'
+      preLoaderRoute: typeof RelatoriosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/valuation': {
+      id: '/valuation'
+      path: '/valuation'
+      fullPath: '/valuation'
+      preLoaderRoute: typeof ValuationRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/deals/': {
       id: '/deals/'
@@ -349,39 +355,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DealsIndexRouteImport
       parentRoute: typeof DealsRoute
     }
-    '/relatorios/investment-memo': {
-      id: '/relatorios/investment-memo'
-      path: '/investment-memo'
-      fullPath: '/relatorios/investment-memo'
-      preLoaderRoute: typeof RelatoriosInvestmentMemoRouteImport
-      parentRoute: typeof RelatoriosRoute
+    '/deals/$id': {
+      id: '/deals/$id'
+      path: '/$id'
+      fullPath: '/deals/$id'
+      preLoaderRoute: typeof DealsIdRouteImport
+      parentRoute: typeof DealsRoute
     }
-    '/nulidade360/resultado': {
-      id: '/nulidade360/resultado'
-      path: '/resultado'
-      fullPath: '/nulidade360/resultado'
-      preLoaderRoute: typeof Nulidade360ResultadoRouteImport
-      parentRoute: typeof Nulidade360Route
-    }
-    '/nulidade360/processamento': {
-      id: '/nulidade360/processamento'
-      path: '/processamento'
-      fullPath: '/nulidade360/processamento'
-      preLoaderRoute: typeof Nulidade360ProcessamentoRouteImport
-      parentRoute: typeof Nulidade360Route
-    }
-    '/nulidade360/nova-analise': {
-      id: '/nulidade360/nova-analise'
-      path: '/nova-analise'
-      fullPath: '/nulidade360/nova-analise'
-      preLoaderRoute: typeof Nulidade360NovaAnaliseRouteImport
-      parentRoute: typeof Nulidade360Route
-    }
-    '/nulidade360/evidencias': {
-      id: '/nulidade360/evidencias'
-      path: '/evidencias'
-      fullPath: '/nulidade360/evidencias'
-      preLoaderRoute: typeof Nulidade360EvidenciasRouteImport
+    '/nulidade360/': {
+      id: '/nulidade360/'
+      path: '/'
+      fullPath: '/nulidade360/'
+      preLoaderRoute: typeof Nulidade360IndexRouteImport
       parentRoute: typeof Nulidade360Route
     }
     '/nulidade360/blocos': {
@@ -391,12 +376,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Nulidade360BlocosRouteImport
       parentRoute: typeof Nulidade360Route
     }
-    '/deals/$id': {
-      id: '/deals/$id'
-      path: '/$id'
-      fullPath: '/deals/$id'
-      preLoaderRoute: typeof DealsIdRouteImport
-      parentRoute: typeof DealsRoute
+    '/nulidade360/evidencias': {
+      id: '/nulidade360/evidencias'
+      path: '/evidencias'
+      fullPath: '/nulidade360/evidencias'
+      preLoaderRoute: typeof Nulidade360EvidenciasRouteImport
+      parentRoute: typeof Nulidade360Route
+    }
+    '/nulidade360/nova-analise': {
+      id: '/nulidade360/nova-analise'
+      path: '/nova-analise'
+      fullPath: '/nulidade360/nova-analise'
+      preLoaderRoute: typeof Nulidade360NovaAnaliseRouteImport
+      parentRoute: typeof Nulidade360Route
+    }
+    '/nulidade360/processamento': {
+      id: '/nulidade360/processamento'
+      path: '/processamento'
+      fullPath: '/nulidade360/processamento'
+      preLoaderRoute: typeof Nulidade360ProcessamentoRouteImport
+      parentRoute: typeof Nulidade360Route
+    }
+    '/nulidade360/resultado': {
+      id: '/nulidade360/resultado'
+      path: '/resultado'
+      fullPath: '/nulidade360/resultado'
+      preLoaderRoute: typeof Nulidade360ResultadoRouteImport
+      parentRoute: typeof Nulidade360Route
+    }
+    '/relatorios/': {
+      id: '/relatorios/'
+      path: '/'
+      fullPath: '/relatorios/'
+      preLoaderRoute: typeof RelatoriosIndexRouteImport
+      parentRoute: typeof RelatoriosRoute
+    }
+    '/relatorios/investment-memo': {
+      id: '/relatorios/investment-memo'
+      path: '/investment-memo'
+      fullPath: '/relatorios/investment-memo'
+      preLoaderRoute: typeof RelatoriosInvestmentMemoRouteImport
+      parentRoute: typeof RelatoriosRoute
     }
   }
 }
@@ -456,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
   DealsRoute: DealsRouteWithChildren,
   LoginRoute: LoginRoute,
   Nulidade360Route: Nulidade360RouteWithChildren,
+  PipelineRoute: PipelineRoute,
   RedTeamRoute: RedTeamRoute,
   RelatoriosRoute: RelatoriosRouteWithChildren,
   ValuationRoute: ValuationRoute,

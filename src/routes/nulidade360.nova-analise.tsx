@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Check, FileUp, ArrowRight } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
+import { caseDetail } from "@/data/mockCaseDetail";
 
 export const Route = createFileRoute("/nulidade360/nova-analise")({
   component: NovaAnalise,
@@ -36,7 +37,9 @@ function NovaAnalise() {
                       : "text-muted-foreground"
                 }`}
               >
-                <span className={`grid size-5 place-items-center rounded-full text-[10px] ${i <= step ? "bg-primary text-primary-foreground" : "bg-border"}`}>
+                <span
+                  className={`grid size-5 place-items-center rounded-full text-[10px] ${i <= step ? "bg-primary text-primary-foreground" : "bg-border"}`}
+                >
                   {i < step ? <Check className="size-3" /> : i + 1}
                 </span>
                 {s}
@@ -86,7 +89,10 @@ function Field({ label, value, hint }: { label: string; value: string; hint?: st
   return (
     <label className="block">
       <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
-      <input defaultValue={value} className="mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2 text-sm outline-none focus:border-primary" />
+      <input
+        defaultValue={value}
+        className="mt-1.5 w-full rounded-md border border-border bg-surface px-3 py-2 text-sm outline-none focus:border-primary"
+      />
       {hint && <div className="mt-1 text-[11px] text-muted-foreground">{hint}</div>}
     </label>
   );
@@ -95,10 +101,10 @@ function Field({ label, value, hint }: { label: string; value: string; hint?: st
 function StepDados() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Field label="Nome do caso" value="Fundo Atlas × Energia Delta" />
-      <Field label="Número do processo" value="0034567-89.2022.8.26.0100" />
-      <Field label="Parte representada" value="Atlas Capital (cessionária do crédito)" />
-      <Field label="Fase processual" value="Recurso Especial" />
+      <Field label="Nome do caso" value={caseDetail.name} />
+      <Field label="Número do processo" value={caseDetail.caseNumber} />
+      <Field label="Parte representada" value="Federação Espírita Brasileira" />
+      <Field label="Fase processual" value={caseDetail.proceduralPhase} />
       <Field label="Objetivo da análise" value="Auditoria de laudo pericial para reprecificação" />
       <Field label="Ponto prioritário" value="Cadeia de custódia e contraditório" />
     </div>
@@ -111,8 +117,12 @@ function StepDocs() {
       <div className="rounded-lg border border-dashed border-border bg-surface/60 p-8 text-center">
         <FileUp className="size-8 mx-auto text-primary" />
         <div className="mt-3 font-medium">Arraste e solte o laudo aqui</div>
-        <div className="text-xs text-muted-foreground mt-1">PDF, DOCX · até 200 MB · upload simulado</div>
-        <button className="mt-4 rounded-md border border-border bg-surface px-3 py-1.5 text-sm hover:bg-secondary">Selecionar arquivo</button>
+        <div className="text-xs text-muted-foreground mt-1">
+          PDF, DOCX · até 200 MB · upload simulado
+        </div>
+        <button className="mt-4 rounded-md border border-border bg-surface px-3 py-1.5 text-sm hover:bg-secondary">
+          Selecionar arquivo
+        </button>
       </div>
       <div className="mt-4 space-y-2">
         {[
@@ -120,9 +130,16 @@ function StepDocs() {
           { n: "anexos_tecnicos.zip", s: "48.1 MB", ok: true },
           { n: "decisao_TJSP.pdf", s: "1.2 MB", ok: true },
         ].map((f) => (
-          <div key={f.n} className="flex items-center justify-between rounded-md border border-border bg-surface px-3 py-2 text-sm">
-            <span>{f.n} <span className="text-muted-foreground">· {f.s}</span></span>
-            <span className="text-risk-low text-xs flex items-center gap-1"><Check className="size-3" /> Pronto</span>
+          <div
+            key={f.n}
+            className="flex items-center justify-between rounded-md border border-border bg-surface px-3 py-2 text-sm"
+          >
+            <span>
+              {f.n} <span className="text-muted-foreground">· {f.s}</span>
+            </span>
+            <span className="text-risk-low text-xs flex items-center gap-1">
+              <Check className="size-3" /> Pronto
+            </span>
           </div>
         ))}
       </div>
@@ -136,8 +153,18 @@ function StepConfig() {
       <div>
         <div className="text-sm font-medium mb-3">Checklist aplicado</div>
         <div className="space-y-2">
-          {["Cadeia de custódia", "Metodologia pericial", "Documentação", "Contraditório", "Suspeição", "Sentença sobre prova viciada"].map((c) => (
-            <label key={c} className="flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm">
+          {[
+            "Cadeia de custódia",
+            "Metodologia pericial",
+            "Documentação",
+            "Contraditório",
+            "Suspeição",
+            "Sentença sobre prova viciada",
+          ].map((c) => (
+            <label
+              key={c}
+              className="flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm"
+            >
               <input type="checkbox" defaultChecked className="accent-primary" /> {c}
             </label>
           ))}
@@ -151,8 +178,16 @@ function StepConfig() {
             { v: "Padrão", d: "Análise por blocos com evidências (~45 min)", on: true },
             { v: "Profunda", d: "Inclui Red Team e cenários adversariais (~2h)" },
           ].map((o) => (
-            <label key={o.v} className={`flex items-start gap-3 rounded-md border bg-surface px-3 py-2.5 text-sm ${o.on ? "border-primary" : "border-border"}`}>
-              <input type="radio" name="depth" defaultChecked={o.on} className="mt-1 accent-primary" />
+            <label
+              key={o.v}
+              className={`flex items-start gap-3 rounded-md border bg-surface px-3 py-2.5 text-sm ${o.on ? "border-primary" : "border-border"}`}
+            >
+              <input
+                type="radio"
+                name="depth"
+                defaultChecked={o.on}
+                className="mt-1 accent-primary"
+              />
               <div>
                 <div className="font-medium">{o.v}</div>
                 <div className="text-xs text-muted-foreground">{o.d}</div>
@@ -175,9 +210,9 @@ function StepConfig() {
 
 function StepReview() {
   const rows = [
-    ["Caso", "Fundo Atlas × Energia Delta"],
-    ["Processo", "0034567-89.2022.8.26.0100"],
-    ["Fase", "Recurso Especial"],
+    ["Caso", caseDetail.name],
+    ["Processo", caseDetail.caseNumber],
+    ["Fase", caseDetail.proceduralPhase],
     ["Documentos", "3 arquivos · 61.7 MB"],
     ["Checklist", "6 blocos · 142 perguntas"],
     ["Profundidade", "Padrão"],

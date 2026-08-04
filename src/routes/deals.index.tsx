@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { RiskBadge } from "@/components/shared/RiskBadge";
+import { ProceduralPhaseBadge } from "@/components/cases/ProceduralPhaseBadge";
 import { mockDeals, dealStatusLabel, type DealStatus } from "@/data/mockDeals";
 import { formatCurrency } from "@/lib/formatters";
 import { recommendationLabel, recommendationClasses } from "@/lib/risk";
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/deals/")({
 
 const filters = [
   { id: "todos", label: "Todos" },
-  { id: "alto_upside", label: "Alto upside" },
+  { id: "alto_upside", label: "Alto valor potencial" },
   { id: "risco_critico", label: "Risco crítico" },
   { id: "em_analise", label: "Em análise" },
   { id: "comite", label: "Recomendados p/ comitê" },
@@ -25,7 +26,7 @@ function DealFlow() {
 
   const filtered = mockDeals.filter((d) => {
     if (active === "todos") return true;
-    if (active === "alto_upside") return d.hiddenUpside > 40_000_000;
+    if (active === "alto_upside") return d.economicPotential.valorEconomicoPotencial > 1_000_000;
     if (active === "risco_critico") return d.evidenceRisk === "critico";
     if (active === "em_analise") return d.status === "em_analise";
     if (active === "comite") return d.status === "comite";
@@ -44,7 +45,7 @@ function DealFlow() {
   return (
     <AppShell context="Deal Flow">
       <SectionHeader
-        eyebrow="Pipeline · 184 deals ativos"
+        eyebrow={`Pipeline · ${mockDeals.length} deals ativos`}
         title="Deal Flow Litigioso"
         subtitle="Oportunidades sob análise pela EvidIA, priorizadas por risco probatório e upside identificado."
       />
@@ -74,17 +75,20 @@ function DealFlow() {
                 <th className="px-4 py-3 font-medium">Setor</th>
                 <th className="px-4 py-3 font-medium">Valor da causa</th>
                 <th className="px-4 py-3 font-medium">Ticket</th>
-                <th className="px-4 py-3 font-medium">Fase</th>
+                <th className="px-4 py-3 font-medium">Fase processual</th>
                 <th className="px-4 py-3 font-medium text-center">Score</th>
                 <th className="px-4 py-3 font-medium">Risco</th>
-                <th className="px-4 py-3 font-medium">Upside</th>
+                <th className="px-4 py-3 font-medium">Valor potencial</th>
                 <th className="px-4 py-3 font-medium">Recomendação</th>
                 <th className="px-4 py-3 font-medium">Status</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((d) => (
-                <tr key={d.id} className="border-b border-border/40 hover:bg-secondary/30 transition">
+                <tr
+                  key={d.id}
+                  className="border-b border-border/40 hover:bg-secondary/30 transition"
+                >
                   <td className="px-4 py-3">
                     <Link to="/deals/$id" params={{ id: d.id }} className="hover:text-primary">
                       <div className="font-medium">{d.name}</div>
@@ -92,19 +96,41 @@ function DealFlow() {
                     </Link>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">{d.sector}</td>
-                  <td className="px-4 py-3 tabular-nums">{formatCurrency(d.caseValue, { compact: true })}</td>
-                  <td className="px-4 py-3 tabular-nums font-medium">{formatCurrency(d.potentialTicket, { compact: true })}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{d.proceduralPhase}</td>
-                  <td className="px-4 py-3 text-center font-semibold tabular-nums">{d.evidiaScore}</td>
-                  <td className="px-4 py-3"><RiskBadge level={d.evidenceRisk} /></td>
-                  <td className="px-4 py-3 tabular-nums text-risk-low">+{formatCurrency(d.hiddenUpside, { compact: true })}</td>
+                  <td className="px-4 py-3 tabular-nums">
+                    {d.caseValue ? formatCurrency(d.caseValue, { compact: true }) : "A confirmar"}
+                  </td>
+                  <td className="px-4 py-3 tabular-nums font-medium">
+                    {d.potentialTicket
+                      ? formatCurrency(d.potentialTicket, { compact: true })
+                      : "A confirmar"}
+                  </td>
                   <td className="px-4 py-3">
-                    <span className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-medium ${recommendationClasses[d.recommendation]}`}>
+                    <ProceduralPhaseBadge description={d.proceduralPhase} />
+                  </td>
+                  <td className="px-4 py-3 text-center font-semibold tabular-nums">
+                    {d.evidiaScore}
+                  </td>
+                  <td className="px-4 py-3">
+                    <RiskBadge level={d.evidenceRisk} />
+                  </td>
+                  <td className="px-4 py-3 tabular-nums text-risk-low">
+                    {d.economicPotential.valorEconomicoPotencial
+                      ? formatCurrency(d.economicPotential.valorEconomicoPotencial, {
+                          compact: true,
+                        })
+                      : "A confirmar"}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-medium ${recommendationClasses[d.recommendation]}`}
+                    >
                       {recommendationLabel[d.recommendation]}
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-medium ${statusClasses[d.status]}`}>
+                    <span
+                      className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-medium ${statusClasses[d.status]}`}
+                    >
                       {dealStatusLabel[d.status]}
                     </span>
                   </td>

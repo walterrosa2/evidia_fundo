@@ -34,7 +34,9 @@ function Blocos() {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{b.code}</span>
+                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  {b.code}
+                </span>
                 <RiskBadge level={b.risk} />
               </div>
               <div className="text-sm font-medium mt-0.5">{b.name}</div>
@@ -47,7 +49,9 @@ function Blocos() {
           <div className="rounded-xl border border-border bg-card p-6">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{active.code}</div>
+                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                  {active.code}
+                </div>
                 <h2 className="text-xl font-semibold tracking-tight">{active.name}</h2>
                 <p className="mt-2 text-sm text-muted-foreground max-w-3xl">{active.summary}</p>
               </div>
@@ -74,18 +78,30 @@ function Blocos() {
               </thead>
               <tbody>
                 {findings.length === 0 && (
-                  <tr><td colSpan={6} className="px-4 py-8 text-center text-muted-foreground"><FileQuestion className="size-5 mx-auto mb-1" />Nenhum achado neste bloco para o caso atual.</td></tr>
+                  <tr>
+                    <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
+                      <FileQuestion className="size-5 mx-auto mb-1" />
+                      Nenhum achado neste bloco para o caso atual.
+                    </td>
+                  </tr>
                 )}
                 {findings.map((f) => (
-                  <tr key={f.id} className="border-b border-border/40 align-top hover:bg-secondary/30">
+                  <tr
+                    key={f.id}
+                    className="border-b border-border/40 align-top hover:bg-secondary/30"
+                  >
                     <td className="px-4 py-3 max-w-md">
                       <div className="font-medium">{f.question}</div>
                       <div className="text-[11px] text-muted-foreground mt-0.5">{f.inference}</div>
                     </td>
                     <td className="px-4 py-3 text-xs">{findingStatusLabel[f.status]}</td>
-                    <td className="px-4 py-3"><RiskBadge level={f.riskLevel} /></td>
+                    <td className="px-4 py-3">
+                      <RiskBadge level={f.riskLevel} />
+                    </td>
                     <td className="px-4 py-3 tabular-nums">{f.confidence}%</td>
-                    <td className="px-4 py-3 tabular-nums text-muted-foreground">{f.page ?? "—"}</td>
+                    <td className="px-4 py-3 tabular-nums text-muted-foreground">
+                      {f.page ?? "—"}
+                    </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1">
                         <ActionBtn icon={Check} label="Aceitar" />
@@ -116,7 +132,10 @@ function Pill({ k, v }: { k: string; v: string }) {
 
 function ActionBtn({ icon: Icon, label }: { icon: typeof Check; label: string }) {
   return (
-    <button title={label} className="grid size-7 place-items-center rounded-md border border-border bg-surface hover:bg-secondary text-muted-foreground hover:text-foreground transition">
+    <button
+      title={label}
+      className="grid size-7 place-items-center rounded-md border border-border bg-surface hover:bg-secondary text-muted-foreground hover:text-foreground transition"
+    >
       <Icon className="size-3.5" />
     </button>
   );

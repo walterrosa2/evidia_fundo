@@ -18,9 +18,7 @@ export function SectionHeader({
           </div>
         )}
         <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{title}</h1>
-        {subtitle && (
-          <p className="mt-1.5 text-sm text-muted-foreground max-w-2xl">{subtitle}</p>
-        )}
+        {subtitle && <p className="mt-1.5 text-sm text-muted-foreground max-w-2xl">{subtitle}</p>}
       </div>
       {actions && <div className="flex items-center gap-2">{actions}</div>}
     </div>

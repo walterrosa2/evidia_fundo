@@ -1,5 +1,10 @@
 import type { RiskLevel } from "@/lib/risk";
-import { febSapCase, type AuditFinding, type FindingStatus as V2FindingStatus, type RiskLevel as V2Risk } from "@/data/v2";
+import {
+  febSapCase,
+  type AuditFinding,
+  type FindingStatus as V2FindingStatus,
+  type RiskLevel as V2Risk,
+} from "@/data/v2";
 
 export type Block = {
   id: string;
@@ -29,7 +34,8 @@ export const blocks: Block[] = febSapCase.auditBlocks.map((b, i) => ({
     (febSapCase.findings
       .filter((f) => f.blockId === b.id)
       .reduce((acc, f) => acc + f.confidence, 0) /
-      Math.max(1, febSapCase.findings.filter((f) => f.blockId === b.id).length)) * 100,
+      Math.max(1, febSapCase.findings.filter((f) => f.blockId === b.id).length)) *
+      100,
   ),
   findingsCount: b.findingIds.length,
   summary: b.summary,
@@ -91,8 +97,7 @@ function toFinding(f: AuditFinding): Finding {
     page: primaryEv?.source.sourcePage,
     evidenceType: primaryEv?.title ?? f.title,
     excerpt: primaryEv?.source.excerpt,
-    absenceExplanation:
-      f.status === "relevant_absence" ? primaryEv?.summary : undefined,
+    absenceExplanation: f.status === "relevant_absence" ? primaryEv?.summary : undefined,
     inference: f.inference,
     proceduralImpact: f.proceduralImpact,
     recommendedAction: f.recommendedAction,

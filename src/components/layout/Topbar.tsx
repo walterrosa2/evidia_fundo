@@ -1,16 +1,24 @@
-import { Bell, Search, ChevronDown } from "lucide-react";
+import { Bell, Search, ChevronDown, Menu } from "lucide-react";
 
-export function Topbar({ context }: { context?: string }) {
+export function Topbar({ context, onMenuToggle }: { context?: string; onMenuToggle?: () => void }) {
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-border bg-background/70 px-6 backdrop-blur">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+    <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-background/70 px-4 sm:px-6 backdrop-blur">
+      <button
+        type="button"
+        aria-label="Abrir navegação"
+        onClick={onMenuToggle}
+        className="grid size-9 shrink-0 place-items-center rounded-md border border-border bg-surface hover:bg-secondary md:hidden"
+      >
+        <Menu className="size-4" />
+      </button>
+      <div className="flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
         <span className="rounded-md border border-border bg-surface px-2 py-1 font-medium text-foreground">
           Fundo Atlas
         </span>
         {context && (
           <>
             <span className="opacity-50">/</span>
-            <span>{context}</span>
+            <span className="truncate">{context}</span>
           </>
         )}
       </div>

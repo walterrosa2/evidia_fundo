@@ -1,50 +1,57 @@
 import { featuredDealId, mockDeals } from "./mockDeals";
-import { febSapCase } from "@/data/v2";
+import { realCasesV2 } from "@/data/v2";
 
-const deal = mockDeals.find((d) => d.id === featuredDealId)!;
-const source = febSapCase;
+export function getCaseDetail(id: string) {
+  const deal = mockDeals.find((item) => item.id === id);
+  const source = realCasesV2.find((item) => item.id === id);
+  if (!deal || !source) return null;
 
-export const caseDetail = {
-  ...deal,
-  executiveSummary: source.executiveSummary,
-  caseNumber: source.processNumber ?? "",
-  court: `${source.court ?? ""} — ${source.courtUnit ?? ""}`.trim(),
-  thesis: source.centralDemoThesis,
-  documentsAnalyzed: source.documentsAnalyzed,
-  pagesAnalyzed: source.pagesAnalyzed,
-  legalScore: source.legalScore,
-  evidenceScore: source.evidenceScore,
-  nullityScore: source.nullityRiskScore,
-  settlementPotential: source.settlementLeverageScore,
-  timeline: source.timeline.map((t) => ({
-    date: t.date,
-    label: t.title,
-  })),
-  modulesApplied: [
-    {
-      id: "nulidade360",
-      name: "Nulidade360",
-      status: "Concluído",
-      findings: source.findings.length,
-    },
-    {
-      id: "red-team",
-      name: "Red Team Jurídico",
-      status: "Concluído",
-      findings: source.redTeam.length,
-    },
-    {
-      id: "valuation",
-      name: "Valuation Probatório",
-      status: source.valuation ? "Concluído" : "Em fila",
-      findings: source.valuation?.adjustments.length ?? 0,
-    },
-    {
-      id: "comportamental",
-      name: "Análise comportamental",
-      status: "Em fila",
-      findings: 0,
-    },
-  ],
-  demoNotice: source.demoNotice,
-};
+  const completed = source.dataStatus === "document_grounded";
+  return {
+    ...deal,
+    executiveSummary: source.executiveSummary,
+    caseNumber: source.processNumber ?? "Processo não informado",
+    court: [source.court, source.courtUnit].filter(Boolean).join(" — ") || "Tribunal não informado",
+    thesis: source.centralDemoThesis,
+    documentsAnalyzed: source.documentsAnalyzed,
+    pagesAnalyzed: source.pagesAnalyzed,
+    sourceFiles: source.sourceFiles,
+    legalScore: source.legalScore,
+    evidenceScore: source.evidenceScore,
+    nullityScore: source.nullityRiskScore,
+    settlementPotential: source.settlementLeverageScore,
+    timeline: source.timeline.map((item) => ({
+      date: item.date,
+      label: item.title,
+    })),
+    modulesApplied: [
+      {
+        id: "nulidade360",
+        name: "Nulidade360",
+        status: completed ? "Concluído" : "Aguardando documentos",
+        findings: source.findings.length,
+      },
+      {
+        id: "red-team",
+        name: "Red Team Jurídico",
+        status: completed ? "Concluído" : "Em fila",
+        findings: source.redTeam.length,
+      },
+      {
+        id: "valuation",
+        name: "Valuation Probatório",
+        status: source.valuation ? "Concluído" : "Em fila",
+        findings: source.valuation?.adjustments.length ?? 0,
+      },
+      {
+        id: "comportamental",
+        name: "Análise comportamental",
+        status: "Em fila",
+        findings: 0,
+      },
+    ],
+    demoNotice: source.demoNotice,
+  };
+}
+
+export const caseDetail = getCaseDetail(featuredDealId)!;
