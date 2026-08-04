@@ -81,9 +81,9 @@ function Memo() {
 
         <Section title="2. Tese de investimento">
           <p>
-            {caseDetail.thesis} Estimativa de upside líquido em cenário base superior a{" "}
-            {formatCurrency(54_000_000, { compact: true })}, com janela de saída via Recurso
-            Especial em 18–24 meses.
+            {caseDetail.thesis} O motor temporal estima Valor Econômico Potencial de{" "}
+            {formatCurrency(base.economicPotentialValue, { compact: true })}, com preço de entrada
+            ajustado aos riscos jurídicos e probatórios identificados.
           </p>
         </Section>
 
@@ -113,7 +113,11 @@ function Memo() {
         <Section title="5. Impacto financeiro">
           <div className="grid grid-cols-3 gap-3 not-prose">
             <KV
-              k="Preço inicial"
+              k="Valor econômico potencial"
+              v={formatCurrency(base.economicPotentialValue, { compact: true })}
+            />
+            <KV
+              k="Preço de referência"
               v={formatCurrency(base.initialPurchasePrice, { compact: true })}
             />
             <KV
@@ -121,15 +125,15 @@ function Memo() {
               v={formatCurrency(base.recommendedPrice, { compact: true })}
               highlight
             />
-            <KV k="ROI base" v={`${base.expectedROI.toFixed(1)}×`} />
           </div>
         </Section>
 
         <Section title="6. Recomendação">
           <p className="text-foreground">
-            <b className="text-risk-moderate">Reprecificar</b> — reduzir ticket para{" "}
-            {formatCurrency(base.recommendedPrice, { compact: true })} e condicionar aporte à
-            complementação pericial.
+            <b className="text-risk-moderate">Reprecificar</b> — estabelecer ticket-base de{" "}
+            {formatCurrency(base.recommendedPrice, { compact: true })}, correspondente à relação de
+            compra 1:10 sobre o Valor Econômico Potencial, e condicionar o aporte à complementação
+            pericial.
           </p>
         </Section>
 

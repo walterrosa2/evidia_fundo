@@ -44,7 +44,7 @@ function Dashboard() {
       <SectionHeader
         eyebrow="Visão executiva · Atlas Capital"
         title="Como está seu portfólio litigioso hoje"
-        subtitle="Indicadores consolidados de capital sob análise, risco probatório e upside identificado pela EvidIA."
+        subtitle="Indicadores consolidados de valor econômico potencial, risco probatório e oportunidades identificadas pela EvidIA."
         actions={
           <Link
             to="/deals"
@@ -65,7 +65,7 @@ function Dashboard() {
           delta={{ value: "+12 vs mês anterior", positive: true }}
         />
         <MetricCard
-          label="Capital sob análise"
+          label="Valor econômico sob análise"
           value={formatCurrency(mockPortfolio.capitalUnderAnalysis, { compact: true })}
           icon={DollarSign}
           accent="violet"
@@ -107,11 +107,11 @@ function Dashboard() {
           hint="exigem atenção imediata"
         />
         <MetricCard
-          label="Upside estimado"
+          label="Valor potencial estimado"
           value={formatCurrency(mockPortfolio.estimatedUpside, { compact: true })}
           icon={TrendingUp}
           accent="violet"
-          hint="cenário base"
+          hint="base temporal consolidada"
         />
       </div>
 
@@ -165,7 +165,7 @@ function Dashboard() {
             <div>
               <div className="text-sm font-semibold">Exposição financeira por risco</div>
               <div className="mt-1 text-xs text-muted-foreground">
-                R$ milhões · capital sob análise
+                R$ milhões · valor econômico potencial
               </div>
             </div>
             <div className="text-xs text-muted-foreground">Atualizado há 4 min</div>

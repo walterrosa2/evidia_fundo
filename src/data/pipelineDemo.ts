@@ -1,3 +1,6 @@
+import { featuredDealId, mockDeals } from "@/data/mockDeals";
+import { formatCurrency } from "@/lib/formatters";
+
 export type PipelineStageData = {
   id: string;
   order: number;
@@ -19,6 +22,20 @@ export const pipelineCase = {
   sector: "Tecnologia / ERP",
   claimValue: "R$ 683.369,03",
   pages: "1.594 páginas",
+};
+
+const pipelineDeal = mockDeals.find((deal) => deal.id === featuredDealId)!;
+const pipelineValuation = {
+  economicPotential: formatCurrency(pipelineDeal.economicPotential.valorEconomicoPotencial),
+  referencePrice: formatCurrency(pipelineDeal.potentialTicket * (275 / 218)),
+  recommendedPrice: formatCurrency(pipelineDeal.potentialTicket),
+  conservativeROI:
+    pipelineDeal.economicPotential.valorEconomicoPotencial /
+    (pipelineDeal.potentialTicket * (165 / 218)),
+  baseROI: pipelineDeal.economicPotential.valorEconomicoPotencial / pipelineDeal.potentialTicket,
+  aggressiveROI:
+    pipelineDeal.economicPotential.valorEconomicoPotencial /
+    (pipelineDeal.potentialTicket * (275 / 218)),
 };
 
 export const pipelineStages: PipelineStageData[] = [
@@ -103,10 +120,15 @@ export const pipelineStages: PipelineStageData[] = [
       "A EvidIA conecta risco jurídico, risco probatório, nulidade e alavanca de acordo ao preço recomendado.",
     status: "decision",
     metrics: [
-      { label: "Preço de referência", value: "R$ 275.000" },
-      { label: "Preço recomendado", value: "R$ 218.000" },
+      { label: "Valor econômico potencial", value: pipelineValuation.economicPotential },
+      { label: "Preço recomendado", value: pipelineValuation.recommendedPrice },
     ],
-    items: ["Conservador · ROI 1,55x", "Base · ROI 2,36x", "Agressivo · ROI 2,36x"],
+    items: [
+      `Referência · ${pipelineValuation.referencePrice}`,
+      `Conservador · ROI ${pipelineValuation.conservativeROI.toFixed(1).replace(".", ",")}x`,
+      `Base · ROI ${pipelineValuation.baseROI.toFixed(1).replace(".", ",")}x`,
+      `Agressivo · ROI ${pipelineValuation.aggressiveROI.toFixed(1).replace(".", ",")}x`,
+    ],
     result: "Cenários financeiros comparáveis",
     destination: "/valuation",
     destinationLabel: "Abrir Valuation",

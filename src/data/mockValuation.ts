@@ -1,9 +1,11 @@
 import { febSapCase } from "@/data/v2";
+import { calcularPrecoCompra, calcularValorPotencialPorPeriodo } from "@/lib/economicPotential";
 
 export type ValuationScenario = {
   id: string;
   name: "Conservador" | "Base" | "Agressivo";
-  grossClaimValue: number;
+  claimValue: number;
+  economicPotentialValue: number;
   initialPurchasePrice: number;
   evidenceRiskAdjustment: number;
   nullityAdjustment: number;
@@ -19,52 +21,81 @@ const nameMap = {
 } as const;
 
 const v = febSapCase.valuation!;
+const filingDate = febSapCase.timeline[0]?.date ?? new Date().toISOString().slice(0, 10);
+const economicPotential = calcularValorPotencialPorPeriodo(v.grossClaimValue, filingDate);
+const basePurchasePrice = calcularPrecoCompra(economicPotential.valorEconomicoPotencial);
+const monetaryScale = basePurchasePrice / v.recommendedPrice;
 
 // Distribute the case-level adjustments between scenarios for demo purposes.
 const evidenceAdj =
-  -1 * (v.adjustments.find((a) => a.label.toLowerCase().includes("prova"))?.amount ?? 0);
+  -monetaryScale *
+  (v.adjustments.find((a) => a.label.toLowerCase().includes("prova"))?.amount ?? 0);
 const nullityAdj =
-  -1 * (v.adjustments.find((a) => a.label.toLowerCase().includes("responsabilidade"))?.amount ?? 0);
-const settlementAdj = v.adjustments.find((a) => a.direction === "positive")?.amount ?? 0;
+  -monetaryScale *
+  (v.adjustments.find((a) => a.label.toLowerCase().includes("responsabilidade"))?.amount ?? 0);
+const settlementAdj =
+  monetaryScale * (v.adjustments.find((a) => a.direction === "positive")?.amount ?? 0);
 
 export const valuationScenarios: ValuationScenario[] = v.scenarios.map((s) => ({
   id: s.id,
   name: nameMap[s.id],
-  grossClaimValue: v.grossClaimValue,
-  initialPurchasePrice: v.initialReferencePrice,
+  claimValue: v.grossClaimValue,
+  economicPotentialValue: economicPotential.valorEconomicoPotencial,
+  initialPurchasePrice: v.initialReferencePrice * monetaryScale,
   evidenceRiskAdjustment: evidenceAdj,
   nullityAdjustment: nullityAdj,
   settlementLeverageAdjustment: settlementAdj,
-  recommendedPrice: s.recommendedPrice,
-  expectedROI: s.roiMultiple,
+  recommendedPrice: s.recommendedPrice * monetaryScale,
+  expectedROI: economicPotential.valorEconomicoPotencial / (s.recommendedPrice * monetaryScale),
 }));
 
 const base = valuationScenarios.find((s) => s.id === "base")!;
+const toMillions = (value: number) => Number((value / 1_000_000).toFixed(4));
+const afterEvidenceRisk = base.initialPurchasePrice + base.evidenceRiskAdjustment;
+const afterNullity = afterEvidenceRisk + base.nullityAdjustment;
+const structuralDiscount = base.economicPotentialValue - base.initialPurchasePrice;
 
 export const waterfallData = [
   {
-    name: "Preço inicial",
-    value: Math.round(base.initialPurchasePrice / 1000),
+    name: "Valor potencial",
+    base: 0,
+    value: toMillions(base.economicPotentialValue),
+    displayValue: base.economicPotentialValue,
     fill: "var(--cyan)",
   },
   {
+    name: "Deságio estrutural",
+    base: toMillions(base.initialPurchasePrice),
+    value: toMillions(structuralDiscount),
+    displayValue: -structuralDiscount,
+    fill: "var(--risk-moderate)",
+  },
+  {
     name: "Risco probatório",
-    value: Math.round(base.evidenceRiskAdjustment / 1000),
+    base: toMillions(afterEvidenceRisk),
+    value: toMillions(Math.abs(base.evidenceRiskAdjustment)),
+    displayValue: base.evidenceRiskAdjustment,
     fill: "var(--risk-high)",
   },
   {
     name: "Nulidades",
-    value: Math.round(base.nullityAdjustment / 1000),
+    base: toMillions(afterNullity),
+    value: toMillions(Math.abs(base.nullityAdjustment)),
+    displayValue: base.nullityAdjustment,
     fill: "var(--risk-critical)",
   },
   {
     name: "Alavanca acordo",
-    value: Math.round(base.settlementLeverageAdjustment / 1000),
+    base: toMillions(afterNullity),
+    value: toMillions(base.settlementLeverageAdjustment),
+    displayValue: base.settlementLeverageAdjustment,
     fill: "var(--risk-low)",
   },
   {
     name: "Preço recomendado",
-    value: Math.round(base.recommendedPrice / 1000),
+    base: 0,
+    value: toMillions(base.recommendedPrice),
+    displayValue: base.recommendedPrice,
     fill: "var(--violet)",
   },
 ];

@@ -16,6 +16,28 @@ import { valuationScenarios, waterfallData } from "@/data/mockValuation";
 import { formatCurrency } from "@/lib/formatters";
 import { caseDetail } from "@/data/mockCaseDetail";
 
+type WaterfallTooltipProps = {
+  active?: boolean;
+  payload?: Array<{
+    payload: (typeof waterfallData)[number];
+  }>;
+};
+
+function WaterfallTooltip({ active, payload }: WaterfallTooltipProps) {
+  const item = payload?.[0]?.payload;
+  if (!active || !item) return null;
+
+  return (
+    <div className="rounded-lg border border-border bg-popover px-3 py-2 text-xs shadow-xl">
+      <div className="font-medium text-foreground">{item.name}</div>
+      <div className="mt-1 tabular-nums text-muted-foreground">
+        {item.displayValue > 0 && item.base > 0 ? "+" : ""}
+        {formatCurrency(item.displayValue)}
+      </div>
+    </div>
+  );
+}
+
 export const Route = createFileRoute("/valuation")({
   component: Valuation,
 });
@@ -42,39 +64,42 @@ function Valuation() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
-            Preço inicial
+            Preço de referência atualizado
           </div>
           <div className="mt-2 text-2xl font-semibold tabular-nums">
             {formatCurrency(base.initialPurchasePrice, { compact: true })}
           </div>
-          <div className="mt-1 text-xs text-muted-foreground">Proposta original</div>
+          <div className="mt-1 text-xs text-muted-foreground">Base temporal aplicada</div>
         </div>
         <div className="rounded-xl border border-primary/30 bg-gradient-to-br from-primary/10 to-violet/5 p-6">
           <div className="text-[11px] uppercase tracking-wider text-primary">
-            Preço recomendado · base
+            Preço recomendado · base 1:10
           </div>
           <div className="mt-2 text-2xl font-semibold tabular-nums text-primary">
             {formatCurrency(base.recommendedPrice, { compact: true })}
           </div>
           <div className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
-            <TrendingUp className="size-3.5 text-risk-low" /> ROI esperado{" "}
+            <TrendingUp className="size-3.5 text-risk-low" /> Múltiplo potencial{" "}
             {base.expectedROI.toFixed(1)}×
           </div>
         </div>
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
-            Valor da causa
+            Valor econômico potencial
           </div>
           <div className="mt-2 text-2xl font-semibold tabular-nums">
-            {formatCurrency(base.grossClaimValue, { compact: true })}
+            {formatCurrency(base.economicPotentialValue, { compact: true })}
           </div>
-          <div className="mt-1 text-xs text-muted-foreground">Reclamação total</div>
+          <div className="mt-1 text-xs text-muted-foreground">Valor da causa × fator temporal</div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
         <div className="lg:col-span-2 rounded-xl border border-border bg-card p-6">
           <div className="text-sm font-semibold">Waterfall — composição do preço (R$ milhões)</div>
+          <div className="mt-1 text-xs text-muted-foreground">
+            Do Valor Econômico Potencial ao preço-base de aquisição na relação 1:10
+          </div>
           <div className="h-80 mt-4">
             <ResponsiveContainer>
               <BarChart data={waterfallData}>
@@ -83,17 +108,10 @@ function Valuation() {
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} />
                 <Tooltip
                   cursor={{ fill: "color-mix(in oklab, var(--cyan) 10%, transparent)" }}
-                  contentStyle={{
-                    background: "var(--popover)",
-                    border: "1px solid var(--border)",
-                    borderRadius: 8,
-                    color: "var(--foreground)",
-                    fontSize: 12,
-                  }}
-                  itemStyle={{ color: "var(--foreground)" }}
-                  labelStyle={{ color: "var(--foreground)" }}
+                  content={<WaterfallTooltip />}
                 />
-                <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                <Bar dataKey="base" stackId="waterfall" fill="transparent" />
+                <Bar dataKey="value" stackId="waterfall" radius={[6, 6, 6, 6]}>
                   {waterfallData.map((d, i) => (
                     <Cell key={i} fill={d.fill} />
                   ))}
@@ -110,7 +128,6 @@ function Valuation() {
               { k: "Risco probatório", v: base.evidenceRiskAdjustment, c: "risk-high" },
               { k: "Nulidades exploráveis", v: base.nullityAdjustment, c: "risk-critical" },
               { k: "Alavanca de acordo", v: base.settlementLeverageAdjustment, c: "risk-low" },
-              { k: "Incerteza residual", v: -4_000_000, c: "risk-moderate" },
             ].map((d) => (
               <li key={d.k} className="flex items-center justify-between">
                 <span>{d.k}</span>
@@ -139,7 +156,9 @@ function Valuation() {
             <div className="mt-4 text-3xl font-semibold tabular-nums">
               {formatCurrency(s.recommendedPrice, { compact: true })}
             </div>
-            <div className="text-xs text-muted-foreground mt-1">preço de entrada recomendado</div>
+            <div className="text-xs text-muted-foreground mt-1">
+              preço de entrada recomendado · base 1:10
+            </div>
             <div className="mt-4 space-y-1.5 text-xs text-muted-foreground">
               <div className="flex justify-between">
                 <span>Inicial</span>

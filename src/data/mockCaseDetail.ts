@@ -15,6 +15,7 @@ export function getCaseDetail(id: string) {
     thesis: source.centralDemoThesis,
     documentsAnalyzed: source.documentsAnalyzed,
     pagesAnalyzed: source.pagesAnalyzed,
+    sourceFiles: source.sourceFiles,
     legalScore: source.legalScore,
     evidenceScore: source.evidenceScore,
     nullityScore: source.nullityRiskScore,

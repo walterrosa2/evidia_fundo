@@ -1269,11 +1269,7 @@ export const thesisOnlyCaseSeeds: RealCaseDemo[] = [
   },
 ];
 
-export const realCasesV2: RealCaseDemo[] = [
-  febSapCase,
-  pauloGrittiMatsudaCase,
-  ...thesisOnlyCaseSeeds,
-];
+export const realCasesV2: RealCaseDemo[] = [febSapCase, pauloGrittiMatsudaCase];
 
 export const documentedCasesV2 = realCasesV2.filter(
   (item) => item.dataStatus === "document_grounded",

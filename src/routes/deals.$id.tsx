@@ -1,6 +1,18 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowRight, FileText, ShieldAlert, Swords, TrendingUp, CalendarClock } from "lucide-react";
+import {
+  ArrowRight,
+  FileText,
+  ShieldAlert,
+  Swords,
+  TrendingUp,
+  CalendarClock,
+  GitBranch,
+} from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
+import { CaseDocumentViewer } from "@/components/cases/CaseDocumentViewer";
+import { EconomicPotentialCard } from "@/components/cases/EconomicPotentialCard";
+import { RiskHierarchy } from "@/components/cases/RiskHierarchy";
+import { HelpHint } from "@/components/shared/HelpHint";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ScoreRing } from "@/components/shared/ScoreRing";
 import { RiskBadge } from "@/components/shared/RiskBadge";
@@ -59,11 +71,20 @@ function DealDetail() {
         title={deal.name}
         subtitle={c.thesis}
         actions={
-          <span
-            className={`inline-flex items-center rounded-md border px-3 py-1.5 text-xs font-medium ${recommendationClasses[deal.recommendation as Recommendation]}`}
-          >
-            Recomendação: {recommendationLabel[deal.recommendation as Recommendation]}
-          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary">
+              <GitBranch className="size-3.5" /> Fase: {deal.proceduralPhase}
+              <HelpHint
+                label="fase processual"
+                text="Momento atual do processo, definido a partir do último andamento disponível nos autos."
+              />
+            </span>
+            <span
+              className={`inline-flex items-center rounded-md border px-3 py-1.5 text-xs font-medium ${recommendationClasses[deal.recommendation as Recommendation]}`}
+            >
+              Recomendação: {recommendationLabel[deal.recommendation as Recommendation]}
+            </span>
+          </div>
         }
       />
 
@@ -76,12 +97,14 @@ function DealDetail() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
             <Stat
+              help="Valor econômico atribuído aos pedidos do processo."
               label="Valor da causa"
               value={
                 deal.caseValue ? formatCurrency(deal.caseValue, { compact: true }) : "A confirmar"
               }
             />
             <Stat
+              help="Preço-base de aquisição, equivalente a 10% do Valor Econômico Potencial (relação 1:10)."
               label="Ticket potencial"
               value={
                 deal.potentialTicket
@@ -90,15 +113,22 @@ function DealDetail() {
               }
             />
             <Stat
-              label="Upside oculto"
+              help="Valor informado na ação multiplicado pelo fator correspondente ao tempo decorrido desde a distribuição."
+              label="Valor econômico potencial"
               value={
-                deal.hiddenUpside
-                  ? `+${formatCurrency(deal.hiddenUpside, { compact: true })}`
+                deal.economicPotential.valorEconomicoPotencial
+                  ? formatCurrency(deal.economicPotential.valorEconomicoPotencial, {
+                      compact: true,
+                    })
                   : "A confirmar"
               }
               color="text-risk-low"
             />
-            <Stat label="Documentos analisados" value={String(c.documentsAnalyzed)} />
+            <Stat
+              label="Documentos analisados"
+              value={String(c.documentsAnalyzed)}
+              help="Quantidade de documentos que já passaram pela estruturação e análise EvidIA."
+            />
           </div>
         </div>
 
@@ -121,16 +151,47 @@ function DealDetail() {
             </>
           )}
           <div className="mt-3 text-xs text-muted-foreground text-center">
-            Score composto · jurídico · probatório · nulidade · acordo
+            <span className="inline-flex items-center gap-2">
+              Score composto · jurídico · probatório · nulidade · acordo{" "}
+              <HelpHint
+                label="score EvidIA"
+                text="Síntese ponderada da robustez jurídica e probatória, dos riscos de nulidade e da alavanca de acordo."
+              />
+            </span>
           </div>
         </div>
       </div>
 
+      <EconomicPotentialCard calculation={deal.economicPotential} />
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-        <ScoreCard label="Jurídico" value={c.legalScore} />
-        <ScoreCard label="Probatório" value={c.evidenceScore} />
-        <ScoreCard label="Nulidade" value={c.nullityScore} />
-        <ScoreCard label="Potencial de acordo" value={c.settlementPotential} />
+        <ScoreCard
+          label="Jurídico"
+          value={c.legalScore}
+          help="Consistência da tese jurídica e aderência aos elementos do processo."
+        />
+        <ScoreCard
+          label="Probatório"
+          value={c.evidenceScore}
+          help="Força, cobertura e rastreabilidade das evidências disponíveis."
+        />
+        <ScoreCard
+          label="Nulidade"
+          value={c.nullityScore}
+          help="Intensidade do risco de invalidação ou perda de utilidade de atos e provas."
+        />
+        <ScoreCard
+          label="Potencial de acordo"
+          value={c.settlementPotential}
+          help="Alavanca estimada para composição, considerando riscos e posição das partes."
+        />
+      </div>
+
+      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <CaseDocumentViewer sourceFiles={c.sourceFiles} pages={c.pagesAnalyzed} />
+        </div>
+        <RiskHierarchy current={deal.evidenceRisk} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
@@ -201,19 +262,35 @@ function DealDetail() {
   );
 }
 
-function Stat({ label, value, color }: { label: string; value: string; color?: string }) {
+function Stat({
+  label,
+  value,
+  color,
+  help,
+}: {
+  label: string;
+  value: string;
+  color?: string;
+  help?: string;
+}) {
   return (
     <div>
-      <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-muted-foreground">
+        {label}
+        {help && <HelpHint label={label} text={help} />}
+      </div>
       <div className={`mt-1 text-lg font-semibold tabular-nums ${color ?? ""}`}>{value}</div>
     </div>
   );
 }
 
-function ScoreCard({ label, value }: { label: string; value: number }) {
+function ScoreCard({ label, value, help }: { label: string; value: number; help: string }) {
   return (
     <div className="rounded-xl border border-border bg-card p-5">
-      <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-muted-foreground">
+        {label}
+        <HelpHint label={label} text={help} />
+      </div>
       <div className="mt-3 flex items-end gap-2">
         <div className="text-3xl font-semibold tabular-nums">{value}</div>
         <div className="text-xs text-muted-foreground mb-1">/ 100</div>
