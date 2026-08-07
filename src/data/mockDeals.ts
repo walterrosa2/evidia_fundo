@@ -1,4 +1,4 @@
-import type { RiskLevel, Recommendation } from "@/lib/risk";
+import { scoreToRisk, type RiskLevel, type Recommendation } from "@/lib/risk";
 import { realCasesV2, type RealCaseDemo } from "@/data/v2";
 import {
   calcularValorPotencialPorPeriodo,
@@ -25,6 +25,10 @@ export type Deal = {
   processNumber?: string;
   court?: string;
   dataStatus: RealCaseDemo["dataStatus"];
+  rankingPosition: number;
+  purchaseProfile: NonNullable<RealCaseDemo["purchaseProfile"]>;
+  evidenceMapStatus: NonNullable<RealCaseDemo["evidenceMapStatus"]>;
+  sourceFindingCount: number;
 };
 
 export const dealStatusLabel: Record<DealStatus, string> = {
@@ -33,6 +37,12 @@ export const dealStatusLabel: Record<DealStatus, string> = {
   concluido: "Concluído",
   comite: "Comitê",
   rejeitado: "Rejeitado",
+};
+
+export const purchaseProfileLabel: Record<NonNullable<RealCaseDemo["purchaseProfile"]>, string> = {
+  conservador: "Conservador",
+  moderado: "Moderado",
+  nao_recomendado: "Não recomendado",
 };
 
 const riskLevelMap: Record<RealCaseDemo["auditBlocks"][number]["riskLevel"], RiskLevel> = {
@@ -57,24 +67,25 @@ const statusByRole: Record<RealCaseDemo["portfolioRole"], DealStatus> = {
 };
 
 const ownerByCase: Record<string, string> = {
+  "case-eletromar-totvs": "Equipe EvidIA",
   "case-feb-sap": "M. Almeida",
   "case-paulo-gritti-matsuda": "R. Tavares",
 };
 
 const updatedByCase: Record<string, string> = {
+  "case-eletromar-totvs": "2026-08-06",
   "case-feb-sap": "2026-07-31",
   "case-paulo-gritti-matsuda": "2026-03-03",
 };
 
-function toRiskFromScore(score: number): RiskLevel {
-  if (score >= 80) return "critico";
-  if (score >= 60) return "alto";
-  if (score >= 40) return "moderado";
-  return "baixo";
-}
+const statusByCase: Record<string, DealStatus> = {
+  "case-eletromar-totvs": "comite",
+  "case-feb-sap": "em_analise",
+  "case-paulo-gritti-matsuda": "em_analise",
+};
 
 function toDeal(c: RealCaseDemo): Deal {
-  const evidiaScore = Math.round((c.legalScore + c.evidenceScore) / 2);
+  const evidiaScore = Number((c.overallRiskScore ?? c.nullityRiskScore ?? 0).toFixed(2));
   const claim = c.claimValue ?? 0;
   const filingDate = c.timeline[0]?.date ?? new Date().toISOString().slice(0, 10);
   const economicPotential = calcularValorPotencialPorPeriodo(claim, filingDate);
@@ -88,19 +99,29 @@ function toDeal(c: RealCaseDemo): Deal {
     proceduralPhase: c.proceduralStage,
     evidiaScore,
     evidenceRisk:
-      c.dataStatus === "awaiting_documents" ? "moderado" : toRiskFromScore(c.nullityRiskScore),
+      c.dataStatus === "awaiting_documents"
+        ? "moderado"
+        : c.overallRiskLevel
+          ? riskLevelMap[c.overallRiskLevel]
+          : scoreToRisk(evidiaScore),
     economicPotential,
     recommendation: recommendationMap[c.recommendation],
-    status: statusByRole[c.portfolioRole],
+    status: statusByCase[c.id] ?? statusByRole[c.portfolioRole],
     owner: ownerByCase[c.id] ?? "Equipe EvidIA",
     updatedAt: updatedByCase[c.id] ?? "2026-05-01",
     processNumber: c.processNumber,
     court: c.court,
     dataStatus: c.dataStatus,
+    rankingPosition: c.rankingPosition ?? Number.MAX_SAFE_INTEGER,
+    purchaseProfile: c.purchaseProfile ?? "moderado",
+    evidenceMapStatus: c.evidenceMapStatus ?? "missing",
+    sourceFindingCount: c.sourceFindingCount ?? c.findings.length,
   };
 }
 
-export const mockDeals: Deal[] = realCasesV2.map(toDeal);
+export const mockDeals: Deal[] = realCasesV2
+  .map(toDeal)
+  .sort((left, right) => left.rankingPosition - right.rankingPosition);
 
 export const featuredDealId = "case-feb-sap";
 

@@ -1,24 +1,22 @@
 import { realCasesV2, documentedCasesV2 } from "@/data/v2";
 import { mockDeals } from "@/data/mockDeals";
+import { riskLabel, scoreToRisk } from "@/lib/risk";
 
 const dealById = new Map(mockDeals.map((deal) => [deal.id, deal]));
 const totalEconomicPotential = mockDeals.reduce(
   (total, deal) => total + deal.economicPotential.valorEconomicoPotencial,
   0,
 );
-const criticalCount = documentedCasesV2.reduce(
-  (acc, c) => acc + c.findings.filter((f) => f.riskLevel === "critical").length,
-  0,
-);
 const avgNullity =
-  documentedCasesV2.reduce((acc, c) => acc + c.nullityRiskScore, 0) /
-  Math.max(1, documentedCasesV2.length);
+  mockDeals.reduce((acc, deal) => acc + deal.evidiaScore, 0) / Math.max(1, mockDeals.length);
+const averageEvidenceRisk = Math.round(avgNullity);
 
 export const mockPortfolio = {
   dealsAnalyzed: realCasesV2.length,
   capitalUnderAnalysis: totalEconomicPotential,
-  averageEvidenceRisk: Math.round(avgNullity),
-  hiddenOpportunitiesFound: documentedCasesV2.reduce((acc, c) => acc + c.evidences.length, 0),
+  averageEvidenceRisk,
+  averageEvidenceRiskLabel: riskLabel[scoreToRisk(averageEvidenceRisk)],
+  hiddenOpportunitiesFound: mockDeals.reduce((acc, deal) => acc + deal.sourceFindingCount, 0),
   estimatedSavings: documentedCasesV2.reduce((acc, c) => {
     const deal = dealById.get(c.id);
     const monetaryScale =
@@ -31,19 +29,20 @@ export const mockPortfolio = {
     );
   }, 0),
   averageAnalysisTime: "4h 20min",
-  criticalDeals: criticalCount,
+  criticalDeals: mockDeals.filter(
+    (deal) => deal.evidenceRisk === "alto" || deal.evidenceRisk === "critico",
+  ).length,
   estimatedUpside: totalEconomicPotential,
 };
 
-// Distribution based on documented findings' risk levels
-const findingsAll = documentedCasesV2.flatMap((c) => c.findings);
-const count = (lvl: string) => findingsAll.filter((f) => f.riskLevel === lvl).length;
+const count = (level: (typeof mockDeals)[number]["evidenceRisk"]) =>
+  mockDeals.filter((deal) => deal.evidenceRisk === level).length;
 
 export const riskDistribution = [
-  { name: "Baixo", value: count("low"), color: "var(--risk-low)" },
-  { name: "Moderado", value: count("moderate"), color: "var(--risk-moderate)" },
-  { name: "Alto", value: count("high"), color: "var(--risk-high)" },
-  { name: "Crítico", value: count("critical"), color: "var(--risk-critical)" },
+  { name: "Baixo", value: count("baixo"), color: "var(--risk-low)" },
+  { name: "Moderado", value: count("moderado"), color: "var(--risk-moderate)" },
+  { name: "Alto", value: count("alto"), color: "var(--risk-high)" },
+  { name: "Crítico", value: count("critico"), color: "var(--risk-critical)" },
 ];
 
 export const financialExposure = mockDeals

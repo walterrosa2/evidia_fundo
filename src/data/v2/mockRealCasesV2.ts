@@ -20,6 +20,8 @@ export type EvidenceNature =
   | "simulated_metric";
 
 export type RiskLevel = "low" | "moderate" | "high" | "critical";
+export type PurchaseProfile = "conservador" | "moderado" | "nao_recomendado";
+export type EvidenceMapStatus = "linked" | "available_unlinked" | "missing";
 
 export type FindingStatus =
   | "evidence_found"
@@ -129,6 +131,8 @@ export interface RealCaseDemo {
   slug: string;
   dataStatus: "document_grounded" | "thesis_only" | "awaiting_documents";
   portfolioRole: "flagship" | "secondary" | "placeholder";
+  rankingPosition?: number;
+  purchaseProfile?: PurchaseProfile;
   displayName: string;
   processNumber?: string;
   court?: string;
@@ -145,10 +149,15 @@ export interface RealCaseDemo {
   centralDemoThesis: string;
   opposingThesis: string;
   recommendation: "invest" | "reprice" | "hold" | "reject" | "human_review";
-  legalScore: number;
-  evidenceScore: number;
-  nullityRiskScore: number;
-  settlementLeverageScore: number;
+  legalScore: number | null;
+  evidenceScore: number | null;
+  nullityRiskScore: number | null;
+  settlementLeverageScore: number | null;
+  overallRiskScore?: number;
+  overallRiskLevel?: RiskLevel;
+  sourceFindingCount?: number;
+  evidenceMapStatus?: EvidenceMapStatus;
+  evidenceMapRowCount?: number;
   documentsAnalyzed: number;
   pagesAnalyzed: number;
   sourceFiles: string[];
@@ -170,6 +179,8 @@ export const febSapCase: RealCaseDemo = {
   slug: "federacao-espirita-brasileira-vs-sap",
   dataStatus: "document_grounded",
   portfolioRole: "flagship",
+  rankingPosition: 2,
+  purchaseProfile: "moderado",
   displayName: "Federação Espírita Brasileira × SAP Brasil",
   processNumber: "1116020-53.2020.8.26.0100",
   court: "TJSP",
@@ -189,6 +200,11 @@ export const febSapCase: RealCaseDemo = {
   opposingThesis:
     "A SAP sustenta que a implantação foi executada por terceiro, que o escopo pericial deve se limitar ao relacionamento contratual com a SAP e que os peritos nomeados possuem qualificação e imparcialidade.",
   recommendation: "human_review",
+  overallRiskScore: 51.88,
+  overallRiskLevel: "moderate",
+  sourceFindingCount: 20,
+  evidenceMapStatus: "available_unlinked",
+  evidenceMapRowCount: 743,
   legalScore: 67,
   evidenceScore: 48,
   nullityRiskScore: 86,
@@ -655,6 +671,8 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
   slug: "paulo-gritti-vs-matsuda",
   dataStatus: "document_grounded",
   portfolioRole: "secondary",
+  rankingPosition: 3,
+  purchaseProfile: "nao_recomendado",
   displayName: "Paulo Renato Gritti × Matsuda",
   processNumber: "0804563-35.2017.8.10.0040",
   court: "TJMA",
@@ -674,6 +692,11 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
   opposingThesis:
     "O lote estava em conformidade regulatória; a germinação parcial e a diferença entre semeadura a lanço e incorporação indicariam falha operacional e profundidade inadequada.",
   recommendation: "reprice",
+  overallRiskScore: 80.8,
+  overallRiskLevel: "high",
+  sourceFindingCount: 19,
+  evidenceMapStatus: "missing",
+  evidenceMapRowCount: 0,
   legalScore: 61,
   evidenceScore: 43,
   nullityRiskScore: 79,
@@ -1177,6 +1200,51 @@ export const pauloGrittiMatsudaCase: RealCaseDemo = {
     "Caso baseado em documentos públicos reais. Scores, probabilidades, recomendações e valuation são exclusivamente simulados para demonstração da EvidIA.",
 };
 
+export const eletromarTotvsCase: RealCaseDemo = {
+  id: "case-eletromar-totvs",
+  slug: "eletromar-vs-totvs",
+  dataStatus: "document_grounded",
+  portfolioRole: "flagship",
+  rankingPosition: 1,
+  purchaseProfile: "conservador",
+  displayName: "ELETROMAR × TOTVS",
+  processNumber: "0020448-92.2017.8.26.0100",
+  court: "TJSP",
+  actionType: "A confirmar nos autos primários",
+  parties: {
+    claimant: "ELETROMAR",
+    defendant: "TOTVS",
+  },
+  sector: "Tecnologia / ERP",
+  proceduralStage: "Laudo juntado · movimentação mais recente a confirmar",
+  executiveSummary:
+    "O relatório Nulidade360 posiciona ELETROMAR × TOTVS como o caso de menor risco relativo entre os três ativos auditados. O score global é moderado e os findings resumidos concentram-se em contraditório e ampla defesa, sem achados classificados como altos ou críticos. A ausência do mapa de evidências exige revisão humana antes de qualquer decisão de investimento.",
+  centralDemoThesis:
+    "Ativo com perfil conservador relativo na amostra, condicionado à confirmação da fase atual, do valor da causa e do suporte documental dos findings.",
+  opposingThesis:
+    "A falta do mapa de evidências e das movimentações primárias mais recentes impede confirmar a robustez do caso e a sua fase processual atual.",
+  recommendation: "human_review",
+  overallRiskScore: 46.73,
+  overallRiskLevel: "moderate",
+  sourceFindingCount: 20,
+  evidenceMapStatus: "missing",
+  evidenceMapRowCount: 0,
+  legalScore: null,
+  evidenceScore: null,
+  nullityRiskScore: 46.73,
+  settlementLeverageScore: null,
+  documentsAnalyzed: 1,
+  pagesAnalyzed: 0,
+  sourceFiles: ["nulidade360_caso_19_analise_27_ELETROMAR X TOTVS.docx"],
+  timeline: [],
+  evidences: [],
+  auditBlocks: [],
+  findings: [],
+  redTeam: [],
+  demoNotice:
+    "Caso resumido a partir de relatório Nulidade360 revisado humanamente. O mapa de evidências, o valor da causa e a movimentação processual mais recente ainda não foram fornecidos.",
+};
+
 export const thesisOnlyCaseSeeds: RealCaseDemo[] = [
   {
     id: "case-cobex-bradesco",
@@ -1269,7 +1337,7 @@ export const thesisOnlyCaseSeeds: RealCaseDemo[] = [
   },
 ];
 
-export const realCasesV2: RealCaseDemo[] = [febSapCase, pauloGrittiMatsudaCase];
+export const realCasesV2: RealCaseDemo[] = [eletromarTotvsCase, febSapCase, pauloGrittiMatsudaCase];
 
 export const documentedCasesV2 = realCasesV2.filter(
   (item) => item.dataStatus === "document_grounded",

@@ -1,6 +1,7 @@
 export {
   caseBySlugV2,
   documentedCasesV2,
+  eletromarTotvsCase,
   febSapCase,
   pauloGrittiMatsudaCase,
   realCasesV2,
@@ -13,7 +14,9 @@ export type {
   DemoValuation,
   EvidenceItem,
   EvidenceNature,
+  EvidenceMapStatus,
   FindingStatus,
+  PurchaseProfile,
   RealCaseDemo,
   RedTeamAttack,
   RiskLevel,

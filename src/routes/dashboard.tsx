@@ -32,7 +32,7 @@ import {
   financialExposure,
   recurringRisks,
 } from "@/data/mockPortfolio";
-import { mockDeals } from "@/data/mockDeals";
+import { mockDeals, purchaseProfileLabel } from "@/data/mockDeals";
 
 export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
@@ -76,7 +76,7 @@ function Dashboard() {
           value={`${mockPortfolio.averageEvidenceRisk}/100`}
           icon={ShieldAlert}
           accent="risk-high"
-          hint="zona Alto"
+          hint={`zona ${mockPortfolio.averageEvidenceRiskLabel}`}
         />
         <MetricCard
           label="Oportunidades ocultas"
@@ -100,11 +100,11 @@ function Dashboard() {
           hint="vs 14 dias manual"
         />
         <MetricCard
-          label="Deals críticos"
+          label="Deals de alto risco"
           value={mockPortfolio.criticalDeals}
           icon={AlertTriangle}
           accent="risk-critical"
-          hint="exigem atenção imediata"
+          hint="alto ou crítico · revisão humana"
         />
         <MetricCard
           label="Valor potencial estimado"
@@ -142,7 +142,10 @@ function Dashboard() {
                     border: "1px solid var(--border)",
                     borderRadius: 8,
                     fontSize: 12,
+                    color: "var(--foreground)",
                   }}
+                  itemStyle={{ color: "var(--foreground)" }}
+                  labelStyle={{ color: "var(--foreground)" }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -213,7 +216,9 @@ function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm font-semibold">Casos recentes</div>
-              <div className="mt-1 text-xs text-muted-foreground">Pipeline ativo</div>
+              <div className="mt-1 text-xs text-muted-foreground">
+                Ordenado por atratividade de compra
+              </div>
             </div>
             <Link to="/deals" className="text-xs text-primary hover:underline">
               Ver deal flow completo →
@@ -224,7 +229,7 @@ function Dashboard() {
               <thead>
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground border-b border-border">
                   <th className="py-2 font-medium">Caso</th>
-                  <th className="py-2 font-medium">Ticket</th>
+                  <th className="py-2 font-medium">Deal Value</th>
                   <th className="py-2 font-medium">Score</th>
                   <th className="py-2 font-medium">Risco</th>
                 </tr>
@@ -234,9 +239,12 @@ function Dashboard() {
                   <tr key={d.id} className="border-b border-border/50 hover:bg-secondary/40">
                     <td className="py-3">
                       <Link to="/deals/$id" params={{ id: d.id }} className="hover:text-primary">
-                        <div className="font-medium">{d.name}</div>
+                        <div className="flex items-center gap-2 font-medium">
+                          <span className="text-primary">#{d.rankingPosition}</span>
+                          <span>{d.name}</span>
+                        </div>
                         <div className="text-[11px] text-muted-foreground">
-                          {d.sector} · {d.proceduralPhase}
+                          Perfil {purchaseProfileLabel[d.purchaseProfile]} · {d.proceduralPhase}
                         </div>
                       </Link>
                     </td>

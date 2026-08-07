@@ -10,6 +10,8 @@ export function EconomicPotentialCard({
 }: {
   calculation: EconomicPotentialCalculation;
 }) {
+  const hasConfirmedInputs = calculation.valorBase > 0;
+
   return (
     <section className="mt-6 overflow-hidden rounded-xl border border-primary/30 bg-card">
       <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border bg-primary/5 px-6 py-5">
@@ -29,19 +31,31 @@ export function EconomicPotentialCard({
         <div className="text-right">
           <div className="text-xs uppercase tracking-wider text-muted-foreground">Resultado</div>
           <div className="mt-1 text-2xl font-semibold tabular-nums text-risk-low">
-            {formatCurrency(calculation.valorEconomicoPotencial)}
+            {hasConfirmedInputs
+              ? formatCurrency(calculation.valorEconomicoPotencial)
+              : "A confirmar"}
           </div>
         </div>
       </div>
 
       <div className="grid gap-6 p-6 md:grid-cols-3">
-        <Metric label="Valor informado na ação" value={formatCurrency(calculation.valorBase)} />
+        <Metric
+          label="Valor informado na ação"
+          value={hasConfirmedInputs ? formatCurrency(calculation.valorBase) : "A confirmar"}
+        />
         <Metric
           label="Tempo da ação"
-          value={`${decimalFormatter.format(calculation.tempoAcaoAnos)} anos`}
+          value={
+            hasConfirmedInputs
+              ? `${decimalFormatter.format(calculation.tempoAcaoAnos)} anos`
+              : "A confirmar"
+          }
           icon={<Clock3 className="size-3.5" />}
         />
-        <Metric label="Fator aplicado" value={`${decimalFormatter.format(calculation.fator)}×`} />
+        <Metric
+          label="Fator aplicado"
+          value={hasConfirmedInputs ? `${decimalFormatter.format(calculation.fator)}×` : "Pendente"}
+        />
       </div>
 
       <div className="mx-6 mb-6 rounded-lg border border-border bg-surface px-4 py-3">
@@ -49,7 +63,9 @@ export function EconomicPotentialCard({
           <Calculator className="size-3.5" /> Memória de cálculo
         </div>
         <div className="mt-2 text-sm font-medium tabular-nums">
-          R$ {calculation.calculo.replace(" = ", " = R$ ")}
+          {hasConfirmedInputs
+            ? `R$ ${calculation.calculo.replace(" = ", " = R$ ")}`
+            : "Cálculo disponível após confirmar o valor e a data de distribuição."}
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp, Calculator } from "lucide-react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -12,15 +12,13 @@ import {
 } from "recharts";
 import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
-import { valuationScenarios, waterfallData } from "@/data/mockValuation";
+import { useCaseSelection } from "@/contexts/useCaseSelection";
+import { getValuationData, type WaterfallItem } from "@/data/mockValuation";
 import { formatCurrency } from "@/lib/formatters";
-import { caseDetail } from "@/data/mockCaseDetail";
 
 type WaterfallTooltipProps = {
   active?: boolean;
-  payload?: Array<{
-    payload: (typeof waterfallData)[number];
-  }>;
+  payload?: Array<{ payload: WaterfallItem }>;
 };
 
 function WaterfallTooltip({ active, payload }: WaterfallTooltipProps) {
@@ -30,7 +28,7 @@ function WaterfallTooltip({ active, payload }: WaterfallTooltipProps) {
   return (
     <div className="rounded-lg border border-border bg-popover px-3 py-2 text-xs shadow-xl">
       <div className="font-medium text-foreground">{item.name}</div>
-      <div className="mt-1 tabular-nums text-muted-foreground">
+      <div className="mt-1 tabular-nums text-foreground">
         {item.displayValue > 0 && item.base > 0 ? "+" : ""}
         {formatCurrency(item.displayValue)}
       </div>
@@ -43,14 +41,46 @@ export const Route = createFileRoute("/valuation")({
 });
 
 function Valuation() {
-  const base = valuationScenarios.find((s) => s.id === "base")!;
+  const { selectedDeal, selectedCase } = useCaseSelection();
+  const data = getValuationData(selectedDeal.id);
+
+  if (!data) {
+    return (
+      <AppShell context={`Valuation · ${selectedDeal.name}`}>
+        <SectionHeader
+          eyebrow={`Valuation probatório · ${selectedDeal.name}`}
+          title="O risco probatório muda o preço"
+          subtitle="Troque o processo no seletor acima. Os números só são exibidos quando existe base documental suficiente para o cálculo."
+        />
+        <div className="rounded-xl border border-dashed border-border bg-card p-8 text-center">
+          <div className="mx-auto grid size-12 place-items-center rounded-full border border-border bg-surface text-muted-foreground">
+            <Calculator className="size-5" />
+          </div>
+          <h2 className="mt-4 text-lg font-semibold">Valuation ainda não calculado</h2>
+          <p className="mx-auto mt-2 max-w-2xl text-sm text-muted-foreground">
+            {selectedCase.demoNotice} Confirme o valor da causa e a data de distribuição para
+            liberar os cenários financeiros deste processo.
+          </p>
+          <Link
+            to="/deals/$id"
+            params={{ id: selectedDeal.id }}
+            className="mt-5 inline-flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2 text-sm hover:border-primary/40 hover:text-primary"
+          >
+            Voltar ao caso <ArrowRight className="size-4" />
+          </Link>
+        </div>
+      </AppShell>
+    );
+  }
+
+  const base = data.scenarios.find((scenario) => scenario.id === "base")!;
 
   return (
-    <AppShell context="Valuation Probatório">
+    <AppShell context={`Valuation · ${selectedDeal.name}`}>
       <SectionHeader
-        eyebrow={`Valuation probatório · ${caseDetail.name}`}
+        eyebrow={`Valuation probatório · ${selectedDeal.name}`}
         title="O risco probatório muda o preço"
-        subtitle="A EvidIA traduz fragilidades técnicas em ajuste financeiro. Cenários conservador, base e agressivo orientam preço de entrada."
+        subtitle="A EvidIA traduz fragilidades técnicas em ajuste financeiro. Troque o processo acima para comparar a análise de cada ativo."
         actions={
           <Link
             to="/relatorios/investment-memo"
@@ -61,7 +91,7 @@ function Valuation() {
         }
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
             Preço de referência atualizado
@@ -73,12 +103,12 @@ function Valuation() {
         </div>
         <div className="rounded-xl border border-primary/30 bg-gradient-to-br from-primary/10 to-violet/5 p-6">
           <div className="text-[11px] uppercase tracking-wider text-primary">
-            Preço recomendado · base 1:10
+            Deal Value · Base 1:10
           </div>
           <div className="mt-2 text-2xl font-semibold tabular-nums text-primary">
             {formatCurrency(base.recommendedPrice, { compact: true })}
           </div>
-          <div className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
+          <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
             <TrendingUp className="size-3.5 text-risk-low" /> Múltiplo potencial{" "}
             {base.expectedROI.toFixed(1)}×
           </div>
@@ -94,15 +124,15 @@ function Valuation() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
-        <div className="lg:col-span-2 rounded-xl border border-border bg-card p-6">
+      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="rounded-xl border border-border bg-card p-6 lg:col-span-2">
           <div className="text-sm font-semibold">Waterfall — composição do preço (R$ milhões)</div>
           <div className="mt-1 text-xs text-muted-foreground">
             Do Valor Econômico Potencial ao preço-base de aquisição na relação 1:10
           </div>
-          <div className="h-80 mt-4">
+          <div className="mt-4 h-80">
             <ResponsiveContainer>
-              <BarChart data={waterfallData}>
+              <BarChart data={data.waterfall}>
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" stroke="var(--muted-foreground)" fontSize={11} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} />
@@ -112,8 +142,8 @@ function Valuation() {
                 />
                 <Bar dataKey="base" stackId="waterfall" fill="transparent" />
                 <Bar dataKey="value" stackId="waterfall" radius={[6, 6, 6, 6]}>
-                  {waterfallData.map((d, i) => (
-                    <Cell key={i} fill={d.fill} />
+                  {data.waterfall.map((item) => (
+                    <Cell key={item.name} fill={item.fill} />
                   ))}
                 </Bar>
               </BarChart>
@@ -125,15 +155,26 @@ function Valuation() {
           <div className="text-sm font-semibold">Drivers de ajuste</div>
           <ul className="mt-4 space-y-3 text-sm">
             {[
-              { k: "Risco probatório", v: base.evidenceRiskAdjustment, c: "risk-high" },
-              { k: "Nulidades exploráveis", v: base.nullityAdjustment, c: "risk-critical" },
-              { k: "Alavanca de acordo", v: base.settlementLeverageAdjustment, c: "risk-low" },
-            ].map((d) => (
-              <li key={d.k} className="flex items-center justify-between">
-                <span>{d.k}</span>
-                <span className="tabular-nums font-medium" style={{ color: `var(--${d.c})` }}>
-                  {d.v >= 0 ? "+" : ""}
-                  {formatCurrency(d.v, { compact: true })}
+              { label: "Risco probatório", value: base.evidenceRiskAdjustment, color: "risk-high" },
+              {
+                label: "Nulidades exploráveis",
+                value: base.nullityAdjustment,
+                color: "risk-critical",
+              },
+              {
+                label: "Alavanca de acordo",
+                value: base.settlementLeverageAdjustment,
+                color: "risk-low",
+              },
+            ].map((driver) => (
+              <li key={driver.label} className="flex items-center justify-between">
+                <span>{driver.label}</span>
+                <span
+                  className="tabular-nums font-medium"
+                  style={{ color: `var(--${driver.color})` }}
+                >
+                  {driver.value > 0 ? "+" : ""}
+                  {formatCurrency(driver.value, { compact: true })}
                 </span>
               </li>
             ))}
@@ -141,58 +182,70 @@ function Valuation() {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        {valuationScenarios.map((s) => (
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+        {data.scenarios.map((scenario) => (
           <div
-            key={s.id}
-            className={`rounded-xl border bg-card p-6 ${s.name === "Base" ? "border-primary/40" : "border-border"}`}
+            key={scenario.id}
+            className={`rounded-xl border bg-card p-6 ${scenario.name === "Base" ? "border-primary/40" : "border-border"}`}
           >
             <div className="flex items-center justify-between">
-              <div className="text-sm font-semibold">{s.name}</div>
+              <div className="text-sm font-semibold">{scenario.name}</div>
               <div className="text-[11px] text-muted-foreground">
-                ROI {s.expectedROI.toFixed(1)}×
+                ROI {scenario.expectedROI.toFixed(1)}×
               </div>
             </div>
             <div className="mt-4 text-3xl font-semibold tabular-nums">
-              {formatCurrency(s.recommendedPrice, { compact: true })}
+              {formatCurrency(scenario.recommendedPrice, { compact: true })}
             </div>
-            <div className="text-xs text-muted-foreground mt-1">
+            <div className="mt-1 text-xs text-muted-foreground">
               preço de entrada recomendado · base 1:10
             </div>
             <div className="mt-4 space-y-1.5 text-xs text-muted-foreground">
-              <div className="flex justify-between">
-                <span>Inicial</span>
-                <span className="tabular-nums">
-                  {formatCurrency(s.initialPurchasePrice, { compact: true })}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Ajuste probatório</span>
-                <span className="tabular-nums text-risk-high">
-                  {formatCurrency(s.evidenceRiskAdjustment, { compact: true })}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Ajuste nulidades</span>
-                <span className="tabular-nums text-risk-critical">
-                  {formatCurrency(s.nullityAdjustment, { compact: true })}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Alavanca acordo</span>
-                <span className="tabular-nums text-risk-low">
-                  +{formatCurrency(s.settlementLeverageAdjustment, { compact: true })}
-                </span>
-              </div>
+              <ScenarioLine label="Inicial" value={scenario.initialPurchasePrice} />
+              <ScenarioLine
+                label="Ajuste probatório"
+                value={scenario.evidenceRiskAdjustment}
+                color="text-risk-high"
+              />
+              <ScenarioLine
+                label="Ajuste nulidades"
+                value={scenario.nullityAdjustment}
+                color="text-risk-critical"
+              />
+              <ScenarioLine
+                label="Alavanca acordo"
+                value={scenario.settlementLeverageAdjustment}
+                color="text-risk-low"
+                positive
+              />
             </div>
           </div>
         ))}
       </div>
 
-      <p className="mt-6 text-[11px] text-muted-foreground text-center">
-        * Cenários ilustrativos. Não constituem promessa de retorno nem recomendação de
-        investimento.
-      </p>
+      <p className="mt-6 text-center text-[11px] text-muted-foreground">* {data.disclaimer}</p>
     </AppShell>
+  );
+}
+
+function ScenarioLine({
+  label,
+  value,
+  color = "",
+  positive = false,
+}: {
+  label: string;
+  value: number;
+  color?: string;
+  positive?: boolean;
+}) {
+  return (
+    <div className="flex justify-between">
+      <span>{label}</span>
+      <span className={`tabular-nums ${color}`}>
+        {positive && value > 0 ? "+" : ""}
+        {formatCurrency(value, { compact: true })}
+      </span>
+    </div>
   );
 }

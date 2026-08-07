@@ -1,4 +1,5 @@
-import { febSapCase } from "@/data/v2";
+import { featuredDealId } from "@/data/mockDeals";
+import { realCasesV2 } from "@/data/v2";
 
 export type RedTeamAttack = {
   id: string;
@@ -10,27 +11,49 @@ export type RedTeamAttack = {
   attackingSide: "claimant" | "defendant";
 };
 
-const sevMap = {
+export type RedTeamData = {
+  attacks: RedTeamAttack[];
+  hiddenVulnerabilities: string[];
+  investmentThesisImpact: string;
+  available: boolean;
+};
+
+const severityMap = {
   low: "moderado",
   moderate: "moderado",
   high: "alto",
   critical: "critico",
 } as const;
 
-export const redTeamAttacks: RedTeamAttack[] = febSapCase.redTeam.map((r) => ({
-  id: r.id,
-  title: r.title,
-  vector: r.thesis,
-  successProbability: Math.round(r.successProbability * 100),
-  severity: sevMap[r.severity],
-  mitigation: r.mitigation,
-  attackingSide: r.attackingSide,
-}));
+export function getRedTeamData(caseId: string): RedTeamData {
+  const source = realCasesV2.find((caseItem) => caseItem.id === caseId) ?? realCasesV2[0];
+  const attacks = source.redTeam.map((attack) => ({
+    id: attack.id,
+    title: attack.title,
+    vector: attack.thesis,
+    successProbability: Math.round(attack.successProbability * 100),
+    severity: severityMap[attack.severity],
+    mitigation: attack.mitigation,
+    attackingSide: attack.attackingSide,
+  }));
+  const hiddenVulnerabilities = source.findings
+    .filter((finding) => finding.riskLevel === "critical" || finding.riskLevel === "high")
+    .slice(0, 3)
+    .map((finding) => finding.inference);
 
-export const hiddenVulnerabilities = febSapCase.findings
-  .filter((f) => f.riskLevel === "critical" || f.riskLevel === "high")
-  .slice(0, 3)
-  .map((f) => f.inference);
+  return {
+    attacks,
+    hiddenVulnerabilities,
+    available: attacks.length > 0,
+    investmentThesisImpact:
+      attacks.length > 0
+        ? `${source.centralDemoThesis} Os ataques mapeados devem ser incorporados à decisão de preço e à revisão humana.`
+        : `O Red Team ainda não foi consolidado para este processo. ${source.demoNotice}`,
+  };
+}
 
-export const investmentThesisImpact =
-  "Os ataques mapeados destacam a controvérsia sobre cumprimento do encargo pericial e limites da atuação técnica. Com complementação probatória e revisão humana das conclusões, o caso permanece dentro da faixa de reprecificação recomendada.";
+const defaultData = getRedTeamData(featuredDealId);
+
+export const redTeamAttacks = defaultData.attacks;
+export const hiddenVulnerabilities = defaultData.hiddenVulnerabilities;
+export const investmentThesisImpact = defaultData.investmentThesisImpact;

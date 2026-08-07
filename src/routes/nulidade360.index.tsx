@@ -4,20 +4,52 @@ import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { MetricCard } from "@/components/shared/MetricCard";
 import { RiskBadge } from "@/components/shared/RiskBadge";
-import { blocks } from "@/data/mockFindings";
-import { caseDetail } from "@/data/mockCaseDetail";
+import { useCaseSelection } from "@/contexts/useCaseSelection";
+import { getCaseDetail } from "@/data/mockCaseDetail";
+import { mockDeals } from "@/data/mockDeals";
 
 export const Route = createFileRoute("/nulidade360/")({
   component: Nulidade360,
 });
 
+const riskLevelMap = {
+  low: "baixo",
+  moderate: "moderado",
+  high: "alto",
+  critical: "critico",
+} as const;
+
 function Nulidade360() {
+  const { selectedCaseId, selectedDeal, selectedCase, selectCase } = useCaseSelection();
+  const selectedDetail = getCaseDetail(selectedCaseId)!;
+  const selectedBlocks = selectedCase.auditBlocks.map((block, index) => {
+    const findings = selectedCase.findings.filter((finding) =>
+      block.findingIds.includes(finding.id),
+    );
+    const confidence =
+      findings.length > 0
+        ? Math.round(
+            (findings.reduce((sum, finding) => sum + finding.confidence, 0) / findings.length) *
+              100,
+          )
+        : 0;
+
+    return {
+      ...block,
+      code: `B${String(index + 1).padStart(2, "0")}`,
+      risk: riskLevelMap[block.riskLevel],
+      riskScore: Math.round(100 - block.integrityScore),
+      confidence,
+      findingsCount: findings.length,
+    };
+  });
+
   return (
-    <AppShell context="Nulidade360">
+    <AppShell context={`Nulidade360 · ${selectedDeal.name}`}>
       <SectionHeader
-        eyebrow="Módulo EvidIA · Auditoria pericial"
+        eyebrow={`Módulo EvidIA · ${selectedDeal.name}`}
         title="Nulidade360"
-        subtitle="Audite laudos, perícias e provas técnicas por blocos. Detecte nulidades, fragilidades probatórias e riscos antes do aporte."
+        subtitle="Audite laudos, perícias e provas técnicas por blocos. O processo selecionado acima permanece ativo nas próximas etapas."
         actions={
           <Link
             to="/nulidade360/nova-analise"
@@ -28,119 +60,144 @@ function Nulidade360() {
         }
       />
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard label="Laudos analisados" value={73} icon={FileSearch} accent="cyan" />
-        <MetricCard label="Análises em andamento" value={4} icon={Activity} accent="violet" />
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <MetricCard
-          label="Nulidades críticas"
-          value={11}
+          label="Documentos analisados"
+          value={selectedDetail.documentsAnalyzed}
+          icon={FileSearch}
+          accent="cyan"
+        />
+        <MetricCard
+          label="Blocos auditados"
+          value={selectedBlocks.length}
+          icon={Activity}
+          accent="violet"
+        />
+        <MetricCard
+          label="Achados mapeados"
+          value={selectedDeal.sourceFindingCount}
           icon={AlertOctagon}
           accent="risk-critical"
         />
         <MetricCard
-          label="Score médio"
-          value="58/100"
+          label="Score de risco"
+          value={`${selectedDeal.evidiaScore}/100`}
           icon={ShieldAlert}
           accent="risk-high"
-          hint="zona Alto"
+          hint={selectedDeal.evidenceRisk}
         />
       </div>
 
       <div className="mt-6 rounded-xl border border-border bg-card p-6">
         <div className="text-sm font-semibold">Mapa de risco por bloco</div>
-        <div className="mt-1 text-xs text-muted-foreground">Caso destacado: {caseDetail.name}</div>
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
-          {blocks.map((b) => (
-            <Link
-              key={b.id}
-              to="/nulidade360/blocos"
-              className="block rounded-lg border border-border bg-surface p-4 hover:border-primary/40 transition"
-            >
-              <div className="flex items-center justify-between">
-                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
-                  {b.code}
-                </div>
-                <RiskBadge level={b.risk} />
-              </div>
-              <div className="mt-2 font-medium">{b.name}</div>
-              <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-                <span>
-                  Score <b className="text-foreground">{b.score}</b>
-                </span>
-                <span>Conf. {b.confidence}%</span>
-                <span>{b.findingsCount} achados</span>
-              </div>
-              <div className="mt-3 h-1 rounded-full bg-border overflow-hidden">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${b.score}%`,
-                    background: `var(--risk-${b.risk === "critico" ? "critical" : b.risk === "alto" ? "high" : b.risk === "moderado" ? "moderate" : "low"})`,
-                  }}
-                />
-              </div>
-            </Link>
-          ))}
+        <div className="mt-1 text-xs text-muted-foreground">
+          Processo selecionado: {selectedDeal.name}
         </div>
+        {selectedBlocks.length > 0 ? (
+          <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
+            {selectedBlocks.map((block) => (
+              <Link
+                key={block.id}
+                to="/nulidade360/blocos"
+                className="block rounded-lg border border-border bg-surface p-4 transition hover:border-primary/40"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                    {block.code}
+                  </div>
+                  <RiskBadge level={block.risk} />
+                </div>
+                <div className="mt-2 font-medium">{block.name}</div>
+                <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
+                  <span>
+                    Risco <b className="text-foreground">{block.riskScore}</b>
+                  </span>
+                  <span>Conf. {block.confidence}%</span>
+                  <span>{block.findingsCount} achados</span>
+                </div>
+                <div className="mt-3 h-1 overflow-hidden rounded-full bg-border">
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${block.riskScore}%`,
+                      background: `var(--risk-${block.risk === "critico" ? "critical" : block.risk === "alto" ? "high" : block.risk === "moderado" ? "moderate" : "low"})`,
+                    }}
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-5 rounded-lg border border-dashed border-border bg-surface/40 p-5 text-sm text-muted-foreground">
+            Os blocos detalhados ainda não foram vinculados a este processo. O score consolidado foi
+            preservado, mas a abertura por bloco depende da documentação de origem.
+          </div>
+        )}
       </div>
 
-      <div className="mt-6 rounded-xl border border-border bg-card overflow-hidden">
-        <div className="px-6 py-4 border-b border-border">
-          <div className="text-sm font-semibold">Análises recentes</div>
+      <div className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
+        <div className="border-b border-border px-6 py-4">
+          <div className="text-sm font-semibold">Processos disponíveis</div>
+          <div className="mt-1 text-xs text-muted-foreground">
+            Selecione um processo para abrir o detalhe ou use o seletor acima para manter a etapa
+            atual.
+          </div>
         </div>
-        <table className="w-full text-sm">
-          <thead className="bg-surface/40 border-b border-border">
-            <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
-              <th className="px-6 py-3 font-medium">Caso</th>
-              <th className="px-6 py-3 font-medium">Laudo</th>
-              <th className="px-6 py-3 font-medium">Score</th>
-              <th className="px-6 py-3 font-medium">Risco</th>
-              <th className="px-6 py-3 font-medium">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              {
-                c: caseDetail.name,
-                l: "Laudo pericial principal",
-                s: caseDetail.evidenceScore,
-                r: "alto" as const,
-                st: "Concluído",
-              },
-              {
-                c: "Banco Orion × Sigma",
-                l: "Laudo contábil v1.4",
-                s: 64,
-                r: "alto" as const,
-                st: "Em revisão",
-              },
-              {
-                c: "Construtora Aurora × Norte",
-                l: "Laudo de engenharia v2.0",
-                s: 41,
-                r: "critico" as const,
-                st: "Concluído",
-              },
-              {
-                c: "Vega × Helios",
-                l: "Laudo geológico v1.1",
-                s: 78,
-                r: "moderado" as const,
-                st: "Em fila",
-              },
-            ].map((row, i) => (
-              <tr key={i} className="border-b border-border/40 hover:bg-secondary/30">
-                <td className="px-6 py-3">{row.c}</td>
-                <td className="px-6 py-3 text-muted-foreground">{row.l}</td>
-                <td className="px-6 py-3 tabular-nums">{row.s}</td>
-                <td className="px-6 py-3">
-                  <RiskBadge level={row.r} />
-                </td>
-                <td className="px-6 py-3 text-muted-foreground">{row.st}</td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-border bg-surface/40">
+              <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
+                <th className="px-6 py-3 font-medium">Caso</th>
+                <th className="px-6 py-3 font-medium">Documentos</th>
+                <th className="px-6 py-3 font-medium">Score</th>
+                <th className="px-6 py-3 font-medium">Risco</th>
+                <th className="px-6 py-3 font-medium">Seleção</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {mockDeals.map((deal) => {
+                const detail = getCaseDetail(deal.id)!;
+                const selected = deal.id === selectedCaseId;
+                return (
+                  <tr
+                    key={deal.id}
+                    className={`border-b border-border/40 ${selected ? "bg-primary/5" : "hover:bg-secondary/30"}`}
+                  >
+                    <td className="px-6 py-3">
+                      <Link
+                        to="/deals/$id"
+                        params={{ id: deal.id }}
+                        onClick={() => selectCase(deal.id)}
+                        className="font-medium hover:text-primary"
+                      >
+                        #{deal.rankingPosition} · {deal.name}
+                      </Link>
+                    </td>
+                    <td className="px-6 py-3 text-muted-foreground">{detail.documentsAnalyzed}</td>
+                    <td className="px-6 py-3 tabular-nums">{deal.evidiaScore}</td>
+                    <td className="px-6 py-3">
+                      <RiskBadge level={deal.evidenceRisk} />
+                    </td>
+                    <td className="px-6 py-3">
+                      <button
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() => selectCase(deal.id)}
+                        className={`rounded-md border px-3 py-1.5 text-xs transition ${
+                          selected
+                            ? "border-primary/40 bg-primary/10 text-primary"
+                            : "border-border text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                        }`}
+                      >
+                        {selected ? "Selecionado" : "Usar neste módulo"}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </AppShell>
   );
