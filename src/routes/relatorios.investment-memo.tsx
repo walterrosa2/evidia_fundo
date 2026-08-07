@@ -4,10 +4,13 @@ import { Download, FileDown, Send, Save, Check } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { RiskBadge } from "@/components/shared/RiskBadge";
-import { caseDetail } from "@/data/mockCaseDetail";
-import { mockFindings } from "@/data/mockFindings";
-import { valuationScenarios } from "@/data/mockValuation";
+import { useCaseSelection } from "@/contexts/useCaseSelection";
+import { getCaseDetail } from "@/data/mockCaseDetail";
+import { getInvestmentMemoMetadata } from "@/data/mockInvestmentMemos";
+import { getRedTeamData } from "@/data/mockRedTeam";
+import { getValuationData } from "@/data/mockValuation";
 import { formatCurrency } from "@/lib/formatters";
+import { recommendationClasses, recommendationLabel, type RiskLevel } from "@/lib/risk";
 
 export const Route = createFileRoute("/relatorios/investment-memo")({
   component: Memo,
@@ -15,7 +18,25 @@ export const Route = createFileRoute("/relatorios/investment-memo")({
 
 function Memo() {
   const [toast, setToast] = useState<string | null>(null);
-  const base = valuationScenarios.find((s) => s.id === "base")!;
+  const { selectedCase, selectedDeal } = useCaseSelection();
+  const caseDetail = getCaseDetail(selectedDeal.id)!;
+  const metadata = getInvestmentMemoMetadata(selectedDeal.id);
+  const valuation = getValuationData(selectedDeal.id);
+  const base = valuation?.scenarios.find((scenario) => scenario.id === "base") ?? null;
+  const redTeam = getRedTeamData(selectedDeal.id);
+  const reportFindings = selectedCase.findings.filter((finding) => finding.includedInReport);
+  const averageAttackProbability = redTeam.attacks.length
+    ? Math.round(
+        redTeam.attacks.reduce((total, attack) => total + attack.successProbability, 0) /
+          redTeam.attacks.length,
+      )
+    : null;
+  const recommendedActions = reportFindings
+    .map((finding) => finding.recommendedAction)
+    .filter(Boolean)
+    .slice(0, 4);
+  const nextSteps = recommendedActions.length ? recommendedActions : pendingDataSteps;
+  const recommendation = recommendationLabel[selectedDeal.recommendation];
 
   const fakeAction = (label: string) => {
     setToast(label);
@@ -25,31 +46,35 @@ function Memo() {
   return (
     <AppShell context="Relatórios · Investment Memo">
       <SectionHeader
-        eyebrow={`v1.3 · gerado 28/07/2026 · ${caseDetail.caseNumber}`}
+        eyebrow={`${metadata.version} · gerado ${metadata.date} · ${caseDetail.caseNumber}`}
         title="Investment Memo"
         subtitle={caseDetail.name}
         actions={
           <div className="flex flex-wrap gap-2">
             <button
+              type="button"
               onClick={() => fakeAction("Gerando Word…")}
               className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"
             >
               <FileDown className="size-4" /> Gerar Word
             </button>
             <button
+              type="button"
               onClick={() => fakeAction("Exportando PDF executivo…")}
               className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"
             >
               <Download className="size-4" /> PDF Executivo
             </button>
             <button
+              type="button"
               onClick={() => fakeAction("Memo enviado ao comitê")}
               className="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
             >
               <Send className="size-4" /> Enviar ao comitê
             </button>
             <button
-              onClick={() => fakeAction("Versão v1.4 salva")}
+              type="button"
+              onClick={() => fakeAction(`${metadata.version} salva`)}
               className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm hover:bg-secondary"
             >
               <Save className="size-4" /> Salvar versão
@@ -58,13 +83,13 @@ function Memo() {
         }
       />
 
-      {toast && (
+      {toast ? (
         <div className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-md border border-primary/30 bg-card px-4 py-2.5 text-sm shadow-lg">
           <Check className="size-4 text-risk-low" /> {toast}
         </div>
-      )}
+      ) : null}
 
-      <article className="rounded-xl border border-border bg-card p-8 lg:p-10 max-w-4xl mx-auto">
+      <article className="mx-auto max-w-4xl rounded-xl border border-border bg-card p-6 sm:p-8 lg:p-10">
         <div className="border-b border-border pb-6">
           <div className="text-[11px] uppercase tracking-[0.2em] text-primary">
             EvidIA · Investment Memo
@@ -80,83 +105,136 @@ function Memo() {
         </Section>
 
         <Section title="2. Tese de investimento">
-          <p>
-            {caseDetail.thesis} O motor temporal estima Valor Econômico Potencial de{" "}
-            {formatCurrency(base.economicPotentialValue, { compact: true })}, com preço de entrada
-            ajustado aos riscos jurídicos e probatórios identificados.
-          </p>
+          {base ? (
+            <p>
+              {caseDetail.thesis} O motor temporal estima Valor Econômico Potencial de{" "}
+              {formatCurrency(base.economicPotentialValue, { compact: true })}, com preço de entrada
+              recomendado de {formatCurrency(base.recommendedPrice, { compact: true })}, ajustado
+              aos riscos jurídicos e probatórios identificados.
+            </p>
+          ) : (
+            <p>
+              {caseDetail.thesis} A tese segue em revisão humana; valor da causa, data de
+              distribuição e mapa de evidências precisam ser confirmados antes do cálculo de preço.
+            </p>
+          )}
         </Section>
 
         <Section title="3. Riscos identificados">
-          <ul className="space-y-2">
-            {mockFindings
-              .filter((f) => f.includedInReport)
-              .map((f) => (
-                <li key={f.id} className="flex items-start gap-3">
-                  <RiskBadge level={f.riskLevel} />
+          {reportFindings.length ? (
+            <ul className="space-y-3">
+              {reportFindings.map((finding) => (
+                <li key={finding.id} className="flex items-start gap-3">
+                  <RiskBadge
+                    level={sourceRiskToRiskLevel[finding.riskLevel]}
+                    className="mt-0.5 shrink-0"
+                  />
                   <span>
-                    <b>{f.question}</b> — {f.inference}
+                    <b>{finding.title}</b> — {finding.inference}
                   </span>
                 </li>
               ))}
-          </ul>
+            </ul>
+          ) : (
+            <p className="rounded-md border border-dashed border-border bg-surface p-4 text-muted-foreground">
+              Os achados detalhados ainda não estão vinculados ao relatório deste processo. A
+              revisão humana e a ingestão dos documentos devem ser concluídas antes da emissão da
+              versão final.
+            </p>
+          )}
         </Section>
 
         <Section title="4. Red Team — síntese">
-          <p>
-            Probabilidade média de êxito dos ataques mapeados: 60%. Com adoção das mitigações
-            sugeridas (contraprova documental, complementação pericial preventiva e parecer técnico
-            de equivalência metodológica), a exposição cai para zona aceitável.
-          </p>
+          {redTeam.available && averageAttackProbability !== null ? (
+            <div className="space-y-2">
+              <p>
+                Probabilidade média simulada de êxito dos ataques mapeados:{" "}
+                <b>{averageAttackProbability}%</b>. O vetor prioritário é{" "}
+                <b>{redTeam.attacks[0]?.title}</b>.
+              </p>
+              <p className="text-muted-foreground">
+                Mitigação recomendada: {redTeam.attacks[0]?.mitigation}
+              </p>
+            </div>
+          ) : (
+            <p>{redTeam.investmentThesisImpact}</p>
+          )}
         </Section>
 
         <Section title="5. Impacto financeiro">
-          <div className="grid grid-cols-3 gap-3 not-prose">
+          <div className="not-prose grid grid-cols-1 gap-3 sm:grid-cols-3">
             <KV
               k="Valor econômico potencial"
-              v={formatCurrency(base.economicPotentialValue, { compact: true })}
+              v={
+                base
+                  ? formatCurrency(base.economicPotentialValue, { compact: true })
+                  : "A confirmar"
+              }
             />
             <KV
               k="Preço de referência"
-              v={formatCurrency(base.initialPurchasePrice, { compact: true })}
+              v={
+                base ? formatCurrency(base.initialPurchasePrice, { compact: true }) : "A confirmar"
+              }
             />
             <KV
               k="Preço recomendado"
-              v={formatCurrency(base.recommendedPrice, { compact: true })}
-              highlight
+              v={base ? formatCurrency(base.recommendedPrice, { compact: true }) : "A confirmar"}
+              highlight={Boolean(base)}
             />
           </div>
+          {valuation?.disclaimer ? (
+            <p className="mt-3 text-xs text-muted-foreground">{valuation.disclaimer}</p>
+          ) : null}
         </Section>
 
         <Section title="6. Recomendação">
           <p className="text-foreground">
-            <b className="text-risk-moderate">Reprecificar</b> — estabelecer ticket-base de{" "}
-            {formatCurrency(base.recommendedPrice, { compact: true })}, correspondente à relação de
-            compra 1:10 sobre o Valor Econômico Potencial, e condicionar o aporte à complementação
-            pericial.
+            <span
+              className={`mr-2 inline-flex rounded-md border px-2 py-0.5 text-xs font-semibold ${recommendationClasses[selectedDeal.recommendation]}`}
+            >
+              {recommendation}
+            </span>
+            {base
+              ? `Estabelecer ticket-base de ${formatCurrency(base.recommendedPrice, { compact: true })}, correspondente à relação de compra 1:10 sobre o Valor Econômico Potencial, e condicionar o aporte às mitigações indicadas.`
+              : "Não emitir recomendação financeira automática até confirmar os dados mínimos e concluir a revisão humana."}
           </p>
         </Section>
 
         <Section title="7. Próximos passos">
-          <ol className="list-decimal list-inside space-y-1">
-            <li>Solicitar juntada dos anexos B-3, B-4 e B-7.</li>
-            <li>Encomendar parecer técnico de equivalência metodológica.</li>
-            <li>Reapresentar proposta ao cedente com preço ajustado.</li>
-            <li>Levar ao comitê em 48h.</li>
+          <ol className="list-inside list-decimal space-y-2">
+            {nextSteps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
           </ol>
         </Section>
 
         <Section title="8. Registro de versão">
-          <ul className="text-sm text-muted-foreground space-y-1">
-            <li>v1.3 — 28/07/2026 · M. Almeida · revisão final</li>
-            <li>v1.2 — 19/05/2026 · C. Bernardes · inclusão de Red Team</li>
-            <li>v1.1 — 18/05/2026 · sistema · geração inicial pela EvidIA</li>
+          <ul className="space-y-1 text-sm text-muted-foreground">
+            <li>
+              {metadata.version} — {metadata.date} · {metadata.author} · {metadata.status}
+            </li>
+            <li>Dados vinculados ao processo {caseDetail.caseNumber}.</li>
           </ul>
         </Section>
       </article>
     </AppShell>
   );
 }
+
+const sourceRiskToRiskLevel = {
+  low: "baixo",
+  moderate: "moderado",
+  high: "alto",
+  critical: "critico",
+} satisfies Record<string, RiskLevel>;
+
+const pendingDataSteps = [
+  "Confirmar o valor da causa e a data de distribuição.",
+  "Vincular o mapa de evidências e os documentos do processo.",
+  "Revisar os achados jurídicos e probatórios com um responsável humano.",
+  "Recalcular o valuation antes da apresentação ao comitê.",
+];
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (

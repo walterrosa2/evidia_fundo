@@ -1,0 +1,121 @@
+{
+  "validation_version": "1.0.0",
+  "generated_on": "2026-08-06",
+  "overall_status": "partial_pass_with_schema_blocker",
+  "artifacts": {
+    "seed_payload.json": "not_generated_blocked_schema_gaps",
+    "demo_view_projection.json": "generated",
+    "data_quality_report.md": "generated",
+    "BLOCKED_SCHEMA_GAPS.md": "generated"
+  },
+  "checks": [
+    {
+      "name": "generated_json_parse",
+      "status": "pass",
+      "scope": ["demo_view_projection.json", "validation_report.json"]
+    },
+    {
+      "name": "real_pydantic_finding_validation",
+      "status": "blocked",
+      "reason": "Nenhum schema Pydantic real foi encontrado no repositório."
+    },
+    {
+      "name": "persistent_enum_validation",
+      "status": "blocked",
+      "reason": "Enums persistentes do backend não foram encontrados."
+    },
+    {
+      "name": "projection_risk_enum_validation",
+      "status": "pass",
+      "allowed_values": ["baixo", "moderado", "alto", "critico"]
+    },
+    {
+      "name": "foreign_key_integrity",
+      "status": "not_run",
+      "reason": "Nenhum payload persistível foi gerado."
+    },
+    {
+      "name": "mapped_evidence_ids_integrity",
+      "status": "pass",
+      "details": "Nenhum ID de evidência foi inventado. Os três casos usam listas vazias; FEB registra somente a disponibilidade de 743 linhas de fonte."
+    },
+    {
+      "name": "risk_score_numeric_bounds",
+      "status": "pass",
+      "bounds": [0, 100],
+      "checked_values": [46.73, 51.88, 80.8]
+    },
+    {
+      "name": "deal_flow_order",
+      "status": "pass",
+      "expected": ["ELETROMAR × TOTVS", "Federação Espírita Brasileira × SAP Brasil", "Paulo Gritti × Matsuda"],
+      "actual": ["ELETROMAR × TOTVS", "Federação Espírita Brasileira × SAP Brasil", "Paulo Gritti × Matsuda"]
+    },
+    {
+      "name": "paulo_has_highest_legal_risk",
+      "status": "pass",
+      "scores": { "ELETROMAR × TOTVS": 46.73, "Federação Espírita Brasileira × SAP Brasil": 51.88, "Paulo Gritti × Matsuda": 80.8 }
+    },
+    {
+      "name": "deal_value_risk_monotonicity",
+      "status": "pass",
+      "method": "Entradas financeiras normalizadas e constantes; probability_of_success = 1 - risk_score / 100; Deal Value = risk_adjusted_recovery × 0.10.",
+      "sequence": [
+        { "risk_score": 46.73, "suggested_deal_value": 47943.0 },
+        { "risk_score": 51.88, "suggested_deal_value": 43308.0 },
+        { "risk_score": 80.8, "suggested_deal_value": 17280.0 }
+      ]
+    },
+    {
+      "name": "simulated_valuation_arithmetic",
+      "status": "pass",
+      "details": "Os três cenários FEB × SAP foram recalculados com tolerância de R$ 0,02 para recovery, Deal Value, capital exposto e upside."
+    },
+    {
+      "name": "absence_is_not_asserted_as_nullity",
+      "status": "pass",
+      "details": "A projeção resume riscos de origem, exige revisão humana e não cria findings afirmativos a partir de documentos ausentes."
+    },
+    {
+      "name": "source_traceability",
+      "status": "pass_with_limitations",
+      "details": "Scores e pilares apontam para relatórios; FEB aponta para planilha e referências. Não há evidence IDs persistíveis."
+    },
+    {
+      "name": "sensitive_personal_data_scan",
+      "status": "pass",
+      "patterns": ["cpf", "rg", "personal_email", "phone", "residential_address", "bank_account"]
+    },
+    {
+      "name": "seed_dry_run",
+      "status": "not_run",
+      "reason": "Seed não gerado devido a BLOCKED_SCHEMA_GAPS."
+    },
+    {
+      "name": "unknown_persistent_fields",
+      "status": "not_run",
+      "reason": "Sem schema e sem payload persistível."
+    }
+  ],
+  "counts": {
+    "projection_cases": 3,
+    "source_analyses": 3,
+    "source_findings": 59,
+    "persistent_cases_generated": 0,
+    "persistent_analyses_generated": 0,
+    "persistent_findings_generated": 0,
+    "persistent_evidence_items_generated": 0,
+    "feb_source_evidence_rows": 743,
+    "source_conflicts": 4,
+    "missing_inputs": 6,
+    "simulated_valuation_scenarios": 3,
+    "simulated_monotonicity_rows": 3
+  },
+  "blockers": [
+    "Backend SQLAlchemy/Pydantic ausente.",
+    "Estratégia de IDs e integridade referencial não confirmada.",
+    "Mapa de evidências de Paulo Gritti ausente.",
+    "Mapa de evidências de ELETROMAR ausente.",
+    "Fases atuais não confirmadas por movimentações primárias mais recentes."
+  ]
+}

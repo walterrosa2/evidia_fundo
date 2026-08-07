@@ -16,7 +16,7 @@ import { HelpHint } from "@/components/shared/HelpHint";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ScoreRing } from "@/components/shared/ScoreRing";
 import { RiskBadge } from "@/components/shared/RiskBadge";
-import { featuredDealId, mockDeals } from "@/data/mockDeals";
+import { featuredDealId, mockDeals, purchaseProfileLabel } from "@/data/mockDeals";
 import { getCaseDetail } from "@/data/mockCaseDetail";
 import { formatCurrency } from "@/lib/formatters";
 import { recommendationClasses, recommendationLabel, type Recommendation } from "@/lib/risk";
@@ -79,6 +79,9 @@ function DealDetail() {
                 text="Momento atual do processo, definido a partir do último andamento disponível nos autos."
               />
             </span>
+            <span className="inline-flex items-center rounded-md border border-cyan/30 bg-cyan/5 px-3 py-1.5 text-xs font-medium text-cyan">
+              #{deal.rankingPosition} · Perfil {purchaseProfileLabel[deal.purchaseProfile]}
+            </span>
             <span
               className={`inline-flex items-center rounded-md border px-3 py-1.5 text-xs font-medium ${recommendationClasses[deal.recommendation as Recommendation]}`}
             >
@@ -105,7 +108,7 @@ function DealDetail() {
             />
             <Stat
               help="Preço-base de aquisição, equivalente a 10% do Valor Econômico Potencial (relação 1:10)."
-              label="Ticket potencial"
+              label="Deal Value"
               value={
                 deal.potentialTicket
                   ? formatCurrency(deal.potentialTicket, { compact: true })
@@ -144,7 +147,7 @@ function DealDetail() {
             </div>
           ) : (
             <>
-              <ScoreRing value={deal.evidiaScore} size={160} />
+              <ScoreRing value={deal.evidiaScore} size={160} label="Risco jurídico" />
               <div className="mt-4 flex gap-2">
                 <RiskBadge level={deal.evidenceRisk} />
               </div>
@@ -152,10 +155,10 @@ function DealDetail() {
           )}
           <div className="mt-3 text-xs text-muted-foreground text-center">
             <span className="inline-flex items-center gap-2">
-              Score composto · jurídico · probatório · nulidade · acordo{" "}
+              Score global do relatório Nulidade360 · quanto maior, maior o risco{" "}
               <HelpHint
                 label="score EvidIA"
-                text="Síntese ponderada da robustez jurídica e probatória, dos riscos de nulidade e da alavanca de acordo."
+                text="Score jurídico-probatório preservado do relatório revisado. Ele mede risco, e não atratividade de compra."
               />
             </span>
           </div>
@@ -199,17 +202,24 @@ function DealDetail() {
           <div className="flex items-center gap-2 text-sm font-semibold">
             <CalendarClock className="size-4 text-primary" /> Timeline processual
           </div>
-          <ol className="mt-5 space-y-4 border-l border-border ml-2">
-            {c.timeline.map((t, i) => (
-              <li key={t.date} className="pl-5 relative">
-                <span
-                  className={`absolute -left-[5px] top-1.5 size-2.5 rounded-full ${i === c.timeline.length - 1 ? "bg-primary" : "bg-border"}`}
-                />
-                <div className="text-xs text-muted-foreground tabular-nums">{t.date}</div>
-                <div className="text-sm">{t.label}</div>
-              </li>
-            ))}
-          </ol>
+          {c.timeline.length > 0 ? (
+            <ol className="mt-5 ml-2 space-y-4 border-l border-border">
+              {c.timeline.map((t, i) => (
+                <li key={`${t.date}-${t.label}`} className="relative pl-5">
+                  <span
+                    className={`absolute -left-[5px] top-1.5 size-2.5 rounded-full ${i === c.timeline.length - 1 ? "bg-primary" : "bg-border"}`}
+                  />
+                  <div className="text-xs text-muted-foreground tabular-nums">{t.date}</div>
+                  <div className="text-sm">{t.label}</div>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div className="mt-5 rounded-lg border border-dashed border-border bg-surface/40 p-4 text-sm text-muted-foreground">
+              Timeline detalhada pendente. A fase “laudo juntado” veio do relatório, mas a
+              movimentação primária mais recente ainda precisa ser confirmada.
+            </div>
+          )}
         </div>
 
         <div className="rounded-xl border border-border bg-card p-6">
@@ -284,7 +294,7 @@ function Stat({
   );
 }
 
-function ScoreCard({ label, value, help }: { label: string; value: number; help: string }) {
+function ScoreCard({ label, value, help }: { label: string; value: number | null; help: string }) {
   return (
     <div className="rounded-xl border border-border bg-card p-5">
       <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-muted-foreground">
@@ -292,13 +302,13 @@ function ScoreCard({ label, value, help }: { label: string; value: number; help:
         <HelpHint label={label} text={help} />
       </div>
       <div className="mt-3 flex items-end gap-2">
-        <div className="text-3xl font-semibold tabular-nums">{value}</div>
-        <div className="text-xs text-muted-foreground mb-1">/ 100</div>
+        <div className="text-3xl font-semibold tabular-nums">{value ?? "—"}</div>
+        {value !== null && <div className="mb-1 text-xs text-muted-foreground">/ 100</div>}
       </div>
       <div className="mt-3 h-1.5 rounded-full bg-border overflow-hidden">
         <div
           className="h-full rounded-full bg-gradient-to-r from-cyan to-violet"
-          style={{ width: `${value}%` }}
+          style={{ width: `${value ?? 0}%` }}
         />
       </div>
     </div>

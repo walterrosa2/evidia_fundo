@@ -1,0 +1,323 @@
+{
+  "projection_version": "1.0.0",
+  "status": "partial_projection_schema_blocked",
+  "generated_on": "2026-08-06",
+  "disclaimer": "Projeção exclusiva para demonstração. Não constitui parecer jurídico, recomendação de investimento, preço real ou promessa de retorno.",
+  "persistence": {
+    "status": "BLOCKED_SCHEMA_GAPS",
+    "seed_payload_generated": false,
+    "reason": "O repositório contém somente frontend TypeScript e não possui os modelos SQLAlchemy, schemas Pydantic, constraints ou formato de seed exigidos para uma carga persistível segura."
+  },
+  "concepts": {
+    "legal_risk": "Quanto maior o score, pior o risco jurídico-probatório do ativo.",
+    "purchase_attractiveness": "Quanto maior a atratividade, melhor a posição relativa para compra; não é sinônimo de baixo risco.",
+    "ranking_rule": "A ordenação usa o perfil de compra da demonstração e a comparação dos scores revisados na fonte, sem inverter o significado do risco jurídico."
+  },
+  "deal_flow": [
+    {
+      "projection_key": "demo-eletromar-totvs",
+      "ranking_position": 1,
+      "display_name": "ELETROMAR × TOTVS",
+      "process_number": {
+        "value": "0020448-92.2017.8.26.0100",
+        "classification": "source_backed_fact",
+        "source": "nulidade360_caso_19_analise_27_ELETROMAR X TOTVS.docx"
+      },
+      "legal_risk": {
+        "risk_score": 46.73,
+        "overall_risk_level": "moderado",
+        "score_origin": "source_report",
+        "accepted_or_edited_findings": 20,
+        "human_review_required": true
+      },
+      "purchase": {
+        "purchase_profile": "conservador",
+        "attractiveness_band": "maior_entre_os_tres",
+        "classification": "source_backed_inference",
+        "rationale": "Possui o menor score jurídico global entre os três relatórios e não apresenta achados classificados como alto ou crítico no resumo dos findings. A ausência de mapa de evidências impede recomendação definitiva."
+      },
+      "procedural_phase": {
+        "display_label": "Laudo juntado — fase mais recente ainda não confirmada",
+        "source_value": "laudo juntado",
+        "classification": "unverified",
+        "verification_status": "requires_latest_primary_movement"
+      },
+      "analysis_summary": {
+        "overall_summary": "Caso relativamente mais conservador na amostra, com concentração de risco moderado em contraditório e ampla defesa e demais pilares resumidos como baixos.",
+        "pillar_scores": [
+          { "pillar": "P3", "score": 45.21, "level": "moderado", "finding_count": 3 },
+          { "pillar": "P4", "score": 4.32, "level": "baixo", "finding_count": 1 },
+          { "pillar": "P7", "score": 2.92, "level": "baixo", "finding_count": 1 },
+          { "pillar": "P8", "score": 2.33, "level": "baixo", "finding_count": 1 }
+        ],
+        "finding_level_distribution": { "baixo": 17, "moderado": 3, "alto": 0, "critico": 0 },
+        "evidence_strength_distribution": { "documento_essencial_ausente": 19, "forte": 1 },
+        "classification": "source_backed_fact"
+      },
+      "evidence_map": {
+        "status": "missing",
+        "mapped_evidence_ids": [],
+        "evidence_support_level": "sem_mapeamento",
+        "evidence_row_count": 0
+      },
+      "valuation": {
+        "status": "blocked_missing_claim_value_and_official_rule",
+        "claim_value_nominal": null,
+        "claim_value_updated": null,
+        "claim_value_projected": null,
+        "risk_adjusted_recovery": null,
+        "suggested_deal_value": null,
+        "upside_amount": null,
+        "upside_percent": null,
+        "is_simulated": false
+      }
+    },
+    {
+      "projection_key": "demo-feb-sap",
+      "ranking_position": 2,
+      "display_name": "Federação Espírita Brasileira × SAP Brasil",
+      "process_number": {
+        "value": "1116020-53.2020.8.26.0100",
+        "classification": "source_backed_fact",
+        "source": "evidencias_FEDxSAP.xlsx",
+        "conflicting_source_value": "1160205320208260100"
+      },
+      "legal_risk": {
+        "risk_score": 51.88,
+        "overall_risk_level": "moderado",
+        "score_origin": "source_report",
+        "accepted_or_edited_findings": 20,
+        "human_review_required": true
+      },
+      "purchase": {
+        "purchase_profile": "moderado",
+        "attractiveness_band": "intermediaria_entre_os_tres",
+        "classification": "source_backed_inference",
+        "rationale": "O score global fica entre ELETROMAR e Paulo Gritti. Há material probatório abundante no mapa, mas os findings do relatório ainda não estão ligados de forma referencial às linhas da planilha."
+      },
+      "procedural_phase": {
+        "display_label": "Fase processual em revisão — há atos recursais posteriores ao rótulo do relatório",
+        "source_value": "laudo juntado",
+        "classification": "source_backed_inference",
+        "verification_status": "conflict_requires_human_review",
+        "supporting_reference": "evidencias_FEDxSAP.xlsx, linha 713, fls. 1421"
+      },
+      "analysis_summary": {
+        "overall_summary": "Risco moderado com questões relevantes em produção da prova, cadeia decisória e normas técnicas. O achado crítico de P13 precisa ser revalidado antes de uso porque o relatório o associa a documento essencial ausente e sem mapeamento.",
+        "pillar_scores": [
+          { "pillar": "P3", "score": 28.12, "level": "baixo", "finding_count": 2 },
+          { "pillar": "P4", "score": 49.69, "level": "moderado", "finding_count": 2 },
+          { "pillar": "P5", "score": 3.09, "level": "baixo", "finding_count": 3 },
+          { "pillar": "P6", "score": 3.33, "level": "baixo", "finding_count": 1 },
+          { "pillar": "P7", "score": 41.3, "level": "moderado", "finding_count": 1 },
+          { "pillar": "P12", "score": 34.24, "level": "moderado", "finding_count": 1 },
+          { "pillar": "P13", "score": 100.0, "level": "critico", "finding_count": 1, "review_flag": "critical_without_linked_evidence" }
+        ],
+        "finding_level_distribution": { "baixo": 14, "moderado": 3, "alto": 2, "critico": 1 },
+        "evidence_strength_distribution": { "documento_essencial_ausente": 18, "fraca": 1, "moderada": 1 },
+        "classification": "source_backed_fact"
+      },
+      "evidence_map": {
+        "status": "available_but_not_linked_to_findings",
+        "mapped_evidence_ids": [],
+        "evidence_support_level": "sem_mapeamento",
+        "evidence_row_count": 743,
+        "source_file": "evidencias_FEDxSAP.xlsx",
+        "source_range": "Sheet1!A2:H744",
+        "note": "As linhas reais foram preservadas como fonte, mas nenhum ID de banco foi criado porque a estratégia de IDs e os modelos persistentes não existem no repositório."
+      },
+      "valuation": {
+        "status": "partial_source_backed_with_simulated_scenarios",
+        "claim_value_nominal": 683369.03,
+        "claim_value_nominal_classification": "source_backed_fact",
+        "claim_value_updated": null,
+        "claim_value_projected": null,
+        "risk_adjusted_recovery": null,
+        "suggested_deal_value": null,
+        "upside_amount": null,
+        "upside_percent": null,
+        "is_simulated": false,
+        "source_reference": "evidencias_FEDxSAP.xlsx, linha 732, fls. 1512"
+      }
+    },
+    {
+      "projection_key": "demo-paulo-gritti-matsuda",
+      "ranking_position": 3,
+      "display_name": "Paulo Gritti × Matsuda",
+      "process_number": {
+        "value": "0804563-35.2017.8.10.0040",
+        "classification": "source_backed_fact",
+        "source": "nulidade360_caso_18_analise_26_PAULO GRITTI x MATSUDA.docx"
+      },
+      "legal_risk": {
+        "risk_score": 80.8,
+        "overall_risk_level": "alto",
+        "score_origin": "source_report",
+        "accepted_or_edited_findings": 19,
+        "human_review_required": true
+      },
+      "purchase": {
+        "purchase_profile": "nao_recomendado_sem_documentacao_complementar",
+        "attractiveness_band": "menor_entre_os_tres",
+        "classification": "source_backed_inference",
+        "rationale": "Possui o maior score jurídico global, concentração de pilares críticos e nenhum mapa de evidências fornecido. A classificação não deve ser convertida em recomendação automática sem revisão humana."
+      },
+      "procedural_phase": {
+        "display_label": "Laudo juntado — fase mais recente ainda não confirmada",
+        "source_value": "laudo juntado",
+        "classification": "unverified",
+        "verification_status": "requires_latest_primary_movement"
+      },
+      "analysis_summary": {
+        "overall_summary": "Maior risco da amostra, com pilares críticos ligados a contraditório, produção da prova, nulidades periciais, cadeia decisória, fundamentação, tecnologia e normas técnicas. A ausência de mapa impede confirmar o suporte de cada finding.",
+        "pillar_scores": [
+          { "pillar": "P3", "score": 100.0, "level": "critico", "finding_count": 1 },
+          { "pillar": "P4", "score": 100.0, "level": "critico", "finding_count": 2 },
+          { "pillar": "P5", "score": 86.37, "level": "critico", "finding_count": 3 },
+          { "pillar": "P7", "score": 100.0, "level": "critico", "finding_count": 1 },
+          { "pillar": "P8", "score": 100.0, "level": "critico", "finding_count": 1 },
+          { "pillar": "P12", "score": 100.0, "level": "critico", "finding_count": 1 },
+          { "pillar": "P13", "score": 100.0, "level": "critico", "finding_count": 1 }
+        ],
+        "finding_level_distribution": { "baixo": 8, "moderado": 2, "alto": 9, "critico": 0 },
+        "evidence_strength_distribution": { "documento_essencial_ausente": 8, "fraca": 1, "moderada": 3, "forte": 7 },
+        "classification": "source_backed_fact"
+      },
+      "evidence_map": {
+        "status": "missing",
+        "mapped_evidence_ids": [],
+        "evidence_support_level": "sem_mapeamento",
+        "evidence_row_count": 0
+      },
+      "valuation": {
+        "status": "blocked_missing_claim_value_and_official_rule",
+        "claim_value_nominal": null,
+        "claim_value_updated": null,
+        "claim_value_projected": null,
+        "risk_adjusted_recovery": null,
+        "suggested_deal_value": null,
+        "upside_amount": null,
+        "upside_percent": null,
+        "is_simulated": false
+      }
+    }
+  ],
+  "feb_sap_demo_valuation_scenarios": {
+    "status": "simulated_business_parameters",
+    "case": "Federação Espírita Brasileira × SAP Brasil",
+    "claim_value_nominal": 683369.03,
+    "claim_value_nominal_classification": "source_backed_fact",
+    "formula": {
+      "risk_adjusted_recovery": "claim_value_nominal × probability_of_success × collectability_factor",
+      "suggested_deal_value": "risk_adjusted_recovery × entry_ratio",
+      "total_capital_exposed": "suggested_deal_value + future_funding_commitment + expected_remaining_costs",
+      "upside_amount": "risk_adjusted_recovery - total_capital_exposed",
+      "upside_percent": "upside_amount / total_capital_exposed"
+    },
+    "scenarios": [
+      {
+        "name": "conservador",
+        "probability_of_success": 0.35,
+        "collectability_factor": 0.85,
+        "entry_ratio": 0.08,
+        "future_funding_commitment": 0.0,
+        "expected_remaining_costs": 30000.0,
+        "risk_adjusted_recovery": 203302.29,
+        "suggested_deal_value": 16264.18,
+        "total_capital_exposed": 46264.18,
+        "upside_amount": 157038.1,
+        "upside_percent": 3.394378,
+        "is_simulated": true
+      },
+      {
+        "name": "base",
+        "probability_of_success": 0.4812,
+        "collectability_factor": 0.9,
+        "entry_ratio": 0.1,
+        "future_funding_commitment": 0.0,
+        "expected_remaining_costs": 20000.0,
+        "risk_adjusted_recovery": 295953.46,
+        "suggested_deal_value": 29595.35,
+        "total_capital_exposed": 49595.35,
+        "upside_amount": 246358.11,
+        "upside_percent": 4.967364,
+        "is_simulated": true
+      },
+      {
+        "name": "agressivo",
+        "probability_of_success": 0.6,
+        "collectability_factor": 0.95,
+        "entry_ratio": 0.12,
+        "future_funding_commitment": 0.0,
+        "expected_remaining_costs": 15000.0,
+        "risk_adjusted_recovery": 389520.35,
+        "suggested_deal_value": 46742.44,
+        "total_capital_exposed": 61742.44,
+        "upside_amount": 327777.91,
+        "upside_percent": 5.308794,
+        "is_simulated": true
+      }
+    ]
+  },
+  "normalized_monotonicity_demo": {
+    "purpose": "Validar apenas a direção entre risco e Deal Value, mantendo as demais entradas constantes.",
+    "is_simulated": true,
+    "shared_inputs": {
+      "claim_value_projected": 1000000.0,
+      "collectability_factor": 0.9,
+      "entry_ratio": 0.1,
+      "future_funding_commitment": 0.0,
+      "expected_remaining_costs": 20000.0,
+      "probability_rule": "1 - risk_score / 100"
+    },
+    "results": [
+      { "case": "ELETROMAR × TOTVS", "risk_score": 46.73, "probability_of_success": 0.5327, "risk_adjusted_recovery": 479430.0, "suggested_deal_value": 47943.0, "total_capital_exposed": 67943.0, "upside_amount": 411487.0, "upside_percent": 6.056356 },
+      { "case": "Federação Espírita Brasileira × SAP Brasil", "risk_score": 51.88, "probability_of_success": 0.4812, "risk_adjusted_recovery": 433080.0, "suggested_deal_value": 43308.0, "total_capital_exposed": 63308.0, "upside_amount": 369772.0, "upside_percent": 5.840842 },
+      { "case": "Paulo Gritti × Matsuda", "risk_score": 80.8, "probability_of_success": 0.192, "risk_adjusted_recovery": 172800.0, "suggested_deal_value": 17280.0, "total_capital_exposed": 37280.0, "upside_amount": 135520.0, "upside_percent": 3.635193 }
+    ],
+    "result": "pass"
+  },
+  "missing_inputs": [
+    "evidencias_paulo_gritti.*",
+    "mapa de evidências de ELETROMAR × TOTVS",
+    "modelos SQLAlchemy de Case, Analysis, Finding, EvidenceMap e EvidenceItem",
+    "schemas Pydantic, enums, constraints e serialização do backend",
+    "fixture ou mecanismo real de seed do backend",
+    "movimentações processuais primárias mais recentes para confirmar a fase atual dos três casos"
+  ],
+  "source_conflicts": [
+    {
+      "field": "feb_sap.process_number",
+      "values": ["1160205320208260100", "1116020-53.2020.8.26.0100"],
+      "sources": ["nulidade360_caso_17_analise_25_Federação Espírita X SAP.docx", "evidencias_FEDxSAP.xlsx"],
+      "decision": "Usar o número formatado do mapa de evidências apenas na projeção e preservar a divergência para revisão humana.",
+      "status": "requires_human_review"
+    },
+    {
+      "field": "feb_sap.finding_evidence_links",
+      "values": ["20 findings marcados como sem_mapeamento", "743 linhas de evidência disponíveis em arquivo separado"],
+      "sources": ["nulidade360_caso_17_analise_25_Federação Espírita X SAP.docx", "evidencias_FEDxSAP.xlsx"],
+      "decision": "Não criar vínculos nem IDs automaticamente sem schema e regra de identidade reais.",
+      "status": "blocked_schema_and_review"
+    },
+    {
+      "field": "feb_sap.procedural_phase",
+      "values": ["laudo juntado", "atos recursais posteriores presentes no mapa, incluindo documento liberado em 31/01/2024"],
+      "sources": ["nulidade360_caso_17_analise_25_Federação Espírita X SAP.docx", "evidencias_FEDxSAP.xlsx, linha 713"],
+      "decision": "Não exibir o rótulo do relatório como fase atual confirmada; marcar a fase como em revisão.",
+      "status": "requires_latest_primary_movement"
+    },
+    {
+      "field": "eletromar.maximum_risk_semantics",
+      "values": ["maior risco 99.29", "0 findings críticos e distribuição com 17 baixos e 3 moderados"],
+      "sources": ["nulidade360_caso_19_analise_27_ELETROMAR X TOTVS.docx"],
+      "decision": "Preservar score global e nível global do relatório; não converter o máximo isolado em risco crítico sem revisão da regra de agregação.",
+      "status": "requires_scoring_rule"
+    }
+  ],
+  "future_load_queue": [
+    { "name": "Cobex × Bradesco", "status": "missing_primary_documents" },
+    { "name": "Lagoa do Chupé", "status": "missing_primary_documents" },
+    { "name": "CAMI/KAMI", "status": "name_and_primary_documents_unverified" }
+  ]
+}

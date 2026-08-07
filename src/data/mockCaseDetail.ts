@@ -20,6 +20,10 @@ export function getCaseDetail(id: string) {
     evidenceScore: source.evidenceScore,
     nullityScore: source.nullityRiskScore,
     settlementPotential: source.settlementLeverageScore,
+    overallRiskScore: source.overallRiskScore ?? source.nullityRiskScore,
+    purchaseProfile: source.purchaseProfile,
+    evidenceMapStatus: source.evidenceMapStatus,
+    evidenceMapRowCount: source.evidenceMapRowCount ?? 0,
     timeline: source.timeline.map((item) => ({
       date: item.date,
       label: item.title,
@@ -29,7 +33,7 @@ export function getCaseDetail(id: string) {
         id: "nulidade360",
         name: "Nulidade360",
         status: completed ? "Concluído" : "Aguardando documentos",
-        findings: source.findings.length,
+        findings: source.sourceFindingCount ?? source.findings.length,
       },
       {
         id: "red-team",

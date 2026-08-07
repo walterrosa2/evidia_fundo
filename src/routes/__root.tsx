@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { GlobalProcessUpload } from "@/components/shared/GlobalProcessUpload";
+import { CaseSelectionProvider } from "@/contexts/CaseSelectionContext";
 
 function NotFoundComponent() {
   return (
@@ -121,8 +122,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
-      <GlobalProcessUpload />
+      <CaseSelectionProvider>
+        <Outlet />
+        <GlobalProcessUpload />
+      </CaseSelectionProvider>
     </QueryClientProvider>
   );
 }

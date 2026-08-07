@@ -22,10 +22,10 @@ export const riskColor: Record<RiskLevel, string> = {
 };
 
 export const scoreToRisk = (score: number): RiskLevel => {
-  if (score >= 80) return "baixo";
-  if (score >= 60) return "moderado";
-  if (score >= 40) return "alto";
-  return "critico";
+  if (score >= 95) return "critico";
+  if (score >= 70) return "alto";
+  if (score >= 40) return "moderado";
+  return "baixo";
 };
 
 export const recommendationLabel = {
