@@ -28,6 +28,8 @@ export function getCaseDetail(id: string) {
       date: item.date,
       label: item.title,
     })),
+    /** Cronologia completa, com tipo de ato, autor, fase e referência de página. */
+    proceduralTimeline: source.timeline,
     modulesApplied: [
       {
         id: "nulidade360",

@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
+import { HelpHint } from "@/components/shared/HelpHint";
+import { FIELD_HELP } from "@/config/fieldHelp";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { RiskBadge } from "@/components/shared/RiskBadge";
-import { mockFindings, findingStatusLabel } from "@/data/mockFindings";
+import { getFindings, findingStatusLabel } from "@/data/mockFindings";
+import { useCaseSelection } from "@/contexts/useCaseSelection";
 import { ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import { caseDetail } from "@/data/mockCaseDetail";
 
@@ -12,6 +15,8 @@ export const Route = createFileRoute("/nulidade360/evidencias")({
 });
 
 function Evidencias() {
+  const { selectedCaseId } = useCaseSelection();
+  const mockFindings = getFindings(selectedCaseId);
   const [idx, setIdx] = useState(0);
   const f = mockFindings[idx];
 
@@ -20,7 +25,7 @@ function Evidencias() {
       <SectionHeader
         eyebrow="Rastreabilidade probatória"
         title="Visualizador de evidências"
-        subtitle="Cada achado é vinculado ao trecho do documento original, com tipo de evidência, inferência e impacto."
+        subtitle="Cada achado é vinculado ao trecho do documento de origem, com tipo de evidência, inferência e impacto processual — base para sustentar a conclusão perante o comitê."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -89,9 +94,9 @@ function Evidencias() {
           <h3 className="mt-3 text-lg font-semibold leading-tight">{f.question}</h3>
 
           <div className="mt-5 grid grid-cols-3 gap-3 text-xs">
-            <Stat k="Confiança" v={`${f.confidence}%`} />
-            <Stat k="Score de risco" v={`${f.riskScore}/100`} />
-            <Stat k="Tipo" v={f.evidenceType} />
+            <Stat help={FIELD_HELP.confianca} k="Confiança" v={`${f.confidence}%`} />
+            <Stat help={FIELD_HELP.score} k="Score de risco" v={`${f.riskScore}/100`} />
+            <Stat help={FIELD_HELP.tipoProva} k="Tipo" v={f.evidenceType} />
           </div>
 
           <Section title="Inferência da EvidIA">
@@ -118,10 +123,13 @@ function Evidencias() {
   );
 }
 
-function Stat({ k, v }: { k: string; v: string }) {
+function Stat({ k, v, help }: { k: string; v: string; help?: string }) {
   return (
     <div className="rounded-md border border-border bg-surface px-3 py-2">
-      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{k}</div>
+      <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+        {k}
+        {help && <HelpHint label={k} text={help} />}
+      </div>
       <div className="mt-0.5 font-medium">{v}</div>
     </div>
   );

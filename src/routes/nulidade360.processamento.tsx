@@ -28,7 +28,7 @@ function Processamento() {
       <SectionHeader
         eyebrow="Pipeline EvidIA"
         title="Analisando laudo por blocos"
-        subtitle="A EvidIA está processando o documento em etapas auditáveis. Você pode acompanhar o pipeline em tempo real."
+        subtitle="Processamento do documento em etapas auditáveis. Cada bloco registra entrada, achados e tempo de execução."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

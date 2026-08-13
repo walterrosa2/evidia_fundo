@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CalculoJudicialRouteImport } from './routes/calculo-judicial'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DealsRouteImport } from './routes/deals'
@@ -33,6 +34,11 @@ import { Route as RelatoriosInvestmentMemoRouteImport } from './routes/relatorio
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculoJudicialRoute = CalculoJudicialRouteImport.update({
+  id: '/calculo-judicial',
+  path: '/calculo-judicial',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
@@ -135,6 +141,7 @@ const RelatoriosInvestmentMemoRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calculo-judicial': typeof CalculoJudicialRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/dashboard': typeof DashboardRoute
   '/deals': typeof DealsRouteWithChildren
@@ -157,6 +164,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calculo-judicial': typeof CalculoJudicialRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
@@ -177,6 +185,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/calculo-judicial': typeof CalculoJudicialRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/dashboard': typeof DashboardRoute
   '/deals': typeof DealsRouteWithChildren
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/calculo-judicial'
     | '/configuracoes'
     | '/dashboard'
     | '/deals'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/calculo-judicial'
     | '/configuracoes'
     | '/dashboard'
     | '/login'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/calculo-judicial'
     | '/configuracoes'
     | '/dashboard'
     | '/deals'
@@ -265,6 +277,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CalculoJudicialRoute: typeof CalculoJudicialRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   DashboardRoute: typeof DashboardRoute
   DealsRoute: typeof DealsRouteWithChildren
@@ -283,6 +296,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculo-judicial': {
+      id: '/calculo-judicial'
+      path: '/calculo-judicial'
+      fullPath: '/calculo-judicial'
+      preLoaderRoute: typeof CalculoJudicialRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/configuracoes': {
@@ -471,6 +491,7 @@ const RelatoriosRouteWithChildren = RelatoriosRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CalculoJudicialRoute: CalculoJudicialRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
   DashboardRoute: DashboardRoute,
   DealsRoute: DealsRouteWithChildren,

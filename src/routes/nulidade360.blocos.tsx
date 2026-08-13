@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
+import { Th } from "@/components/shared/TableHead";
+import { FIELD_HELP } from "@/config/fieldHelp";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { RiskBadge } from "@/components/shared/RiskBadge";
-import { blocks, mockFindings, findingStatusLabel } from "@/data/mockFindings";
+import { getBlocks, getFindings, findingStatusLabel } from "@/data/mockFindings";
+import { useCaseSelection } from "@/contexts/useCaseSelection";
 import { Check, Edit, Trash2, BookmarkPlus, FileQuestion } from "lucide-react";
 
 export const Route = createFileRoute("/nulidade360/blocos")({
@@ -11,16 +14,18 @@ export const Route = createFileRoute("/nulidade360/blocos")({
 });
 
 function Blocos() {
-  const [activeId, setActiveId] = useState(blocks[0].id);
-  const active = blocks.find((b) => b.id === activeId)!;
-  const findings = mockFindings.filter((f) => f.blockId === activeId);
+  const { selectedCaseId } = useCaseSelection();
+  const blocks = getBlocks(selectedCaseId);
+  const [activeId, setActiveId] = useState(blocks[0]?.id ?? "");
+  const active = blocks.find((b) => b.id === activeId) ?? blocks[0];
+  const findings = getFindings(selectedCaseId).filter((f) => f.blockId === active?.id);
 
   return (
     <AppShell context="Nulidade360 · Blocos">
       <SectionHeader
         eyebrow="Análise detalhada"
         title="Análise por blocos"
-        subtitle="Cada bloco representa uma dimensão técnica do laudo. Achados, evidências e impacto processual são auditáveis."
+        subtitle="Cada bloco agrupa uma dimensão técnica do laudo. Achado, evidência de origem e impacto processual são rastreáveis até a página do documento."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4">
@@ -68,11 +73,11 @@ function Blocos() {
             <table className="w-full text-sm">
               <thead className="bg-surface/40 border-b border-border">
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
-                  <th className="px-4 py-3 font-medium">Pergunta / achado</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3 font-medium">Risco</th>
-                  <th className="px-4 py-3 font-medium">Conf.</th>
-                  <th className="px-4 py-3 font-medium">Pág.</th>
+                  <Th help={FIELD_HELP.perguntaAchado}>Pergunta / achado</Th>
+                  <Th help={FIELD_HELP.statusAchado}>Status</Th>
+                  <Th help={FIELD_HELP.riscoJuridico}>Risco</Th>
+                  <Th help={FIELD_HELP.confianca}>Conf.</Th>
+                  <Th help={FIELD_HELP.paginaOrigem}>Pág.</Th>
                   <th className="px-4 py-3 font-medium">Ações</th>
                 </tr>
               </thead>

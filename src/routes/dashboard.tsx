@@ -23,6 +23,8 @@ import {
 } from "recharts";
 import { AppShell } from "@/components/layout/AppShell";
 import { MetricCard } from "@/components/shared/MetricCard";
+import { Th } from "@/components/shared/TableHead";
+import { FIELD_HELP } from "@/config/fieldHelp";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { RiskBadge } from "@/components/shared/RiskBadge";
 import { formatCurrency } from "@/lib/formatters";
@@ -43,8 +45,8 @@ function Dashboard() {
     <AppShell context="Dashboard executivo">
       <SectionHeader
         eyebrow="Visão executiva · Atlas Capital"
-        title="Como está seu portfólio litigioso hoje"
-        subtitle="Indicadores consolidados de valor econômico potencial, risco probatório e oportunidades identificadas pela EvidIA."
+        title="Posição consolidada do portfólio litigioso"
+        subtitle="Exposure agregado, risco probatório e distribuição dos ativos por recomendação. Os valores são atualizados até a data-base corrente."
         actions={
           <Link
             to="/deals"
@@ -59,6 +61,7 @@ function Dashboard() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           label="Deals analisados"
+          help={FIELD_HELP.dealsAnalisados}
           value={mockPortfolio.dealsAnalyzed}
           icon={Briefcase}
           accent="cyan"
@@ -66,6 +69,7 @@ function Dashboard() {
         />
         <MetricCard
           label="Valor econômico sob análise"
+          help={FIELD_HELP.valorSobAnalise}
           value={formatCurrency(mockPortfolio.capitalUnderAnalysis, { compact: true })}
           icon={DollarSign}
           accent="violet"
@@ -73,6 +77,7 @@ function Dashboard() {
         />
         <MetricCard
           label="Risco probatório médio"
+          help={FIELD_HELP.riscoMedio}
           value={`${mockPortfolio.averageEvidenceRisk}/100`}
           icon={ShieldAlert}
           accent="risk-high"
@@ -80,6 +85,7 @@ function Dashboard() {
         />
         <MetricCard
           label="Oportunidades ocultas"
+          help={FIELD_HELP.oportunidadesOcultas}
           value={mockPortfolio.hiddenOpportunitiesFound}
           icon={Sparkles}
           accent="gold"
@@ -87,6 +93,7 @@ function Dashboard() {
         />
         <MetricCard
           label="Economia estimada"
+          help={FIELD_HELP.economiaEstimada}
           value={formatCurrency(mockPortfolio.estimatedSavings, { compact: true })}
           icon={TrendingUp}
           accent="risk-low"
@@ -94,6 +101,7 @@ function Dashboard() {
         />
         <MetricCard
           label="Tempo médio de análise"
+          help={FIELD_HELP.tempoAnalise}
           value={mockPortfolio.averageAnalysisTime}
           icon={Clock}
           accent="cyan"
@@ -101,6 +109,7 @@ function Dashboard() {
         />
         <MetricCard
           label="Deals de alto risco"
+          help={FIELD_HELP.dealsAltoRisco}
           value={mockPortfolio.criticalDeals}
           icon={AlertTriangle}
           accent="risk-critical"
@@ -108,6 +117,7 @@ function Dashboard() {
         />
         <MetricCard
           label="Valor potencial estimado"
+          help={FIELD_HELP.valorPotencial}
           value={formatCurrency(mockPortfolio.estimatedUpside, { compact: true })}
           icon={TrendingUp}
           accent="violet"
@@ -228,10 +238,18 @@ function Dashboard() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground border-b border-border">
-                  <th className="py-2 font-medium">Caso</th>
-                  <th className="py-2 font-medium">Deal Value</th>
-                  <th className="py-2 font-medium">Score</th>
-                  <th className="py-2 font-medium">Risco</th>
+                  <Th className="py-2" help={FIELD_HELP.caso}>
+                    Caso
+                  </Th>
+                  <Th className="py-2" help={FIELD_HELP.dealValue}>
+                    Deal Value
+                  </Th>
+                  <Th className="py-2" help={FIELD_HELP.score}>
+                    Score
+                  </Th>
+                  <Th className="py-2" help={FIELD_HELP.riscoJuridico}>
+                    Risco
+                  </Th>
                 </tr>
               </thead>
               <tbody>

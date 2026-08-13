@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  evidia_fundo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: evidia_fundo_app
+    restart: always
+    ports:
+      - "8518:8518"
+    environment:
+      - NODE_ENV=production
+      - PORT=8518

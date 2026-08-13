@@ -10,6 +10,8 @@ import { getInvestmentMemoMetadata } from "@/data/mockInvestmentMemos";
 import { getRedTeamData } from "@/data/mockRedTeam";
 import { getValuationData } from "@/data/mockValuation";
 import { formatCurrency } from "@/lib/formatters";
+import { HelpHint } from "@/components/shared/HelpHint";
+import { FIELD_HELP } from "@/config/fieldHelp";
 import { recommendationClasses, recommendationLabel, type RiskLevel } from "@/lib/risk";
 
 export const Route = createFileRoute("/relatorios/investment-memo")({
@@ -162,9 +164,19 @@ function Memo() {
         </Section>
 
         <Section title="5. Impacto financeiro">
-          <div className="not-prose grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="not-prose grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <KV
+              k="Valor da causa"
+              help={FIELD_HELP.valorDaCausa}
+              v={
+                selectedDeal.caseValue
+                  ? formatCurrency(selectedDeal.caseValue, { compact: true })
+                  : "A confirmar"
+              }
+            />
             <KV
               k="Valor econômico potencial"
+              help={FIELD_HELP.valorPotencial}
               v={
                 base
                   ? formatCurrency(base.economicPotentialValue, { compact: true })
@@ -173,16 +185,33 @@ function Memo() {
             />
             <KV
               k="Preço de referência"
+              help={FIELD_HELP.precoReferencia}
               v={
                 base ? formatCurrency(base.initialPurchasePrice, { compact: true }) : "A confirmar"
               }
             />
             <KV
               k="Preço recomendado"
+              help={FIELD_HELP.precoRecomendado}
               v={base ? formatCurrency(base.recommendedPrice, { compact: true }) : "A confirmar"}
               highlight={Boolean(base)}
             />
           </div>
+          {selectedDeal.judicialUpdate ? (
+            <p className="mt-3 text-sm leading-relaxed">
+              O principal de{" "}
+              {formatCurrency(selectedDeal.judicialUpdate.principal, { compact: true })} atualizado
+              até a data-base corresponde a{" "}
+              <strong>
+                {formatCurrency(selectedDeal.judicialUpdate.total, { compact: true })}
+              </strong>{" "}
+              ({selectedDeal.judicialUpdate.multiple.toFixed(2)}× o valor original), dos quais{" "}
+              {formatCurrency(selectedDeal.judicialUpdate.correction, { compact: true })} de
+              correção monetária e{" "}
+              {formatCurrency(selectedDeal.judicialUpdate.interest, { compact: true })} de juros de
+              mora. A apuração mês a mês consta da memória de cálculo.
+            </p>
+          ) : null}
           {valuation?.disclaimer ? (
             <p className="mt-3 text-xs text-muted-foreground">{valuation.disclaimer}</p>
           ) : null}
@@ -245,12 +274,25 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function KV({ k, v, highlight }: { k: string; v: string; highlight?: boolean }) {
+function KV({
+  k,
+  v,
+  highlight,
+  help,
+}: {
+  k: string;
+  v: string;
+  highlight?: boolean;
+  help?: string;
+}) {
   return (
     <div
       className={`rounded-md border p-3 ${highlight ? "border-primary/40 bg-primary/5" : "border-border bg-surface"}`}
     >
-      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{k}</div>
+      <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+        {k}
+        {help && <HelpHint label={k} text={help} />}
+      </div>
       <div className={`mt-1 text-lg font-semibold tabular-nums ${highlight ? "text-primary" : ""}`}>
         {v}
       </div>

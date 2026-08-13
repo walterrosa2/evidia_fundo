@@ -3,13 +3,16 @@ import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { RiskBadge } from "@/components/shared/RiskBadge";
+import { Th } from "@/components/shared/TableHead";
 import { ProceduralPhaseBadge } from "@/components/cases/ProceduralPhaseBadge";
+import { FIELD_HELP } from "@/config/fieldHelp";
 import {
   mockDeals,
   dealStatusLabel,
   purchaseProfileLabel,
   type DealStatus,
 } from "@/data/mockDeals";
+import { useCaseSelection } from "@/contexts/useCaseSelection";
 import { formatCurrency } from "@/lib/formatters";
 import { recommendationLabel, recommendationClasses } from "@/lib/risk";
 
@@ -34,6 +37,7 @@ const evidenceMapLabel = {
 
 function DealFlow() {
   const [active, setActive] = useState<(typeof filters)[number]["id"]>("todos");
+  const { selectCase } = useCaseSelection();
 
   const filtered = mockDeals.filter((d) => {
     if (active === "todos") return true;
@@ -59,7 +63,7 @@ function DealFlow() {
       <SectionHeader
         eyebrow={`Pipeline · ${mockDeals.length} deals ativos`}
         title="Deal Flow Litigioso"
-        subtitle="Oportunidades ordenadas por atratividade de compra. O risco jurídico continua sendo exibido na direção correta: quanto maior, pior o ativo."
+        subtitle="Ativos ordenados por atratividade de compra, com exposure atualizado e risco jurídico apurado. Score alto significa risco alto — e, portanto, preço de entrada menor."
       />
 
       <div className="flex flex-wrap gap-2 mb-5">
@@ -85,16 +89,18 @@ function DealFlow() {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground bg-surface/40 border-b border-border">
-                <th className="px-4 py-3 font-medium">Caso</th>
-                <th className="px-4 py-3 font-medium">Setor</th>
-                <th className="px-4 py-3 font-medium">Valor da causa</th>
-                <th className="px-4 py-3 font-medium">Deal Value</th>
-                <th className="px-4 py-3 font-medium">Fase processual</th>
-                <th className="px-4 py-3 font-medium text-center">Score</th>
-                <th className="px-4 py-3 font-medium">Risco jurídico</th>
-                <th className="px-4 py-3 font-medium">Valor potencial</th>
-                <th className="px-4 py-3 font-medium">Recomendação</th>
-                <th className="px-4 py-3 font-medium">Status</th>
+                <Th help={FIELD_HELP.caso}>Caso</Th>
+                <Th help={FIELD_HELP.setor}>Setor</Th>
+                <Th help={FIELD_HELP.valorDaCausa}>Valor da causa</Th>
+                <Th help={FIELD_HELP.valorAtualizado}>Valor atualizado</Th>
+                <Th help={FIELD_HELP.dealValue}>Deal Value</Th>
+                <Th help={FIELD_HELP.faseProcessual}>Fase processual</Th>
+                <Th help={FIELD_HELP.score} align="center">
+                  Score
+                </Th>
+                <Th help={FIELD_HELP.riscoJuridico}>Risco jurídico</Th>
+                <Th help={FIELD_HELP.recomendacao}>Recomendação</Th>
+                <Th help={FIELD_HELP.statusDeal}>Status</Th>
               </tr>
             </thead>
             <tbody>
@@ -124,6 +130,24 @@ function DealFlow() {
                   <td className="px-4 py-3 tabular-nums">
                     {d.caseValue ? formatCurrency(d.caseValue, { compact: true }) : "A confirmar"}
                   </td>
+                  <td className="px-4 py-3 tabular-nums">
+                    {d.judicialUpdate ? (
+                      <Link
+                        to="/calculo-judicial"
+                        onClick={() => selectCase(d.id)}
+                        className="group inline-flex flex-col items-start hover:text-primary"
+                      >
+                        <span className="font-medium text-risk-low group-hover:text-primary">
+                          {formatCurrency(d.judicialUpdate.total, { compact: true })}
+                        </span>
+                        <span className="text-[10px] text-muted-foreground">
+                          {d.judicialUpdate.multiple.toFixed(2)}× · memória
+                        </span>
+                      </Link>
+                    ) : (
+                      <span className="text-muted-foreground">A confirmar</span>
+                    )}
+                  </td>
                   <td className="px-4 py-3 tabular-nums font-medium">
                     {d.potentialTicket
                       ? formatCurrency(d.potentialTicket, { compact: true })
@@ -137,13 +161,6 @@ function DealFlow() {
                   </td>
                   <td className="px-4 py-3">
                     <RiskBadge level={d.evidenceRisk} />
-                  </td>
-                  <td className="px-4 py-3 tabular-nums text-risk-low">
-                    {d.economicPotential.valorEconomicoPotencial
-                      ? formatCurrency(d.economicPotential.valorEconomicoPotencial, {
-                          compact: true,
-                        })
-                      : "A confirmar"}
                   </td>
                   <td className="px-4 py-3">
                     <span

@@ -37,7 +37,7 @@ export function CaseDocumentViewer({
           Documentos do processo
           <HelpHint
             label="documentos do processo"
-            text="Abra os autos sem sair da plataforma. PDFs adicionados localmente são exibidos pelo visualizador seguro do navegador."
+            text="O que é: o acesso aos autos processados, sem sair da plataforma. Como funciona: PDFs carregados localmente são renderizados pelo visualizador do navegador, sem envio a servidor. Como ler: use a referência de página dos achados para localizar o trecho de origem."
           />
         </div>
         <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-border px-3 py-2 text-xs font-medium transition hover:border-primary hover:text-primary">

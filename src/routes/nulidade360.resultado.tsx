@@ -1,132 +1,251 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import { FileText, Filter, Layers, Search, Swords } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ScoreRing } from "@/components/shared/ScoreRing";
-import { RiskBadge } from "@/components/shared/RiskBadge";
-import { blocks, mockFindings } from "@/data/mockFindings";
-import { FileText, Layers, Search, Swords } from "lucide-react";
-import { caseDetail } from "@/data/mockCaseDetail";
+import { HelpHint } from "@/components/shared/HelpHint";
+import { PillarHeatmap } from "@/components/nulidade/PillarHeatmap";
+import { FindingSheet } from "@/components/nulidade/FindingSheet";
+import { useCaseSelection } from "@/contexts/useCaseSelection";
+import { getNullityReport, type NullityPillarId } from "@/data/v2/nullityReports";
+import { recommendationClasses, recommendationLabel } from "@/lib/risk";
 
 export const Route = createFileRoute("/nulidade360/resultado")({
   component: Resultado,
 });
 
+const LEVEL_LABEL = {
+  low: "Baixo",
+  moderate: "Moderado",
+  high: "Alto",
+  critical: "Crítico",
+} as const;
+
+const LEVEL_TONE = {
+  low: "text-risk-low",
+  moderate: "text-risk-moderate",
+  high: "text-risk-high",
+  critical: "text-risk-critical",
+} as const;
+
+const LEVEL_VAR = {
+  low: "var(--risk-low)",
+  moderate: "var(--risk-moderate)",
+  high: "var(--risk-high)",
+  critical: "var(--risk-critical)",
+} as const;
+
+type RiskFilter = "todos" | "critical" | "high" | "moderate" | "low";
+
 function Resultado() {
-  const overall = 52;
+  const { selectedDeal } = useCaseSelection();
+  const report = getNullityReport(selectedDeal.id);
+  const [pillar, setPillar] = useState<NullityPillarId | null>(null);
+  const [riskFilter, setRiskFilter] = useState<RiskFilter>("todos");
+
+  const findings = useMemo(() => {
+    if (!report) return [];
+    return [...report.findings]
+      .filter((finding) => (pillar ? finding.pillar === pillar : true))
+      .filter((finding) => (riskFilter === "todos" ? true : finding.riskLevel === riskFilter))
+      .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  }, [report, pillar, riskFilter]);
+
   const ctas = [
-    { to: "/nulidade360/blocos", label: "Análise detalhada por bloco", icon: Layers },
+    { to: "/nulidade360/blocos", label: "Análise por bloco", icon: Layers },
     { to: "/nulidade360/evidencias", label: "Ver evidências", icon: Search },
     { to: "/red-team", label: "Red Team adversarial", icon: Swords },
     { to: "/relatorios/investment-memo", label: "Investment Memo", icon: FileText },
   ] as const;
 
+  if (!report) {
+    return (
+      <AppShell context={`Nulidade360 · ${selectedDeal.name}`}>
+        <SectionHeader
+          eyebrow={`Resultado executivo · ${selectedDeal.name}`}
+          title="Parecer de nulidade não disponível"
+          subtitle="Este processo ainda não passou pela auditoria dos catorze pilares. Sem o parecer, não há score de nulidade que sustente decisão de preço."
+        />
+      </AppShell>
+    );
+  }
+
+  const riskCounts = {
+    critical: report.findings.filter((item) => item.riskLevel === "critical").length,
+    high: report.findings.filter((item) => item.riskLevel === "high").length,
+    moderate: report.findings.filter((item) => item.riskLevel === "moderate").length,
+    low: report.findings.filter((item) => item.riskLevel === "low").length,
+  };
+
   return (
-    <AppShell context="Nulidade360 · Resultado">
+    <AppShell context={`Nulidade360 · Resultado · ${selectedDeal.name}`}>
       <SectionHeader
-        eyebrow={`Resultado executivo · ${caseDetail.name}`}
-        title="Reprecificar — risco probatório alto"
-        subtitle="A EvidIA identificou fragilidades estruturais que justificam ajuste no preço de entrada. Recomendação suportada por achados em B1, B2 e B4."
+        eyebrow={`Parecer de auditoria jurídico-pericial · ${selectedDeal.name}`}
+        title={`Risco de nulidade ${LEVEL_LABEL[report.globalLevel].toLowerCase()} — score ${report.globalScore}`}
+        subtitle="Resultado consolidado da auditoria dos catorze pilares de invalidação processual. Cada achado declara o dever violado, o prejuízo, o nexo causal e a ação recomendada."
+        actions={
+          <span
+            className={`inline-flex items-center rounded-md border px-3 py-1.5 text-xs font-medium ${recommendationClasses[selectedDeal.recommendation]}`}
+          >
+            Recomendação: {recommendationLabel[selectedDeal.recommendation]}
+          </span>
+        }
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="rounded-xl border border-border bg-card p-6 flex flex-col items-center">
-          <ScoreRing value={overall} size={170} />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="flex flex-col items-center rounded-xl border border-border bg-card p-6">
+          <ScoreRing value={report.globalScore} size={170} />
           <div className="mt-4 text-center">
             <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Recomendação
+              Nível global
             </div>
-            <div className="mt-1 text-lg font-semibold text-risk-moderate">Reprecificar</div>
-            <div className="mt-1 text-xs text-muted-foreground max-w-[16rem]">
-              Reduzir ticket em 10–15% e provocar complementação pericial preventiva.
+            <div className={`mt-1 text-lg font-semibold ${LEVEL_TONE[report.globalLevel]}`}>
+              {LEVEL_LABEL[report.globalLevel]}
+            </div>
+            <div className="mt-1 text-xs text-muted-foreground">
+              {report.acceptedFindings} achados aceitos após revisão humana
             </div>
           </div>
         </div>
 
-        <div className="lg:col-span-2 rounded-xl border border-border bg-card p-6">
-          <div className="text-sm font-semibold">Mapa de risco por bloco</div>
-          <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
-            {blocks.map((b) => (
-              <div key={b.id} className="rounded-lg border border-border bg-surface p-3">
-                <div className="flex items-center justify-between">
-                  <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
-                    {b.code}
-                  </div>
-                  <RiskBadge level={b.risk} />
-                </div>
-                <div className="mt-1 text-sm font-medium leading-tight">{b.name}</div>
-                <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                  <span>
-                    Score <b className="text-foreground">{b.score}</b>
-                  </span>
-                  <span>{b.findingsCount} achados</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
         <div className="rounded-xl border border-border bg-card p-6 lg:col-span-2">
-          <div className="text-sm font-semibold">Principais achados</div>
-          <ul className="mt-4 space-y-3">
-            {mockFindings.slice(0, 5).map((f) => (
-              <li key={f.id} className="rounded-md border border-border bg-surface px-4 py-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="text-sm font-medium">{f.question}</div>
-                  <RiskBadge level={f.riskLevel} />
-                </div>
-                <div className="mt-1 text-xs text-muted-foreground">{f.inference}</div>
-                <div className="mt-2 text-[11px] text-primary">Impacto: {f.proceduralImpact}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div className="flex items-center gap-2 text-sm font-semibold">
+            Como o score foi apurado
+            <HelpHint
+              label="composição do score"
+              text="O que é: o score global de risco de nulidade, na escala de 0 a 100. Como é calculado: ponderação jurídico-pericial que combina a média dos achados, o achado de maior risco, a quantidade de achados críticos e a amplitude de pilares afetados. Como ler: amplitude importa tanto quanto intensidade — muitos pilares atingidos indicam fragilidade estrutural, e não pontual."
+            />
+          </div>
+          <p className="mt-2 text-sm leading-relaxed text-foreground/90">
+            {report.scoreExplanation}
+          </p>
 
-        <div className="rounded-xl border border-border bg-card p-6">
-          <div className="text-sm font-semibold">Composição do score</div>
-          <ul className="mt-4 space-y-3 text-sm">
-            {[
-              { k: "Cadeia de custódia", w: 25, v: 38 },
-              { k: "Metodologia", w: 20, v: 52 },
-              { k: "Contraditório", w: 20, v: 47 },
-              { k: "Documentação", w: 15, v: 64 },
-              { k: "Sentença viciada", w: 10, v: 49 },
-              { k: "Suspeição", w: 10, v: 71 },
-            ].map((r) => (
-              <li key={r.k}>
-                <div className="flex items-center justify-between text-xs">
-                  <span>{r.k}</span>
-                  <span className="text-muted-foreground">
-                    peso {r.w}% · {r.v}
-                  </span>
-                </div>
-                <div className="mt-1 h-1.5 rounded-full bg-border overflow-hidden">
+          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <Stat label="Média ponderada" value={report.weightedAverage.toFixed(2)} />
+            <Stat label="Maior risco" value={report.maxRisk.toFixed(2)} />
+            <Stat label="Achados críticos" value={String(report.criticalFindings)} />
+            <Stat label="Pilares afetados" value={`${report.affectedPillars} / 14`} />
+          </div>
+
+          <div className="mt-5 border-t border-border pt-4">
+            <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
+              Distribuição dos achados por nível
+            </div>
+            <div className="mt-3 flex h-2.5 overflow-hidden rounded-full border border-border">
+              {(["critical", "high", "moderate", "low"] as const).map((level) =>
+                riskCounts[level] > 0 ? (
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-cyan to-violet"
-                    style={{ width: `${r.v}%` }}
+                    key={level}
+                    style={{
+                      width: `${(riskCounts[level] / report.findings.length) * 100}%`,
+                      background: LEVEL_VAR[level],
+                    }}
+                    title={`${LEVEL_LABEL[level]}: ${riskCounts[level]}`}
                   />
-                </div>
-              </li>
-            ))}
-          </ul>
+                ) : null,
+              )}
+            </div>
+            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
+              {(["critical", "high", "moderate", "low"] as const).map((level) => (
+                <span key={level} className="tabular-nums">
+                  {LEVEL_LABEL[level]} <b className="text-foreground">{riskCounts[level]}</b>
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {ctas.map((c) => (
+      <div className="mt-6">
+        <PillarHeatmap report={report} selected={pillar} onSelect={setPillar} />
+      </div>
+
+      <div className="mt-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-sm font-semibold">
+            Achados do parecer
+            <span className="text-xs font-normal text-muted-foreground">
+              {findings.length} de {report.findings.length}
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Filter className="size-3.5 text-muted-foreground" />
+            {(["todos", "critical", "high", "moderate", "low"] as const).map((level) => (
+              <button
+                key={level}
+                type="button"
+                onClick={() => setRiskFilter(level)}
+                aria-pressed={riskFilter === level}
+                className={`rounded-md border px-2.5 py-1 text-[11px] transition ${
+                  riskFilter === level
+                    ? "border-primary/40 bg-primary/10 text-primary"
+                    : "border-border bg-surface text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {level === "todos" ? "Todos" : LEVEL_LABEL[level]}
+                {level !== "todos" && (
+                  <span className="ml-1 tabular-nums opacity-70">{riskCounts[level]}</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {pillar && (
+          <div className="mt-3 text-xs text-muted-foreground">
+            Filtrado pelo pilar <b className="text-foreground">{pillar}</b>.{" "}
+            <button
+              type="button"
+              onClick={() => setPillar(null)}
+              className="text-primary hover:underline"
+            >
+              Limpar
+            </button>
+          </div>
+        )}
+
+        <div className="mt-4 space-y-2">
+          {findings.map((finding) => (
+            <FindingSheet key={finding.id} finding={finding} />
+          ))}
+          {findings.length === 0 && (
+            <div className="rounded-xl border border-dashed border-border bg-surface/40 p-6 text-center text-sm text-muted-foreground">
+              Nenhum achado corresponde ao filtro selecionado.
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {ctas.map((cta) => (
           <Link
-            key={c.to}
-            to={c.to}
-            className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 hover:border-primary/40 transition"
+            key={cta.to}
+            to={cta.to}
+            className="flex items-center gap-3 rounded-lg border border-border bg-card p-4 transition hover:border-primary/40"
           >
             <div className="grid size-9 place-items-center rounded-md border border-border text-primary">
-              <c.icon className="size-4" />
+              <cta.icon className="size-4" />
             </div>
-            <div className="text-sm font-medium">{c.label}</div>
+            <div className="text-sm font-medium">{cta.label}</div>
           </Link>
         ))}
       </div>
+
+      <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
+        Parecer gerado a partir de documentos submetidos ao sistema e de achados aceitos ou editados
+        por revisor humano. Ausências documentais devem ser verificadas no processo antes de uso em
+        peça jurídica.
+      </p>
     </AppShell>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-border bg-surface px-3 py-2.5">
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className="mt-1 text-lg font-semibold tabular-nums">{value}</div>
+    </div>
   );
 }

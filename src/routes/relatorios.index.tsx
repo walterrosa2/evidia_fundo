@@ -20,7 +20,7 @@ function Relatorios() {
       <SectionHeader
         eyebrow={`Comitê de investimento · ${investmentMemos.length} processos`}
         title="Relatórios"
-        subtitle="Investment Memos dos processos atualmente analisados pela EvidIA. Abra um item para consultar o conteúdo específico daquele caso."
+        subtitle="Investment Memos consolidados por processo, com tese, riscos apurados, síntese adversarial e preço recomendado ao comitê."
       />
       <div className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
         {investmentMemos.map((memo) => {

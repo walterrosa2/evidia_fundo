@@ -20,7 +20,7 @@ function NovaAnalise() {
       <SectionHeader
         eyebrow="Nulidade360"
         title="Nova análise de laudo"
-        subtitle="A EvidIA reduz erro antes da análise: dados do caso, documentos, configuração e revisão."
+        subtitle="Cadastro do caso, ingestão dos documentos, configuração dos pilares e revisão humana antes da emissão do parecer."
       />
 
       <div className="rounded-xl border border-border bg-card overflow-hidden">

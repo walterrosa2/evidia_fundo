@@ -1,3 +1,13 @@
+/**
+ * Tabela legada de fatores por tempo de ação.
+ *
+ * DEPRECIADA como fonte do Valor Econômico Potencial — mantida apenas para comparação na
+ * interface. A curva não deriva de índice algum: entre 3 e 8 anos o fator é igual ao número de
+ * anos, e há um degrau de 9,3 para 11,0 entre 10 e 10,5 anos. Confrontada com a atualização real
+ * (correção pelo índice do processo + juros de mora), superestimava os ativos entre 2,2× e 2,8×.
+ *
+ * O cálculo vigente está em `lib/judicialUpdate.ts`.
+ */
 export type EconomicPotentialFactor = { entrada: number; fator: number };
 
 export const ECONOMIC_POTENTIAL_FACTORS: readonly EconomicPotentialFactor[] = [
@@ -28,4 +38,12 @@ export const ECONOMIC_POTENTIAL_FACTORS: readonly EconomicPotentialFactor[] = [
 
 export const FACTOR_ABOVE_ELEVEN_YEARS = 11.5;
 
+/**
+ * Deal Value como fração do Valor Econômico Potencial (relação 1:10).
+ *
+ * Revisada após a migração para o motor de atualização: com o VEP agora derivado de correção e
+ * juros reais, os 10% produzem preços na mesma ordem de grandeza dos preços recomendados nos
+ * cenários de valuation de cada caso — o que não ocorria com a tabela legada, cujo VEP inflado
+ * gerava tickets várias vezes maiores que o preço-alvo do comitê.
+ */
 export const BASE_PURCHASE_PRICE_RATIO = 0.1;

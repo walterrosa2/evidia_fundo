@@ -7,11 +7,15 @@ import {
   ShieldAlert,
   Swords,
   TrendingUp,
+  Calculator,
   FileText,
   Settings,
   GitBranch,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 import { useCaseSelection } from "@/contexts/useCaseSelection";
+import { useSidebar } from "@/contexts/useSidebar";
 
 type StaticRoute =
   | "/pipeline"
@@ -20,6 +24,7 @@ type StaticRoute =
   | "/nulidade360"
   | "/red-team"
   | "/valuation"
+  | "/calculo-judicial"
   | "/relatorios"
   | "/configuracoes";
 
@@ -45,6 +50,7 @@ const analysisNav: NavigationItem[] = [
   { to: "/nulidade360", label: "Nulidade360", icon: ShieldAlert },
   { to: "/red-team", label: "Red Team", icon: Swords },
   { to: "/valuation", label: "Valuation", icon: TrendingUp },
+  { to: "/calculo-judicial", label: "Cálculo judicial", icon: Calculator },
   { to: "/relatorios", label: "Relatórios", icon: FileText },
   { to: "/configuracoes", label: "Configurações", icon: Settings },
 ];
@@ -52,10 +58,12 @@ const analysisNav: NavigationItem[] = [
 function StaticNavigationLink({
   item,
   pathname,
+  collapsed,
   onNavigate,
 }: {
   item: NavigationItem;
   pathname: string;
+  collapsed: boolean;
   onNavigate?: () => void;
 }) {
   const Icon = item.icon;
@@ -67,14 +75,18 @@ function StaticNavigationLink({
     <Link
       to={item.to}
       onClick={onNavigate}
-      className={`group flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
+      title={collapsed ? item.label : undefined}
+      aria-label={collapsed ? item.label : undefined}
+      className={`group flex items-center rounded-md py-2 text-sm transition-colors ${
+        collapsed ? "justify-center px-2" : "gap-3 px-3"
+      } ${
         active
           ? "bg-primary/10 text-primary"
           : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
       }`}
     >
-      <Icon className={`size-4 ${active ? "text-primary" : ""}`} />
-      <span className="truncate">{item.label}</span>
+      <Icon className={`size-4 shrink-0 ${active ? "text-primary" : ""}`} />
+      {!collapsed && <span className="truncate">{item.label}</span>}
     </Link>
   );
 }
@@ -88,26 +100,67 @@ export function Sidebar({
 }) {
   const { pathname } = useLocation();
   const { selectedDeal } = useCaseSelection();
+  const { collapsed, toggle } = useSidebar();
   const activeCaseRoute = pathname.startsWith("/deals/");
   const caseRouteId = activeCaseRoute ? pathname.split("/")[2] : selectedDeal.id;
+
+  // No painel móvel a navegação é sempre expandida.
+  const isCollapsed = mobile ? false : collapsed;
 
   return (
     <aside
       className={
         mobile
           ? "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-background shadow-2xl"
-          : "hidden md:flex md:w-64 shrink-0 flex-col border-r border-border bg-surface/60 backdrop-blur"
+          : `hidden shrink-0 flex-col border-r border-border bg-surface/60 backdrop-blur transition-[width] duration-200 md:flex ${
+              isCollapsed ? "md:w-16" : "md:w-64"
+            }`
       }
     >
-      <div className="flex h-16 items-center justify-center overflow-hidden border-b border-border">
-        <img src="/brand/evidia-logo.png" alt="EvidIA" className="h-auto w-40 shrink-0" />
+      <div
+        className={`flex h-16 items-center border-b border-border ${
+          isCollapsed ? "justify-center px-2" : "justify-between px-3"
+        }`}
+      >
+        {isCollapsed ? (
+          <img src="/brand/evidia-logo.png" alt="EvidIA" className="size-8 object-contain" />
+        ) : (
+          <img src="/brand/evidia-logo.png" alt="EvidIA" className="h-auto w-36 shrink-0" />
+        )}
+        {!mobile && !isCollapsed && (
+          <button
+            type="button"
+            onClick={toggle}
+            aria-expanded={!isCollapsed}
+            aria-label="Recolher navegação"
+            title="Recolher navegação (Ctrl+B)"
+            className="grid size-7 shrink-0 place-items-center rounded-md text-muted-foreground transition hover:bg-secondary/60 hover:text-foreground"
+          >
+            <PanelLeftClose className="size-4" />
+          </button>
+        )}
       </div>
-      <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
+
+      {!mobile && isCollapsed && (
+        <button
+          type="button"
+          onClick={toggle}
+          aria-expanded={!isCollapsed}
+          aria-label="Expandir navegação"
+          title="Expandir navegação (Ctrl+B)"
+          className="mx-auto mt-3 grid size-8 place-items-center rounded-md text-muted-foreground transition hover:bg-secondary/60 hover:text-foreground"
+        >
+          <PanelLeftOpen className="size-4" />
+        </button>
+      )}
+
+      <nav className={`flex-1 space-y-0.5 overflow-y-auto py-4 ${isCollapsed ? "px-2" : "px-3"}`}>
         {primaryNav.map((item) => (
           <StaticNavigationLink
             key={item.to}
             item={item}
             pathname={pathname}
+            collapsed={isCollapsed}
             onNavigate={onNavigate}
           />
         ))}
@@ -115,33 +168,49 @@ export function Sidebar({
           to="/deals/$id"
           params={{ id: caseRouteId }}
           onClick={onNavigate}
-          className={`group flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
+          title={isCollapsed ? "Casos" : undefined}
+          aria-label={isCollapsed ? "Casos" : undefined}
+          className={`group flex items-center rounded-md py-2 text-sm transition-colors ${
+            isCollapsed ? "justify-center px-2" : "gap-3 px-3"
+          } ${
             activeCaseRoute
               ? "bg-primary/10 text-primary"
               : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
           }`}
         >
-          <Briefcase className={`size-4 ${activeCaseRoute ? "text-primary" : ""}`} />
-          <span>Casos</span>
+          <Briefcase className={`size-4 shrink-0 ${activeCaseRoute ? "text-primary" : ""}`} />
+          {!isCollapsed && <span>Casos</span>}
         </Link>
         {analysisNav.map((item) => (
           <StaticNavigationLink
             key={item.to}
             item={item}
             pathname={pathname}
+            collapsed={isCollapsed}
             onNavigate={onNavigate}
           />
         ))}
       </nav>
-      <div className="m-3 rounded-lg border border-border bg-surface-elevated/60 p-3 text-xs">
-        <div className="flex items-center gap-2 text-foreground">
-          <span className="size-2 rounded-full bg-risk-low animate-pulse" />
-          Ambiente: Demonstração
+
+      {isCollapsed ? (
+        <div
+          className="m-2 grid place-items-center rounded-lg border border-border bg-surface-elevated/60 py-2"
+          title="Ambiente de demonstração: casos reais com métricas simuladas"
+        >
+          <span className="size-2 animate-pulse rounded-full bg-risk-low" />
         </div>
-        <p className="mt-1.5 text-muted-foreground leading-snug">
-          Dados fictícios. Nenhuma informação real é processada.
-        </p>
-      </div>
+      ) : (
+        <div className="m-3 rounded-lg border border-border bg-surface-elevated/60 p-3 text-xs">
+          <div className="flex items-center gap-2 text-foreground">
+            <span className="size-2 rounded-full bg-risk-low animate-pulse" />
+            Ambiente: demonstração
+          </div>
+          <p className="mt-1.5 leading-snug text-muted-foreground">
+            Casos baseados em documentos processuais públicos. Scores, probabilidades e valuation
+            são simulados.
+          </p>
+        </div>
+      )}
     </aside>
   );
 }

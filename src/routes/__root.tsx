@@ -11,6 +11,8 @@ import {
 import appCss from "../styles.css?url";
 import { GlobalProcessUpload } from "@/components/shared/GlobalProcessUpload";
 import { CaseSelectionProvider } from "@/contexts/CaseSelectionContext";
+import { SidebarProvider } from "@/contexts/SidebarContext";
+import { DemoEditProvider } from "@/contexts/DemoEditContext";
 
 function NotFoundComponent() {
   return (
@@ -123,8 +125,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <CaseSelectionProvider>
-        <Outlet />
-        <GlobalProcessUpload />
+        <SidebarProvider>
+          <DemoEditProvider>
+            <Outlet />
+            <GlobalProcessUpload />
+          </DemoEditProvider>
+        </SidebarProvider>
       </CaseSelectionProvider>
     </QueryClientProvider>
   );

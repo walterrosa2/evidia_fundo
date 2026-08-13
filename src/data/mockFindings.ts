@@ -1,8 +1,18 @@
+/**
+ * Blocos e achados exibidos nos módulos de nulidade.
+ *
+ * Até a versão anterior este arquivo derivava sempre de `febSapCase`, de modo que as telas de
+ * bloco e de resultado mostravam os achados do FEB independentemente do processo selecionado.
+ * Agora tudo é resolvido por caso.
+ */
+
 import type { RiskLevel } from "@/lib/risk";
 import {
   febSapCase,
+  realCasesV2,
   type AuditFinding,
   type FindingStatus as V2FindingStatus,
+  type RealCaseDemo,
   type RiskLevel as V2Risk,
 } from "@/data/v2";
 
@@ -23,23 +33,6 @@ const riskMap: Record<V2Risk, RiskLevel> = {
   high: "alto",
   critical: "critico",
 };
-
-export const blocks: Block[] = febSapCase.auditBlocks.map((b, i) => ({
-  id: b.id,
-  code: `B${i + 1}`,
-  name: b.name,
-  risk: riskMap[b.riskLevel],
-  score: b.integrityScore,
-  confidence: Math.round(
-    (febSapCase.findings
-      .filter((f) => f.blockId === b.id)
-      .reduce((acc, f) => acc + f.confidence, 0) /
-      Math.max(1, febSapCase.findings.filter((f) => f.blockId === b.id).length)) *
-      100,
-  ),
-  findingsCount: b.findingIds.length,
-  summary: b.summary,
-}));
 
 export type FindingStatus =
   | "indicio_encontrado"
@@ -84,25 +77,64 @@ export type Finding = {
   includedInReport: boolean;
 };
 
-function toFinding(f: AuditFinding): Finding {
-  const primaryEv = febSapCase.evidences.find((e) => e.id === f.evidenceIds[0]);
+function resolveCase(caseId?: string): RealCaseDemo {
+  if (!caseId) return febSapCase;
+  return realCasesV2.find((item) => item.id === caseId) ?? febSapCase;
+}
+
+export function getBlocks(caseId?: string): Block[] {
+  const source = resolveCase(caseId);
+  return source.auditBlocks.map((block, index) => {
+    const blockFindings = source.findings.filter((finding) => finding.blockId === block.id);
+    const confidence =
+      blockFindings.length > 0
+        ? Math.round(
+            (blockFindings.reduce((total, finding) => total + finding.confidence, 0) /
+              blockFindings.length) *
+              100,
+          )
+        : 0;
+
+    return {
+      id: block.id,
+      code: `B${index + 1}`,
+      name: block.name,
+      risk: riskMap[block.riskLevel],
+      score: block.integrityScore,
+      confidence,
+      findingsCount: block.findingIds.length,
+      summary: block.summary,
+    };
+  });
+}
+
+function toFinding(finding: AuditFinding, source: RealCaseDemo): Finding {
+  const primaryEvidence = source.evidences.find((item) => item.id === finding.evidenceIds[0]);
   return {
-    id: f.id,
-    blockId: f.blockId,
-    question: f.auditQuestion,
-    status: statusMap[f.status],
-    riskLevel: riskMap[f.riskLevel],
-    riskScore: f.riskScore,
-    confidence: Math.round(f.confidence * 100),
-    page: primaryEv?.source.sourcePage,
-    evidenceType: primaryEv?.title ?? f.title,
-    excerpt: primaryEv?.source.excerpt,
-    absenceExplanation: f.status === "relevant_absence" ? primaryEv?.summary : undefined,
-    inference: f.inference,
-    proceduralImpact: f.proceduralImpact,
-    recommendedAction: f.recommendedAction,
-    includedInReport: f.includedInReport,
+    id: finding.id,
+    blockId: finding.blockId,
+    question: finding.auditQuestion,
+    status: statusMap[finding.status],
+    riskLevel: riskMap[finding.riskLevel],
+    riskScore: finding.riskScore,
+    confidence: Math.round(finding.confidence * 100),
+    page: primaryEvidence?.source.sourcePage,
+    evidenceType: primaryEvidence?.title ?? finding.title,
+    excerpt: primaryEvidence?.source.excerpt,
+    absenceExplanation:
+      finding.status === "relevant_absence" ? primaryEvidence?.summary : undefined,
+    inference: finding.inference,
+    proceduralImpact: finding.proceduralImpact,
+    recommendedAction: finding.recommendedAction,
+    includedInReport: finding.includedInReport,
   };
 }
 
-export const mockFindings: Finding[] = febSapCase.findings.map(toFinding);
+export function getFindings(caseId?: string): Finding[] {
+  const source = resolveCase(caseId);
+  return source.findings.map((finding) => toFinding(finding, source));
+}
+
+/** Compatibilidade com telas que ainda não recebem o caso selecionado. */
+export const blocks: Block[] = getBlocks();
+export const mockFindings: Finding[] = getFindings();

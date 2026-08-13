@@ -2,9 +2,12 @@ import { scoreToRisk, type RiskLevel, type Recommendation } from "@/lib/risk";
 import { realCasesV2, type RealCaseDemo } from "@/data/v2";
 import {
   calcularValorPotencialPorPeriodo,
+  calcularValorPotencialPorAtualizacao,
+  calcularTempoAcaoEmAnos,
   calcularPrecoCompra,
   type EconomicPotentialCalculation,
 } from "@/lib/economicPotential";
+import { calculateJudicialUpdate, type JudicialUpdateResult } from "@/lib/judicialUpdate";
 
 export type DealStatus = "novo" | "em_analise" | "concluido" | "comite" | "rejeitado";
 
@@ -18,6 +21,10 @@ export type Deal = {
   evidiaScore: number;
   evidenceRisk: RiskLevel;
   economicPotential: EconomicPotentialCalculation;
+  /** Data de distribuição declarada no caso. */
+  filingDate: string;
+  /** Resultado completo da atualização do débito, quando o caso tem parâmetros de cálculo. */
+  judicialUpdate?: JudicialUpdateResult;
   recommendation: Recommendation;
   status: DealStatus;
   owner: string;
@@ -84,13 +91,37 @@ const statusByCase: Record<string, DealStatus> = {
   "case-paulo-gritti-matsuda": "em_analise",
 };
 
+/** Data-base de todos os cálculos derivados. */
+const referenceDate = new Date();
+
 function toDeal(c: RealCaseDemo): Deal {
   const evidiaScore = Number((c.overallRiskScore ?? c.nullityRiskScore ?? 0).toFixed(2));
   const claim = c.claimValue ?? 0;
-  const filingDate = c.timeline[0]?.date ?? new Date().toISOString().slice(0, 10);
-  const economicPotential = calcularValorPotencialPorPeriodo(claim, filingDate);
+
+  // A data de distribuição é declarada pelo caso. Inferi-la do primeiro evento da timeline
+  // capturava fatos anteriores ao ajuizamento (contratos, reuniões) e inflava o tempo de ação.
+  const filingDate =
+    c.filingDate ?? c.timeline[0]?.date ?? referenceDate.toISOString().slice(0, 10);
+  const tempoAcaoAnos = calcularTempoAcaoEmAnos(filingDate, referenceDate);
+
+  let judicialUpdate: JudicialUpdateResult | undefined;
+  let economicPotential: EconomicPotentialCalculation;
+
+  if (c.judicialCalculation && claim > 0) {
+    judicialUpdate = calculateJudicialUpdate({
+      ...c.judicialCalculation,
+      endDate: referenceDate.toISOString().slice(0, 10),
+      applyLegalRateAfterReform: true,
+    });
+    economicPotential = calcularValorPotencialPorAtualizacao(judicialUpdate, tempoAcaoAnos);
+  } else {
+    economicPotential = calcularValorPotencialPorPeriodo(claim, filingDate, referenceDate);
+  }
+
   const potential = calcularPrecoCompra(economicPotential.valorEconomicoPotencial);
   return {
+    filingDate,
+    judicialUpdate,
     id: c.id,
     name: c.displayName,
     sector: c.sector,

@@ -1,12 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plus, ShieldAlert, FileSearch, AlertOctagon, Activity } from "lucide-react";
+import { Plus, ShieldAlert, FileSearch, AlertOctagon, Activity, ArrowRight } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { MetricCard } from "@/components/shared/MetricCard";
 import { RiskBadge } from "@/components/shared/RiskBadge";
+import { PillarHeatmap } from "@/components/nulidade/PillarHeatmap";
+import { Th } from "@/components/shared/TableHead";
+import { FIELD_HELP } from "@/config/fieldHelp";
 import { useCaseSelection } from "@/contexts/useCaseSelection";
 import { getCaseDetail } from "@/data/mockCaseDetail";
 import { mockDeals } from "@/data/mockDeals";
+import { getNullityReport } from "@/data/v2/nullityReports";
 
 export const Route = createFileRoute("/nulidade360/")({
   component: Nulidade360,
@@ -22,6 +26,7 @@ const riskLevelMap = {
 function Nulidade360() {
   const { selectedCaseId, selectedDeal, selectedCase, selectCase } = useCaseSelection();
   const selectedDetail = getCaseDetail(selectedCaseId)!;
+  const report = getNullityReport(selectedCaseId);
   const selectedBlocks = selectedCase.auditBlocks.map((block, index) => {
     const findings = selectedCase.findings.filter((finding) =>
       block.findingIds.includes(finding.id),
@@ -49,7 +54,7 @@ function Nulidade360() {
       <SectionHeader
         eyebrow={`Módulo EvidIA · ${selectedDeal.name}`}
         title="Nulidade360"
-        subtitle="Audite laudos, perícias e provas técnicas por blocos. O processo selecionado acima permanece ativo nas próximas etapas."
+        subtitle="Auditoria de laudos, perícias e provas técnicas em catorze pilares de invalidação processual. O score global mede o risco de perda de utilidade da prova — e, com ele, o risco de reprecificação do ativo."
         actions={
           <Link
             to="/nulidade360/nova-analise"
@@ -63,24 +68,33 @@ function Nulidade360() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <MetricCard
           label="Documentos analisados"
+          help={FIELD_HELP.documentosAnalisados}
           value={selectedDetail.documentsAnalyzed}
           icon={FileSearch}
           accent="cyan"
         />
         <MetricCard
           label="Blocos auditados"
+          help={FIELD_HELP.blocosAuditados}
           value={selectedBlocks.length}
           icon={Activity}
           accent="violet"
         />
         <MetricCard
-          label="Achados mapeados"
+          label="Achados aceitos"
+          help={FIELD_HELP.achadosAceitos}
           value={selectedDeal.sourceFindingCount}
           icon={AlertOctagon}
           accent="risk-critical"
+          hint={
+            selectedDetail.evidenceMapRowCount > 0
+              ? `${selectedDetail.evidenceMapRowCount.toLocaleString("pt-BR")} evidências mapeadas`
+              : "mapa de evidências pendente"
+          }
         />
         <MetricCard
           label="Score de risco"
+          help={FIELD_HELP.score}
           value={`${selectedDeal.evidiaScore}/100`}
           icon={ShieldAlert}
           accent="risk-high"
@@ -88,10 +102,27 @@ function Nulidade360() {
         />
       </div>
 
+      {report && (
+        <div className="mt-6">
+          <PillarHeatmap report={report} />
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-surface/40 px-4 py-3">
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              {report.scoreExplanation}
+            </p>
+            <Link
+              to="/nulidade360/resultado"
+              className="inline-flex shrink-0 items-center gap-2 rounded-md border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10"
+            >
+              Abrir os {report.findings.length} achados <ArrowRight className="size-3.5" />
+            </Link>
+          </div>
+        </div>
+      )}
+
       <div className="mt-6 rounded-xl border border-border bg-card p-6">
-        <div className="text-sm font-semibold">Mapa de risco por bloco</div>
+        <div className="text-sm font-semibold">Mapa de risco por bloco temático</div>
         <div className="mt-1 text-xs text-muted-foreground">
-          Processo selecionado: {selectedDeal.name}
+          Agrupamento de apresentação sobre os achados do parecer · {selectedDeal.name}
         </div>
         {selectedBlocks.length > 0 ? (
           <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -147,11 +178,19 @@ function Nulidade360() {
           <table className="w-full text-sm">
             <thead className="border-b border-border bg-surface/40">
               <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
-                <th className="px-6 py-3 font-medium">Caso</th>
-                <th className="px-6 py-3 font-medium">Documentos</th>
-                <th className="px-6 py-3 font-medium">Score</th>
-                <th className="px-6 py-3 font-medium">Risco</th>
-                <th className="px-6 py-3 font-medium">Seleção</th>
+                <Th className="px-6" help={FIELD_HELP.caso}>
+                  Caso
+                </Th>
+                <Th className="px-6" help={FIELD_HELP.documentosAnalisados}>
+                  Documentos
+                </Th>
+                <Th className="px-6" help={FIELD_HELP.score}>
+                  Score
+                </Th>
+                <Th className="px-6" help={FIELD_HELP.riscoJuridico}>
+                  Risco
+                </Th>
+                <Th className="px-6">Seleção</Th>
               </tr>
             </thead>
             <tbody>
