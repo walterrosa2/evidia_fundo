@@ -21,11 +21,9 @@ ENV NODE_ENV=production
 ENV PORT=8518
 ENV HOST=0.0.0.0
 
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/.output ./.output 2>/dev/null || true
-COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app ./
 
 EXPOSE 8518
 
 CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "8518"]
+
