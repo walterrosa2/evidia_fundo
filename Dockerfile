@@ -25,5 +25,5 @@ COPY --from=builder /app ./
 
 EXPOSE 8518
 
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "8518"]
+CMD ["node", ".output/server/index.mjs"]
 
