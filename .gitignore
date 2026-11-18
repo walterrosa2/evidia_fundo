@@ -31,6 +31,21 @@ dist-ssr
 *.sln
 *.sw?
 
+# Backend operacional (Python): segredos, ambiente, dados e documentos nunca versionados
+.env
+.env.*
+!.env.example
+backend/.venv/
+backend/data/
+backend/logs/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+_trash/
+
 # Specification and Agent work files
 .specify/
 .specify

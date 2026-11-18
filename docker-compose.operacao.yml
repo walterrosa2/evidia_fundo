@@ -1,0 +1,30 @@
+# API operacional da Evidia em container, para homologacao local.
+# Separado do docker-compose.yml (demonstracao): este arquivo nao altera aquele deploy.
+#
+#   $env:EVIDIA_ADMIN_PASSWORD = "<senha>"      # obrigatoria; nunca gravar em arquivo versionado
+#   docker compose -f docker-compose.operacao.yml up --build
+#
+# Motores e modelo ficam desligados: nenhuma chamada paga sai deste container.
+services:
+  evidia_api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: evidia_api_operacao
+    ports:
+      - "127.0.0.1:${EVIDIA_API_PORT:-8007}:8007"
+    environment:
+      EVIDIA_ENV: ${EVIDIA_ENV:-development}
+      EVIDIA_ADMIN_USERNAME: ${EVIDIA_ADMIN_USERNAME:-admin}
+      EVIDIA_ADMIN_PASSWORD: ${EVIDIA_ADMIN_PASSWORD:?defina EVIDIA_ADMIN_PASSWORD no ambiente}
+      EVIDIA_ADMIN_ORG_NAME: ${EVIDIA_ADMIN_ORG_NAME:-Organizacao local}
+      EVIDIA_CORS_ORIGINS: ${EVIDIA_CORS_ORIGINS:-http://localhost:5180}
+      EVIDIA_ORIGINATION_MODE: ${EVIDIA_ORIGINATION_MODE:-fixture}
+      EVIDIA_NULIDADE360_MODE: disabled
+      EVIDIA_LLM_MODE: disabled
+      EVIDIA_DILIGENCE_MODE: ${EVIDIA_DILIGENCE_MODE:-fixture}
+    volumes:
+      - evidia_operacao_data:/data
+
+volumes:
+  evidia_operacao_data:

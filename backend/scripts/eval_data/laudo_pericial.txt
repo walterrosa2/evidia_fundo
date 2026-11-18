@@ -1,0 +1,69 @@
+<pagina> 1
+DOCUMENTO SINTÉTICO PARA TESTE — NENHUMA PESSOA, EMPRESA OU PROCESSO REAL.
+
+LAUDO PERICIAL DE TECNOLOGIA DA INFORMAÇÃO
+
+Processo sintético. Autora: Construtora Aurora Sintética Ltda. Ré: TecnoSistemas Beta
+Sintética S.A.
+
+Perito do juízo: Perito Sintético Um, engenheiro de computação.
+
+1. OBJETO
+
+O presente laudo tem por objeto apurar se o sistema de gestão empresarial contratado em
+14/03/2022 foi implantado no prazo de 180 dias e em conformidade com o escopo contratual.
+
+2. DILIGÊNCIAS
+
+Foi realizada uma única vistoria, em 12/06/2024, nas dependências da autora. O laudo não
+registra intimação prévia dos assistentes técnicos das partes para acompanhar a vistoria.
+O perito não realizou vistoria no ambiente de desenvolvimento da ré.
+
+<pagina> 2
+3. METODOLOGIA
+
+O perito examinou o contrato, o Anexo II, as atas de reunião e os registros de chamados
+fornecidos pela autora. Não foram solicitados à ré os registros de versionamento do sistema.
+O laudo não indica o método utilizado para aferir o percentual de conclusão de cada módulo.
+
+4. CONSTATAÇÕES
+
+4.1. O contrato fixa prazo de 180 dias a partir de 14/03/2022, com término em 10/09/2022.
+
+4.2. Na data da vistoria, o módulo financeiro estava em uso em ambiente de homologação. Os
+módulos de suprimentos e de obras não estavam instalados.
+
+4.3. Os registros de chamados apresentados pela autora indicam 214 chamados abertos entre
+fevereiro e maio de 2023, dos quais 61 permaneciam sem solução.
+
+<pagina> 3
+5. RESPOSTAS AOS QUESITOS
+
+Quesito 1 da autora — O sistema foi entregue no prazo contratual?
+Resposta: Não. Em 10/09/2022 nenhum módulo estava em operação.
+
+Quesito 2 da autora — Os defeitos impediam o uso do módulo financeiro?
+Resposta: Sim, em parte. O fechamento contábil mensal não era concluído pelo sistema.
+
+Quesito 1 da ré — A autora entregou os dados cadastrais no prazo do Anexo II?
+Resposta: Prejudicado. O perito não localizou nos autos o protocolo de entrega.
+
+Quesito 2 da ré — Houve solicitação de módulo não previsto no escopo original?
+Resposta: O quesito não foi respondido.
+
+Quesito 3 da ré — O atraso na entrega dos dados influenciou o cronograma?
+Resposta: O quesito não foi respondido.
+
+<pagina> 4
+6. CONCLUSÃO
+
+O perito conclui que a ré não cumpriu o prazo contratual e que o sistema não atingiu o
+escopo contratado. Estima em 35% o percentual de conclusão da implantação.
+
+O perito entende que a responsabilidade pelo atraso é exclusiva da ré.
+
+7. ENCERRAMENTO
+
+Nada mais havendo a relatar, encerra-se o presente laudo, em quatro páginas.
+
+Perito Sintético Um

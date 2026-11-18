@@ -1,0 +1,15 @@
+# Nada de dados, segredos ou ambiente local dentro da imagem.
+.env
+.env.*
+!.env.example
+.venv/
+data/
+logs/
+tests/
+scripts/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/

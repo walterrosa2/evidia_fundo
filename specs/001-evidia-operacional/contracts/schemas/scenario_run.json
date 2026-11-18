@@ -1,0 +1,314 @@
+{
+  "$defs": {
+    "Citation": {
+      "additionalProperties": false,
+      "description": "Referencia resolvivel: versao de documento do dossie e pagina do arquivo.",
+      "properties": {
+        "document_version_id": {
+          "maxLength": 36,
+          "minLength": 1,
+          "title": "Document Version Id",
+          "type": "string"
+        },
+        "excerpt": {
+          "default": "",
+          "maxLength": 4000,
+          "title": "Excerpt",
+          "type": "string"
+        },
+        "page_end": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page End"
+        },
+        "page_start": {
+          "minimum": 1,
+          "title": "Page Start",
+          "type": "integer"
+        },
+        "source": {
+          "default": "engine",
+          "enum": [
+            "engine",
+            "review"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "document_version_id",
+        "page_start"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "Pendency": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "maxLength": 60,
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "maxLength": 400,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Pendency",
+      "type": "object"
+    },
+    "ScenarioArgument": {
+      "additionalProperties": false,
+      "properties": {
+        "affected_act": {
+          "anyOf": [
+            {
+              "maxLength": 400,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Affected Act"
+        },
+        "against": {
+          "maxLength": 36,
+          "minLength": 1,
+          "title": "Against",
+          "type": "string"
+        },
+        "citations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Citation"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "confidence": {
+          "default": "not_assessed",
+          "enum": [
+            "high",
+            "medium",
+            "low",
+            "not_assessed"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        },
+        "counter_evidence": {
+          "default": "",
+          "maxLength": 4000,
+          "title": "Counter Evidence",
+          "type": "string"
+        },
+        "formulated_by": {
+          "maxLength": 36,
+          "minLength": 1,
+          "title": "Formulated By",
+          "type": "string"
+        },
+        "hypothesis": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Hypothesis",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "mitigation": {
+          "default": "",
+          "maxLength": 4000,
+          "title": "Mitigation",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "source_evidence",
+            "scenario_inference"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "pendencies": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Pendency"
+          },
+          "title": "Pendencies",
+          "type": "array"
+        },
+        "plea_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Plea Id"
+        },
+        "status": {
+          "enum": [
+            "supported",
+            "hypothesis_for_validation"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "formulated_by",
+        "against",
+        "origin",
+        "hypothesis",
+        "status"
+      ],
+      "title": "ScenarioArgument",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Execucao de um cenario: um participante, um pedido, um lado simulado.",
+  "properties": {
+    "arguments": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ScenarioArgument"
+      },
+      "title": "Arguments",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "dossier_version": {
+      "minimum": 0,
+      "title": "Dossier Version",
+      "type": "integer"
+    },
+    "finished_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Finished At"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "is_mock": {
+      "title": "Is Mock",
+      "type": "boolean"
+    },
+    "is_synthetic": {
+      "default": false,
+      "title": "Is Synthetic",
+      "type": "boolean"
+    },
+    "limitations": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "opportunity_id": {
+      "title": "Opportunity Id",
+      "type": "string"
+    },
+    "participant_id": {
+      "maxLength": 36,
+      "minLength": 1,
+      "title": "Participant Id",
+      "type": "string"
+    },
+    "plea_id": {
+      "maxLength": 36,
+      "minLength": 1,
+      "title": "Plea Id",
+      "type": "string"
+    },
+    "simulated_side": {
+      "enum": [
+        "claimant",
+        "defendant"
+      ],
+      "title": "Simulated Side",
+      "type": "string"
+    },
+    "source": {
+      "default": "manual",
+      "enum": [
+        "manual",
+        "model"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "stale": {
+      "default": false,
+      "title": "Stale",
+      "type": "boolean"
+    },
+    "status": {
+      "enum": [
+        "queued",
+        "running",
+        "partial",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "opportunity_id",
+    "dossier_version",
+    "participant_id",
+    "plea_id",
+    "simulated_side",
+    "status",
+    "is_mock",
+    "created_at"
+  ],
+  "title": "ScenarioRunOut",
+  "type": "object"
+}

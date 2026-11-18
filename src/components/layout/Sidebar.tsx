@@ -13,6 +13,7 @@ import {
   GitBranch,
   PanelLeftClose,
   PanelLeftOpen,
+  FolderKanban,
 } from "lucide-react";
 import { useCaseSelection } from "@/contexts/useCaseSelection";
 import { useSidebar } from "@/contexts/useSidebar";
@@ -26,7 +27,8 @@ type StaticRoute =
   | "/valuation"
   | "/calculo-judicial"
   | "/relatorios"
-  | "/configuracoes";
+  | "/configuracoes"
+  | "/operacao";
 
 type NavigationItem = {
   to: StaticRoute;
@@ -44,6 +46,11 @@ const primaryNav: NavigationItem[] = [
     icon: Workflow,
     match: (pathname) => pathname === "/deals" || pathname === "/deals/",
   },
+];
+
+// Operação persistente (backend real). Separada da jornada demonstrativa acima.
+const operationalNav: NavigationItem[] = [
+  { to: "/operacao", label: "Oportunidades", icon: FolderKanban },
 ];
 
 const analysisNav: NavigationItem[] = [
@@ -101,6 +108,7 @@ export function Sidebar({
   const { pathname } = useLocation();
   const { selectedDeal } = useCaseSelection();
   const { collapsed, toggle } = useSidebar();
+  const operational = pathname === "/operacao" || pathname.startsWith("/operacao/");
   const activeCaseRoute = pathname.startsWith("/deals/");
   const caseRouteId = activeCaseRoute ? pathname.split("/")[2] : selectedDeal.id;
 
@@ -155,6 +163,26 @@ export function Sidebar({
       )}
 
       <nav className={`flex-1 space-y-0.5 overflow-y-auto py-4 ${isCollapsed ? "px-2" : "px-3"}`}>
+        {!isCollapsed && (
+          <div className="px-3 pb-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground/70">
+            Operação
+          </div>
+        )}
+        {operationalNav.map((item) => (
+          <StaticNavigationLink
+            key={item.to}
+            item={item}
+            pathname={pathname}
+            collapsed={isCollapsed}
+            onNavigate={onNavigate}
+          />
+        ))}
+        <div className={`my-3 border-t border-border ${isCollapsed ? "" : "mx-1"}`} />
+        {!isCollapsed && (
+          <div className="px-3 pb-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground/70">
+            Demonstração
+          </div>
+        )}
         {primaryNav.map((item) => (
           <StaticNavigationLink
             key={item.to}
@@ -192,7 +220,27 @@ export function Sidebar({
         ))}
       </nav>
 
-      {isCollapsed ? (
+      {operational ? (
+        isCollapsed ? (
+          <div
+            className="m-2 grid place-items-center rounded-lg border border-primary/40 bg-primary/10 py-2"
+            title="Ambiente operacional local: dados persistidos no backend"
+          >
+            <span className="size-2 rounded-full bg-primary" />
+          </div>
+        ) : (
+          <div className="m-3 rounded-lg border border-primary/40 bg-primary/10 p-3 text-xs">
+            <div className="flex items-center gap-2 text-foreground">
+              <span className="size-2 rounded-full bg-primary" />
+              Ambiente: operação local
+            </div>
+            <p className="mt-1.5 leading-snug text-muted-foreground">
+              Dados persistidos no backend. Registros de fixture aparecem marcados como sintéticos.
+              Sem homologação jurídica ou econômica.
+            </p>
+          </div>
+        )
+      ) : isCollapsed ? (
         <div
           className="m-2 grid place-items-center rounded-lg border border-border bg-surface-elevated/60 py-2"
           title="Ambiente de demonstração: casos reais com métricas simuladas"

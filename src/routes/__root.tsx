@@ -3,12 +3,15 @@ import {
   Outlet,
   Link,
   createRootRouteWithContext,
+  redirect,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { legacyStageTarget } from "@/lib/operacao/stages";
 import { GlobalProcessUpload } from "@/components/shared/GlobalProcessUpload";
 import { CaseSelectionProvider } from "@/contexts/CaseSelectionContext";
 import { SidebarProvider } from "@/contexts/SidebarContext";
@@ -72,6 +75,23 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  // Endereço antigo da demonstração com `?oportunidade=<id>` leva à etapa correspondente
+  // do dossiê operacional (RF15), antes de a tela antiga carregar. Sem esse parâmetro, a
+  // demonstração abre como sempre.
+  beforeLoad: ({ location }) => {
+    const target = legacyStageTarget(
+      location.pathname,
+      (location.search as Record<string, unknown>).oportunidade,
+    );
+    if (target) {
+      throw redirect({
+        to: "/operacao/$id",
+        params: { id: target.id },
+        search: { etapa: target.etapa },
+        replace: true,
+      });
+    }
+  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -119,6 +139,17 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * O envio simulado pertence à demonstração. Nas telas operacionais o documento entra
+ * pelo dossiê, com armazenamento e versão reais; o atalho simulado não é exibido.
+ */
+function DemoOnlyUpload() {
+  const operational = useRouterState({
+    select: (state) => state.location.pathname.startsWith("/operacao"),
+  });
+  return operational ? null : <GlobalProcessUpload />;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -128,7 +159,7 @@ function RootComponent() {
         <SidebarProvider>
           <DemoEditProvider>
             <Outlet />
-            <GlobalProcessUpload />
+            <DemoOnlyUpload />
           </DemoEditProvider>
         </SidebarProvider>
       </CaseSelectionProvider>

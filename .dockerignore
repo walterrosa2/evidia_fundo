@@ -7,3 +7,7 @@ dist
 .vinxi
 .nitro
 *.log
+backend
+.env
+.env.*
+_trash
