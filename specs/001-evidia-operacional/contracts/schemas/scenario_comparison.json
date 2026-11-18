@@ -1,0 +1,195 @@
+{
+  "$defs": {
+    "ParticipantScenario": {
+      "additionalProperties": false,
+      "description": "Situacao do cenario de um participante do pedido.",
+      "properties": {
+        "arguments_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Arguments Count"
+        },
+        "hypotheses_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hypotheses Count"
+        },
+        "participant_id": {
+          "title": "Participant Id",
+          "type": "string"
+        },
+        "run_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Id"
+        },
+        "status": {
+          "enum": [
+            "not_analyzed",
+            "running",
+            "partial",
+            "completed",
+            "failed",
+            "stale"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "participant_id",
+        "status"
+      ],
+      "title": "ParticipantScenario",
+      "type": "object"
+    },
+    "ScenarioSideView": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Arguments Count"
+        },
+        "hypotheses_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hypotheses Count"
+        },
+        "participants": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ParticipantScenario"
+          },
+          "title": "Participants",
+          "type": "array"
+        },
+        "run_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Id"
+        },
+        "side": {
+          "enum": [
+            "claimant",
+            "defendant"
+          ],
+          "title": "Side",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "not_analyzed",
+            "running",
+            "partial",
+            "completed",
+            "failed",
+            "stale"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "side",
+        "status"
+      ],
+      "title": "ScenarioSideView",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Comparacao dos dois lados para um pedido. Nao depende da posicao economica.",
+  "properties": {
+    "claimant": {
+      "$ref": "#/$defs/ScenarioSideView"
+    },
+    "common_sources": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Common Sources",
+      "type": "array"
+    },
+    "comparable": {
+      "title": "Comparable",
+      "type": "boolean"
+    },
+    "defendant": {
+      "$ref": "#/$defs/ScenarioSideView"
+    },
+    "dossier_version": {
+      "title": "Dossier Version",
+      "type": "integer"
+    },
+    "limitations": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "opportunity_id": {
+      "title": "Opportunity Id",
+      "type": "string"
+    },
+    "plea_id": {
+      "title": "Plea Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "opportunity_id",
+    "plea_id",
+    "dossier_version",
+    "claimant",
+    "defendant",
+    "comparable"
+  ],
+  "title": "ScenarioComparisonOut",
+  "type": "object"
+}

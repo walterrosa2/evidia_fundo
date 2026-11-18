@@ -1,0 +1,360 @@
+{
+  "$defs": {
+    "Citation": {
+      "additionalProperties": false,
+      "description": "Referencia resolvivel: versao de documento do dossie e pagina do arquivo.",
+      "properties": {
+        "document_version_id": {
+          "maxLength": 36,
+          "minLength": 1,
+          "title": "Document Version Id",
+          "type": "string"
+        },
+        "excerpt": {
+          "default": "",
+          "maxLength": 4000,
+          "title": "Excerpt",
+          "type": "string"
+        },
+        "page_end": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page End"
+        },
+        "page_start": {
+          "minimum": 1,
+          "title": "Page Start",
+          "type": "integer"
+        },
+        "source": {
+          "default": "engine",
+          "enum": [
+            "engine",
+            "review"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "document_version_id",
+        "page_start"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "FindingClaimLinkOut": {
+      "additionalProperties": false,
+      "description": "Afirmacao do dossie ligada ao achado, com o estado dela no momento da leitura.",
+      "properties": {
+        "claim_id": {
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "claim_review_state": {
+          "enum": [
+            "pending",
+            "in_review",
+            "validated",
+            "discarded",
+            "contested",
+            "inconclusive"
+          ],
+          "title": "Claim Review State",
+          "type": "string"
+        },
+        "claim_stale": {
+          "title": "Claim Stale",
+          "type": "boolean"
+        },
+        "claim_text": {
+          "title": "Claim Text",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "created_by": {
+          "title": "Created By",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "note": {
+          "title": "Note",
+          "type": "string"
+        },
+        "relation": {
+          "enum": [
+            "supports",
+            "contradicts",
+            "related"
+          ],
+          "title": "Relation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "claim_id",
+        "claim_text",
+        "claim_review_state",
+        "claim_stale",
+        "relation",
+        "note",
+        "created_by",
+        "created_at"
+      ],
+      "title": "FindingClaimLinkOut",
+      "type": "object"
+    },
+    "FindingReviewOut": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "additionalProperties": true,
+          "title": "After",
+          "type": "object"
+        },
+        "before": {
+          "additionalProperties": true,
+          "title": "Before",
+          "type": "object"
+        },
+        "comment": {
+          "title": "Comment",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "reviewer_id": {
+          "title": "Reviewer Id",
+          "type": "string"
+        },
+        "reviewer_name": {
+          "title": "Reviewer Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "reviewer_id",
+        "reviewer_name",
+        "before",
+        "after",
+        "comment",
+        "created_at"
+      ],
+      "title": "FindingReviewOut",
+      "type": "object"
+    },
+    "Pendency": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "maxLength": 60,
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "maxLength": 400,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Pendency",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Achado normalizado. O original do motor fica em `original`, sem alteracao.",
+  "properties": {
+    "basis": {
+      "default": "",
+      "maxLength": 8000,
+      "title": "Basis",
+      "type": "string"
+    },
+    "block_key": {
+      "maxLength": 80,
+      "minLength": 1,
+      "title": "Block Key",
+      "type": "string"
+    },
+    "citations": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Citation"
+      },
+      "title": "Citations",
+      "type": "array"
+    },
+    "claim_links": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/FindingClaimLinkOut"
+      },
+      "title": "Claim Links",
+      "type": "array"
+    },
+    "consequence_hypothesis": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Consequence Hypothesis",
+      "type": "string"
+    },
+    "engine": {
+      "enum": [
+        "nulidade360",
+        "p4"
+      ],
+      "title": "Engine",
+      "type": "string"
+    },
+    "engine_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Engine Version"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "is_synthetic": {
+      "default": false,
+      "title": "Is Synthetic",
+      "type": "boolean"
+    },
+    "opportunity_id": {
+      "title": "Opportunity Id",
+      "type": "string"
+    },
+    "original": {
+      "additionalProperties": true,
+      "title": "Original",
+      "type": "object"
+    },
+    "pendencies": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Pendency"
+      },
+      "title": "Pendencies",
+      "type": "array"
+    },
+    "review_state": {
+      "default": "pending",
+      "enum": [
+        "pending",
+        "in_review",
+        "validated",
+        "discarded",
+        "contested",
+        "inconclusive"
+      ],
+      "title": "Review State",
+      "type": "string"
+    },
+    "reviews": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/FindingReviewOut"
+      },
+      "title": "Reviews",
+      "type": "array"
+    },
+    "risk_index": {
+      "anyOf": [
+        {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "ge": 0,
+          "le": 100
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Risk Index"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "support_strength": {
+      "default": "not_assessed",
+      "enum": [
+        "strong",
+        "moderate",
+        "weak",
+        "not_assessed"
+      ],
+      "title": "Support Strength",
+      "type": "string"
+    },
+    "title": {
+      "maxLength": 400,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "validation_blockers": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Pendency"
+      },
+      "title": "Validation Blockers",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "opportunity_id",
+    "engine",
+    "block_key",
+    "title",
+    "original"
+  ],
+  "title": "FindingOut",
+  "type": "object"
+}

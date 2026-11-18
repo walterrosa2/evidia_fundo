@@ -1,0 +1,170 @@
+{
+  "_aviso": "DADOS SINTÉTICOS — exemplo de contrato; nenhum motor real foi executado",
+  "achado_sem_citacao": {
+    "basis": "Texto sintético de fundamento.",
+    "block_key": "pilar_01",
+    "citations": [],
+    "claim_links": [],
+    "consequence_hypothesis": "Hipótese sintética de consequência, a validar.",
+    "engine": "nulidade360",
+    "engine_version": null,
+    "id": "00000000-0000-4000-8000-0000000000f1",
+    "is_synthetic": true,
+    "opportunity_id": "00000000-0000-4000-8000-000000000001",
+    "original": {
+      "exemplo_sintetico": true
+    },
+    "pendencies": [
+      {
+        "code": "evidence_pending",
+        "message": "Sem citação resolvível (documento e página): pendente de evidência."
+      }
+    ],
+    "review_state": "pending",
+    "reviews": [],
+    "risk_index": null,
+    "run_id": "00000000-0000-4000-8000-0000000000e1",
+    "support_strength": "not_assessed",
+    "title": "Achado sintético sem página de origem",
+    "validation_blockers": []
+  },
+  "cenario_do_autor": {
+    "arguments": [
+      {
+        "affected_act": null,
+        "against": "00000000-0000-4000-8000-0000000000b2",
+        "citations": [
+          {
+            "document_version_id": "00000000-0000-4000-8000-0000000000d1",
+            "excerpt": "",
+            "page_end": null,
+            "page_start": 7,
+            "source": "engine"
+          }
+        ],
+        "confidence": "not_assessed",
+        "counter_evidence": "",
+        "formulated_by": "00000000-0000-4000-8000-0000000000b1",
+        "hypothesis": "Argumento sintético apoiado na página 7 do documento.",
+        "id": "00000000-0000-4000-8000-0000000000f2",
+        "mitigation": "",
+        "origin": "source_evidence",
+        "pendencies": [],
+        "plea_id": "00000000-0000-4000-8000-0000000000c1",
+        "status": "supported"
+      },
+      {
+        "affected_act": null,
+        "against": "00000000-0000-4000-8000-0000000000b2",
+        "citations": [],
+        "confidence": "not_assessed",
+        "counter_evidence": "",
+        "formulated_by": "00000000-0000-4000-8000-0000000000b1",
+        "hypothesis": "Argumento sintético ainda sem evidência.",
+        "id": "00000000-0000-4000-8000-0000000000f3",
+        "mitigation": "",
+        "origin": "scenario_inference",
+        "pendencies": [
+          {
+            "code": "evidence_pending",
+            "message": "Sem citação resolvível (documento e página): pendente de evidência."
+          }
+        ],
+        "plea_id": "00000000-0000-4000-8000-0000000000c1",
+        "status": "hypothesis_for_validation"
+      }
+    ],
+    "created_at": "2026-11-17T12:00:00Z",
+    "dossier_version": 3,
+    "finished_at": "2026-11-17T12:05:00Z",
+    "id": "00000000-0000-4000-8000-0000000000e2",
+    "is_mock": true,
+    "is_synthetic": true,
+    "limitations": [],
+    "opportunity_id": "00000000-0000-4000-8000-000000000001",
+    "participant_id": "00000000-0000-4000-8000-0000000000b1",
+    "plea_id": "00000000-0000-4000-8000-0000000000c1",
+    "simulated_side": "claimant",
+    "source": "manual",
+    "stale": false,
+    "status": "completed"
+  },
+  "comparacao_so_com_autor": {
+    "claimant": {
+      "arguments_count": 2,
+      "hypotheses_count": 1,
+      "participants": [],
+      "run_id": "00000000-0000-4000-8000-0000000000e2",
+      "side": "claimant",
+      "status": "completed"
+    },
+    "common_sources": [],
+    "comparable": false,
+    "defendant": {
+      "arguments_count": null,
+      "hypotheses_count": null,
+      "participants": [],
+      "run_id": null,
+      "side": "defendant",
+      "status": "not_analyzed"
+    },
+    "dossier_version": 3,
+    "limitations": [
+      "Cenário do réu não analisado: a ausência de argumentos não indica êxito."
+    ],
+    "opportunity_id": "00000000-0000-4000-8000-000000000001",
+    "plea_id": "00000000-0000-4000-8000-0000000000c1"
+  },
+  "execucao_parcial": {
+    "attempts": 1,
+    "blocks": [
+      {
+        "key": "pilar_01",
+        "label": "Pilar 1 (sintético)",
+        "message": "",
+        "status": "completed"
+      },
+      {
+        "key": "pilar_02",
+        "label": "Pilar 2 (sintético)",
+        "message": "Bloco sem resposta do provedor (exemplo sintético).",
+        "status": "failed"
+      }
+    ],
+    "checklist_version": "sintetico-1",
+    "cost_amount": null,
+    "cost_currency": null,
+    "created_at": "2026-11-17T12:00:00Z",
+    "document_version_ids": [
+      "00000000-0000-4000-8000-0000000000d1"
+    ],
+    "dossier_version": 3,
+    "engine": "nulidade360",
+    "engine_status": "completed",
+    "engine_version": null,
+    "evidence_map": null,
+    "external_ref": null,
+    "findings_count": 0,
+    "finished_at": "2026-11-17T12:05:00Z",
+    "id": "00000000-0000-4000-8000-0000000000e1",
+    "input_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "is_mock": true,
+    "is_synthetic": true,
+    "items_count": 0,
+    "limitations": [
+      "Pilar 2 não analisado: o parecer integral permanece indisponível."
+    ],
+    "model": null,
+    "opportunity_id": "00000000-0000-4000-8000-000000000001",
+    "overall_risk_index": null,
+    "prompt_version": "sintetico-1",
+    "request_id": null,
+    "side_confirmed_by": "00000000-0000-4000-8000-0000000000a1",
+    "simulated_side": "defendant",
+    "stale": false,
+    "stale_reason": null,
+    "started_at": "2026-11-17T12:00:00Z",
+    "status": "partial",
+    "usage": null
+  }
+}

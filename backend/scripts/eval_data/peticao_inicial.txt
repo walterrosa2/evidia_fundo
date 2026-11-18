@@ -1,0 +1,49 @@
+<pagina> 1
+DOCUMENTO SINTÉTICO PARA TESTE — NENHUMA PESSOA, EMPRESA OU PROCESSO REAL.
+
+EXCELENTÍSSIMO SENHOR DOUTOR JUIZ DE DIREITO DA VARA CÍVEL DA COMARCA SINTÉTICA
+
+CONSTRUTORA AURORA SINTÉTICA LTDA., pessoa jurídica de direito privado, por seus advogados,
+vem propor AÇÃO DE RESCISÃO CONTRATUAL CUMULADA COM INDENIZAÇÃO POR PERDAS E DANOS em face de
+TECNOSISTEMAS BETA SINTÉTICA S.A., pelos fatos e fundamentos a seguir.
+
+I — DOS FATOS
+
+Em 14/03/2022 as partes firmaram o Contrato de Licenciamento e Implantação de Sistema de
+Gestão Empresarial (ERP), pelo qual a ré se obrigou a implantar o sistema nos módulos
+financeiro, suprimentos e obras, no prazo de 180 dias contados da assinatura.
+
+O preço global ajustado foi de R$ 2.450.000,00, dos quais a autora pagou R$ 1.960.000,00
+até dezembro de 2022, conforme comprovantes anexos.
+
+<pagina> 2
+A autora alega que o prazo contratual venceu em 10/09/2022 sem que nenhum dos três módulos
+estivesse em operação. Segundo a autora, o módulo financeiro só foi disponibilizado para
+testes em fevereiro de 2023, com falhas que impediam o fechamento contábil mensal.
+
+A autora afirma ter notificado a ré por três vezes, em 03/10/2022, 21/11/2022 e 16/01/2023,
+sem que os defeitos fossem corrigidos. As notificações constam dos documentos 7, 8 e 9.
+
+Sustenta a autora que, em razão do atraso, manteve em paralelo o sistema antigo e contratou
+equipe adicional, suportando custo que estima em R$ 386.000,00.
+
+A ata de reunião de 05/12/2022, assinada por representantes das duas partes, registra que
+“o cronograma de implantação está atrasado em relação ao previsto no Anexo II do contrato”.
+
+<pagina> 3
+II — DO DIREITO
+
+O inadimplemento da ré autoriza a rescisão do contrato, com a restituição dos valores pagos
+e a reparação das perdas e danos, nos termos da legislação civil.
+
+III — DOS PEDIDOS
+
+Diante do exposto, requer:
+a) a rescisão do contrato por culpa exclusiva da ré;
+b) a condenação da ré à restituição de R$ 1.960.000,00, corrigidos;
+c) a condenação da ré ao pagamento de R$ 386.000,00 a título de perdas e danos;
+d) a produção de prova pericial em tecnologia da informação.
+
+Dá-se à causa o valor de R$ 2.346.000,00.
+
+Termos em que pede deferimento.

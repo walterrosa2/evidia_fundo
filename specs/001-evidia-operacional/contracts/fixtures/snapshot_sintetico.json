@@ -1,0 +1,65 @@
+{
+  "access_restrictions": [],
+  "case_class": "Procedimento Comum Cível",
+  "cnj_raw": "9000001-80.2024.8.26.0100",
+  "commercial_case_id": 1,
+  "court_body": "Vara Cível Sintética",
+  "document_refs": [
+    {
+      "category": "derived_report",
+      "kind": "estudo_pdf",
+      "path": "/api/v1/processos/9000001-80.2024.8.26.0100/estudo.pdf"
+    },
+    {
+      "category": "derived_report",
+      "kind": "dossie_pdf",
+      "path": "/api/v1/processos/9000001-80.2024.8.26.0100/dossie.pdf"
+    }
+  ],
+  "gaps": [
+    {
+      "code": "full_record_not_provided",
+      "description": "Autos integrais nao fornecidos pela origem",
+      "reason": "A originacao entrega metadados e relatorios derivados, nao os autos."
+    }
+  ],
+  "is_synthetic": true,
+  "judge": "Magistrado Sintético",
+  "lawyers": [
+    {
+      "name": "Advogada Sintética Um",
+      "oab": "000001/SP",
+      "represents": "Autora Sintética Alfa Ltda.",
+      "side": "ativo"
+    }
+  ],
+  "origin_external_id": "caso:1",
+  "origin_system": "fixture-sintetica",
+  "parties": [
+    {
+      "name": "Autora Sintética Alfa Ltda.",
+      "role": "claimant"
+    },
+    {
+      "name": "Ré Sintética Beta S.A.",
+      "role": "defendant"
+    }
+  ],
+  "procedural_stage": "instrução",
+  "schema_version": "snapshot-1",
+  "source_updated_at": "2026-11-10T10:00:00+00:00",
+  "study": {
+    "completeness": "movimentos",
+    "generated_at": "2026-11-01T15:30:00+00:00",
+    "has_full_record": false,
+    "id": 11,
+    "simulated": true,
+    "sources": [
+      "capa",
+      "movimentos"
+    ],
+    "version": 2
+  },
+  "subject": "Prestação de serviços (sintético)",
+  "title": "Autora Sintética Alfa Ltda. contra Ré Sintética Beta S.A."
+}

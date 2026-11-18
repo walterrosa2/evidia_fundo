@@ -13,6 +13,14 @@ import { createPortal } from "react-dom";
  */
 
 const TOOLTIP_WIDTH = 288;
+// Ajuda em tres partes (uma por linha) precisa de mais largura para nao virar coluna estreita.
+const TOOLTIP_WIDTH_MULTILINE = 344;
+
+const tooltipWidth = (text: string) =>
+  Math.min(
+    text.includes("\n") ? TOOLTIP_WIDTH_MULTILINE : TOOLTIP_WIDTH,
+    window.innerWidth - VIEWPORT_MARGIN * 2,
+  );
 const GAP = 8;
 const VIEWPORT_MARGIN = 12;
 
@@ -44,10 +52,16 @@ export function HelpHint({
     if (!trigger) return;
 
     const rect = trigger.getBoundingClientRect();
-    const width = Math.min(TOOLTIP_WIDTH, window.innerWidth - VIEWPORT_MARGIN * 2);
+    const width = tooltipWidth(text);
 
     // Altura estimada a partir do texto: evita medir antes de pintar.
-    const estimatedHeight = Math.max(56, Math.ceil(text.length / 42) * 18 + 24);
+    // Cada parte do texto ocupa pelo menos uma linha.
+    const estimatedHeight = Math.max(
+      56,
+      text.split("\n").reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / 48)), 0) *
+        18 +
+        24,
+    );
 
     const spaceAbove = rect.top;
     const spaceBelow = window.innerHeight - rect.bottom;
@@ -77,7 +91,7 @@ export function HelpHint({
       placement,
       arrowLeft: Math.max(10, Math.min(anchorX - left, width - 10)),
     });
-  }, [align, side, text.length]);
+  }, [align, side, text]);
 
   const open = useCallback(() => compute(), [compute]);
   const close = useCallback(() => setPosition(null), []);
@@ -128,12 +142,31 @@ export function HelpHint({
               position: "fixed",
               top: position.top,
               left: position.left,
-              width: Math.min(TOOLTIP_WIDTH, window.innerWidth - VIEWPORT_MARGIN * 2),
+              width: tooltipWidth(text),
               transform: position.placement === "top" ? "translateY(-100%)" : undefined,
             }}
-            className="pointer-events-none z-[100] block rounded-lg border border-border bg-popover px-3.5 py-2.5 text-left text-xs font-normal leading-relaxed text-popover-foreground shadow-xl"
+            className="pointer-events-none z-[9999] block whitespace-pre-line rounded-lg border border-border bg-popover px-3.5 py-2.5 text-left text-xs font-normal leading-relaxed text-popover-foreground shadow-xl"
           >
-            {text}
+            {/\n/.test(text)
+              ? // Ajuda em partes: cada linha é “Rótulo: explicação”, com o rótulo em destaque.
+                text.split(/\n/).map((line, index) => {
+                  const cut = line.indexOf(": ");
+                  return (
+                    <span key={index} className={`block ${index > 0 ? "mt-1.5" : ""}`}>
+                      {cut > 0 ? (
+                        <>
+                          <span className="font-semibold text-foreground">
+                            {line.slice(0, cut + 1)}
+                          </span>{" "}
+                          {line.slice(cut + 2)}
+                        </>
+                      ) : (
+                        line
+                      )}
+                    </span>
+                  );
+                })
+              : text}
             <span
               aria-hidden
               style={{

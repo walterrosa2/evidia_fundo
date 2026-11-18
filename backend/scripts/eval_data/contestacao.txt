@@ -1,0 +1,47 @@
+<pagina> 1
+DOCUMENTO SINTÉTICO PARA TESTE — NENHUMA PESSOA, EMPRESA OU PROCESSO REAL.
+
+EXCELENTÍSSIMO SENHOR DOUTOR JUIZ DE DIREITO DA VARA CÍVEL DA COMARCA SINTÉTICA
+
+TECNOSISTEMAS BETA SINTÉTICA S.A., já qualificada, vem apresentar CONTESTAÇÃO à ação movida
+por CONSTRUTORA AURORA SINTÉTICA LTDA., pelas razões que seguem.
+
+I — SÍNTESE DA DEFESA
+
+A ré nega o inadimplemento. Sustenta que o atraso decorreu de fatos imputáveis à própria
+autora, que não entregou no prazo os dados cadastrais e os planos de contas necessários à
+parametrização do sistema.
+
+<pagina> 2
+II — DOS FATOS
+
+A ré alega que o Anexo II do contrato condicionava o início de cada etapa à entrega, pela
+autora, das informações de cadastro. Segundo a ré, essa entrega só ocorreu em 28/07/2022,
+com 96 dias de atraso em relação ao cronograma.
+
+A ré afirma que a autora solicitou, por e-mail de 19/08/2022, a inclusão de um quarto
+módulo, de gestão de contratos, não previsto no escopo original, o que teria ampliado o
+prazo de implantação.
+
+Sustenta a ré que o módulo financeiro foi entregue em 06/02/2023 e que as falhas apontadas
+decorriam de plano de contas incompleto fornecido pela autora.
+
+O termo de aceite parcial de 20/02/2023, assinado pelo gerente financeiro da autora,
+registra o recebimento do módulo financeiro “para uso em ambiente de homologação”.
+
+<pagina> 3
+III — DO DIREITO
+
+Havendo culpa concorrente, ou exclusiva da autora, não se justifica a rescisão por culpa da
+ré, tampouco a restituição integral do preço.
+
+IV — DA RECONVENÇÃO
+
+A ré reconvém para cobrar o saldo do preço, de R$ 490.000,00, vencido e não pago.
+
+V — DOS PEDIDOS
+
+Requer a improcedência dos pedidos da autora, a procedência da reconvenção e a produção de
+prova pericial, indicando desde já assistente técnico.
+
+Termos em que pede deferimento.

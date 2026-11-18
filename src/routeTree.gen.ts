@@ -16,6 +16,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DealsRouteImport } from './routes/deals'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as Nulidade360RouteImport } from './routes/nulidade360'
+import { Route as OperacaoRouteImport } from './routes/operacao'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as RedTeamRouteImport } from './routes/red-team'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
@@ -28,6 +29,10 @@ import { Route as Nulidade360EvidenciasRouteImport } from './routes/nulidade360.
 import { Route as Nulidade360NovaAnaliseRouteImport } from './routes/nulidade360.nova-analise'
 import { Route as Nulidade360ProcessamentoRouteImport } from './routes/nulidade360.processamento'
 import { Route as Nulidade360ResultadoRouteImport } from './routes/nulidade360.resultado'
+import { Route as OperacaoIndexRouteImport } from './routes/operacao.index'
+import { Route as OperacaoIdRouteImport } from './routes/operacao.$id'
+import { Route as OperacaoEntradaRouteImport } from './routes/operacao.entrada'
+import { Route as OperacaoLoginRouteImport } from './routes/operacao.login'
 import { Route as RelatoriosIndexRouteImport } from './routes/relatorios.index'
 import { Route as RelatoriosInvestmentMemoRouteImport } from './routes/relatorios.investment-memo'
 
@@ -64,6 +69,11 @@ const LoginRoute = LoginRouteImport.update({
 const Nulidade360Route = Nulidade360RouteImport.update({
   id: '/nulidade360',
   path: '/nulidade360',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperacaoRoute = OperacaoRouteImport.update({
+  id: '/operacao',
+  path: '/operacao',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PipelineRoute = PipelineRouteImport.update({
@@ -127,6 +137,26 @@ const Nulidade360ResultadoRoute = Nulidade360ResultadoRouteImport.update({
   path: '/resultado',
   getParentRoute: () => Nulidade360Route,
 } as any)
+const OperacaoIndexRoute = OperacaoIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OperacaoRoute,
+} as any)
+const OperacaoIdRoute = OperacaoIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => OperacaoRoute,
+} as any)
+const OperacaoEntradaRoute = OperacaoEntradaRouteImport.update({
+  id: '/entrada',
+  path: '/entrada',
+  getParentRoute: () => OperacaoRoute,
+} as any)
+const OperacaoLoginRoute = OperacaoLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => OperacaoRoute,
+} as any)
 const RelatoriosIndexRoute = RelatoriosIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -147,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/deals': typeof DealsRouteWithChildren
   '/login': typeof LoginRoute
   '/nulidade360': typeof Nulidade360RouteWithChildren
+  '/operacao': typeof OperacaoRouteWithChildren
   '/pipeline': typeof PipelineRoute
   '/red-team': typeof RedTeamRoute
   '/relatorios': typeof RelatoriosRouteWithChildren
@@ -157,9 +188,13 @@ export interface FileRoutesByFullPath {
   '/nulidade360/nova-analise': typeof Nulidade360NovaAnaliseRoute
   '/nulidade360/processamento': typeof Nulidade360ProcessamentoRoute
   '/nulidade360/resultado': typeof Nulidade360ResultadoRoute
+  '/operacao/$id': typeof OperacaoIdRoute
+  '/operacao/entrada': typeof OperacaoEntradaRoute
+  '/operacao/login': typeof OperacaoLoginRoute
   '/relatorios/investment-memo': typeof RelatoriosInvestmentMemoRoute
   '/deals/': typeof DealsIndexRoute
   '/nulidade360/': typeof Nulidade360IndexRoute
+  '/operacao/': typeof OperacaoIndexRoute
   '/relatorios/': typeof RelatoriosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -177,9 +212,13 @@ export interface FileRoutesByTo {
   '/nulidade360/nova-analise': typeof Nulidade360NovaAnaliseRoute
   '/nulidade360/processamento': typeof Nulidade360ProcessamentoRoute
   '/nulidade360/resultado': typeof Nulidade360ResultadoRoute
+  '/operacao/$id': typeof OperacaoIdRoute
+  '/operacao/entrada': typeof OperacaoEntradaRoute
+  '/operacao/login': typeof OperacaoLoginRoute
   '/relatorios/investment-memo': typeof RelatoriosInvestmentMemoRoute
   '/deals': typeof DealsIndexRoute
   '/nulidade360': typeof Nulidade360IndexRoute
+  '/operacao': typeof OperacaoIndexRoute
   '/relatorios': typeof RelatoriosIndexRoute
 }
 export interface FileRoutesById {
@@ -191,6 +230,7 @@ export interface FileRoutesById {
   '/deals': typeof DealsRouteWithChildren
   '/login': typeof LoginRoute
   '/nulidade360': typeof Nulidade360RouteWithChildren
+  '/operacao': typeof OperacaoRouteWithChildren
   '/pipeline': typeof PipelineRoute
   '/red-team': typeof RedTeamRoute
   '/relatorios': typeof RelatoriosRouteWithChildren
@@ -201,9 +241,13 @@ export interface FileRoutesById {
   '/nulidade360/nova-analise': typeof Nulidade360NovaAnaliseRoute
   '/nulidade360/processamento': typeof Nulidade360ProcessamentoRoute
   '/nulidade360/resultado': typeof Nulidade360ResultadoRoute
+  '/operacao/$id': typeof OperacaoIdRoute
+  '/operacao/entrada': typeof OperacaoEntradaRoute
+  '/operacao/login': typeof OperacaoLoginRoute
   '/relatorios/investment-memo': typeof RelatoriosInvestmentMemoRoute
   '/deals/': typeof DealsIndexRoute
   '/nulidade360/': typeof Nulidade360IndexRoute
+  '/operacao/': typeof OperacaoIndexRoute
   '/relatorios/': typeof RelatoriosIndexRoute
 }
 export interface FileRouteTypes {
@@ -216,6 +260,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/login'
     | '/nulidade360'
+    | '/operacao'
     | '/pipeline'
     | '/red-team'
     | '/relatorios'
@@ -226,9 +271,13 @@ export interface FileRouteTypes {
     | '/nulidade360/nova-analise'
     | '/nulidade360/processamento'
     | '/nulidade360/resultado'
+    | '/operacao/$id'
+    | '/operacao/entrada'
+    | '/operacao/login'
     | '/relatorios/investment-memo'
     | '/deals/'
     | '/nulidade360/'
+    | '/operacao/'
     | '/relatorios/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -246,9 +295,13 @@ export interface FileRouteTypes {
     | '/nulidade360/nova-analise'
     | '/nulidade360/processamento'
     | '/nulidade360/resultado'
+    | '/operacao/$id'
+    | '/operacao/entrada'
+    | '/operacao/login'
     | '/relatorios/investment-memo'
     | '/deals'
     | '/nulidade360'
+    | '/operacao'
     | '/relatorios'
   id:
     | '__root__'
@@ -259,6 +312,7 @@ export interface FileRouteTypes {
     | '/deals'
     | '/login'
     | '/nulidade360'
+    | '/operacao'
     | '/pipeline'
     | '/red-team'
     | '/relatorios'
@@ -269,9 +323,13 @@ export interface FileRouteTypes {
     | '/nulidade360/nova-analise'
     | '/nulidade360/processamento'
     | '/nulidade360/resultado'
+    | '/operacao/$id'
+    | '/operacao/entrada'
+    | '/operacao/login'
     | '/relatorios/investment-memo'
     | '/deals/'
     | '/nulidade360/'
+    | '/operacao/'
     | '/relatorios/'
   fileRoutesById: FileRoutesById
 }
@@ -283,6 +341,7 @@ export interface RootRouteChildren {
   DealsRoute: typeof DealsRouteWithChildren
   LoginRoute: typeof LoginRoute
   Nulidade360Route: typeof Nulidade360RouteWithChildren
+  OperacaoRoute: typeof OperacaoRouteWithChildren
   PipelineRoute: typeof PipelineRoute
   RedTeamRoute: typeof RedTeamRoute
   RelatoriosRoute: typeof RelatoriosRouteWithChildren
@@ -338,6 +397,13 @@ declare module '@tanstack/react-router' {
       path: '/nulidade360'
       fullPath: '/nulidade360'
       preLoaderRoute: typeof Nulidade360RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operacao': {
+      id: '/operacao'
+      path: '/operacao'
+      fullPath: '/operacao'
+      preLoaderRoute: typeof OperacaoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline': {
@@ -424,6 +490,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Nulidade360ResultadoRouteImport
       parentRoute: typeof Nulidade360Route
     }
+    '/operacao/': {
+      id: '/operacao/'
+      path: '/'
+      fullPath: '/operacao/'
+      preLoaderRoute: typeof OperacaoIndexRouteImport
+      parentRoute: typeof OperacaoRoute
+    }
+    '/operacao/$id': {
+      id: '/operacao/$id'
+      path: '/$id'
+      fullPath: '/operacao/$id'
+      preLoaderRoute: typeof OperacaoIdRouteImport
+      parentRoute: typeof OperacaoRoute
+    }
+    '/operacao/entrada': {
+      id: '/operacao/entrada'
+      path: '/entrada'
+      fullPath: '/operacao/entrada'
+      preLoaderRoute: typeof OperacaoEntradaRouteImport
+      parentRoute: typeof OperacaoRoute
+    }
+    '/operacao/login': {
+      id: '/operacao/login'
+      path: '/login'
+      fullPath: '/operacao/login'
+      preLoaderRoute: typeof OperacaoLoginRouteImport
+      parentRoute: typeof OperacaoRoute
+    }
     '/relatorios/': {
       id: '/relatorios/'
       path: '/'
@@ -475,6 +569,24 @@ const Nulidade360RouteWithChildren = Nulidade360Route._addFileChildren(
   Nulidade360RouteChildren,
 )
 
+interface OperacaoRouteChildren {
+  OperacaoIdRoute: typeof OperacaoIdRoute
+  OperacaoEntradaRoute: typeof OperacaoEntradaRoute
+  OperacaoLoginRoute: typeof OperacaoLoginRoute
+  OperacaoIndexRoute: typeof OperacaoIndexRoute
+}
+
+const OperacaoRouteChildren: OperacaoRouteChildren = {
+  OperacaoIdRoute: OperacaoIdRoute,
+  OperacaoEntradaRoute: OperacaoEntradaRoute,
+  OperacaoLoginRoute: OperacaoLoginRoute,
+  OperacaoIndexRoute: OperacaoIndexRoute,
+}
+
+const OperacaoRouteWithChildren = OperacaoRoute._addFileChildren(
+  OperacaoRouteChildren,
+)
+
 interface RelatoriosRouteChildren {
   RelatoriosInvestmentMemoRoute: typeof RelatoriosInvestmentMemoRoute
   RelatoriosIndexRoute: typeof RelatoriosIndexRoute
@@ -497,6 +609,7 @@ const rootRouteChildren: RootRouteChildren = {
   DealsRoute: DealsRouteWithChildren,
   LoginRoute: LoginRoute,
   Nulidade360Route: Nulidade360RouteWithChildren,
+  OperacaoRoute: OperacaoRouteWithChildren,
   PipelineRoute: PipelineRoute,
   RedTeamRoute: RedTeamRoute,
   RelatoriosRoute: RelatoriosRouteWithChildren,

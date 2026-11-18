@@ -1,0 +1,211 @@
+{
+  "_aviso": "DADOS SINTETICOS — nao representam processos ou pessoas reais",
+  "analisados": [
+    {
+      "autor": "Autora Sintética Alfa Ltda.",
+      "classe": "Procedimento Comum Cível",
+      "cnj": "9000001-80.2024.8.26.0100",
+      "estudo_em": "2026-11-01T15:30:00+00:00",
+      "executivos": [
+        "Executivo Sintetico"
+      ],
+      "fase": "instrução",
+      "reestudo_pendente": false,
+      "reu": "Ré Sintética Beta S.A.",
+      "titulo": "Autora Sintética Alfa Ltda. contra Ré Sintética Beta S.A."
+    },
+    {
+      "autor": "Autora Sintética Gama Ltda.",
+      "classe": "Procedimento Comum Cível",
+      "cnj": "9000002-03.2023.8.19.0001",
+      "estudo_em": "2026-11-01T15:30:00+00:00",
+      "executivos": [],
+      "fase": "saneamento",
+      "reestudo_pendente": false,
+      "reu": "Ré Sintética Delta S.A.",
+      "titulo": "Autora Sintética Gama Ltda. contra Ré Sintética Delta S.A."
+    }
+  ],
+  "casos": [
+    {
+      "advogado_id": 101,
+      "advogado_nome": "Advogado Sintetico 1",
+      "atualizado_em": "2026-11-10T10:00:00+00:00",
+      "criado_em": "2026-10-01T12:00:00+00:00",
+      "etapa": "V2",
+      "etapa_desde": null,
+      "etapa_rotulo": "Reunião",
+      "eventos": null,
+      "executivo_id": 1,
+      "executivo_nome": "Executivo Sintetico",
+      "id": 1,
+      "linha": "N",
+      "nivel_liberado": 3,
+      "prazo_atividade": null,
+      "prazo_em": null,
+      "processo_cnj_principal": "9000001-80.2024.8.26.0100",
+      "recado": null,
+      "repassado_por_id": 1,
+      "ultimo_contato": null,
+      "vendo_lead_id": null
+    },
+    {
+      "advogado_id": 102,
+      "advogado_nome": "Advogado Sintetico 2",
+      "atualizado_em": "2026-11-11T10:00:00+00:00",
+      "criado_em": "2026-10-01T12:00:00+00:00",
+      "etapa": "V2",
+      "etapa_desde": null,
+      "etapa_rotulo": "Reunião",
+      "eventos": null,
+      "executivo_id": 1,
+      "executivo_nome": "Executivo Sintetico",
+      "id": 2,
+      "linha": "N",
+      "nivel_liberado": 3,
+      "prazo_atividade": null,
+      "prazo_em": null,
+      "processo_cnj_principal": "9000002-03.2023.8.19.0001",
+      "recado": null,
+      "repassado_por_id": 1,
+      "ultimo_contato": null,
+      "vendo_lead_id": null
+    },
+    {
+      "advogado_id": 103,
+      "advogado_nome": "Advogado Sintetico 3",
+      "atualizado_em": "2026-11-12T10:00:00+00:00",
+      "criado_em": "2026-10-01T12:00:00+00:00",
+      "etapa": "V2",
+      "etapa_desde": null,
+      "etapa_rotulo": "Reunião",
+      "eventos": null,
+      "executivo_id": 1,
+      "executivo_nome": "Executivo Sintetico",
+      "id": 3,
+      "linha": "N",
+      "nivel_liberado": 3,
+      "prazo_atividade": null,
+      "prazo_em": null,
+      "processo_cnj_principal": "9000009-00.2024.8.26.0100",
+      "recado": null,
+      "repassado_por_id": 1,
+      "ultimo_contato": null,
+      "vendo_lead_id": null
+    },
+    {
+      "advogado_id": 104,
+      "advogado_nome": "Advogado Sintetico 4",
+      "atualizado_em": "2026-11-13T10:00:00+00:00",
+      "criado_em": "2026-10-01T12:00:00+00:00",
+      "etapa": "V2",
+      "etapa_desde": null,
+      "etapa_rotulo": "Reunião",
+      "eventos": null,
+      "executivo_id": 1,
+      "executivo_nome": "Executivo Sintetico",
+      "id": 4,
+      "linha": "N",
+      "nivel_liberado": 3,
+      "prazo_atividade": null,
+      "prazo_em": null,
+      "processo_cnj_principal": "9000003-18.2022.8.13.0024",
+      "recado": null,
+      "repassado_por_id": 1,
+      "ultimo_contato": null,
+      "vendo_lead_id": null
+    }
+  ],
+  "estudos": {
+    "9000001-80.2024.8.26.0100": {
+      "analise": null,
+      "base_da_analise": {
+        "completude": "movimentos",
+        "fontes": [
+          "capa",
+          "movimentos"
+        ],
+        "n_movimentos": 12,
+        "n_publicacoes": 0,
+        "tem_autos": false,
+        "tem_laudo": false,
+        "tem_sentenca": false
+      },
+      "cnj": "9000001-80.2024.8.26.0100",
+      "contatos": {
+        "advogados": [
+          {
+            "nome": "Advogada Sintética Um",
+            "oab": "000001/SP",
+            "pessoa_id": 1,
+            "polo": "ativo",
+            "representa": "Autora Sintética Alfa Ltda."
+          }
+        ]
+      },
+      "dados": {
+        "assunto": "Prestação de serviços (sintético)",
+        "autor": "Autora Sintética Alfa Ltda.",
+        "classe": "Procedimento Comum Cível",
+        "distribuicao": "2024-02-10",
+        "juiz": "Magistrado Sintético",
+        "orgao_julgador": "Vara Cível Sintética",
+        "reus": [
+          "Ré Sintética Beta S.A."
+        ],
+        "valor_causa": "R$ 100.000,00"
+      },
+      "gerado_em": "2026-11-01T15:30:00+00:00",
+      "id": 11,
+      "o_que_vender": [],
+      "simulado": true,
+      "titulo": "Autora Sintética Alfa Ltda. contra Ré Sintética Beta S.A.",
+      "versao": 2
+    },
+    "9000002-03.2023.8.19.0001": {
+      "analise": null,
+      "base_da_analise": {
+        "completude": "so_capa",
+        "fontes": [
+          "capa",
+          "movimentos"
+        ],
+        "n_movimentos": 12,
+        "n_publicacoes": 0,
+        "tem_autos": false,
+        "tem_laudo": false,
+        "tem_sentenca": false
+      },
+      "cnj": "9000002-03.2023.8.19.0001",
+      "contatos": {
+        "advogados": [
+          {
+            "nome": "Advogada Sintética Um",
+            "oab": "000001/SP",
+            "pessoa_id": 1,
+            "polo": "ativo",
+            "representa": "Autora Sintética Gama Ltda."
+          }
+        ]
+      },
+      "dados": {
+        "assunto": "Prestação de serviços (sintético)",
+        "autor": "Autora Sintética Gama Ltda.",
+        "classe": "Procedimento Comum Cível",
+        "distribuicao": "2024-02-10",
+        "juiz": "Magistrado Sintético",
+        "orgao_julgador": "Vara Cível Sintética",
+        "reus": [
+          "Ré Sintética Delta S.A."
+        ],
+        "valor_causa": "R$ 100.000,00"
+      },
+      "gerado_em": "2026-11-01T15:30:00+00:00",
+      "id": 12,
+      "o_que_vender": [],
+      "simulado": true,
+      "titulo": "Autora Sintética Gama Ltda. contra Ré Sintética Delta S.A.",
+      "versao": 2
+    }
+  }
+}

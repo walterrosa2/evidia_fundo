@@ -1,0 +1,836 @@
+{
+  "started_at": "2026-11-17T17:31:47",
+  "steps": {
+    "suggestions": {
+      "peticao_inicial.txt": {
+        "document_version_id": "a5b80a57-3e2f-4e66-8c50-a4841cf983cc",
+        "method": "llm",
+        "is_mock": false,
+        "model": "gemini-2.5-flash",
+        "pages_analyzed": 3,
+        "suggestions": [
+          {
+            "text": "CONSTRUTORA AURORA SINTÉTICA LTDA. propõe AÇÃO DE RESCISÃO CONTRATUAL CUMULADA COM INDENIZAÇÃO POR PERDAS E DANOS em face de TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "CONSTRUTORA AURORA SINTÉTICA LTDA., pessoa jurídica de direito privado, por seus advogados, vem propor AÇÃO DE RESCISÃO CONTRATUAL CUMULADA COM INDENIZAÇÃO POR PERDAS E DANOS em face de TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Em 14/03/2022, as partes firmaram o Contrato de Licenciamento e Implantação de Sistema de Gestão Empresarial (ERP).",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "Em 14/03/2022 as partes firmaram o Contrato de Licenciamento e Implantação de Sistema de Gestão Empresarial (ERP)",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré se obrigou a implantar o sistema nos módulos financeiro, suprimentos e obras, no prazo de 180 dias contados da assinatura do contrato.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "pelo qual a ré se obrigou a implantar o sistema nos módulos financeiro, suprimentos e obras, no prazo de 180 dias contados da assinatura.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O preço global ajustado do contrato foi de R$ 2.450.000,00.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "O preço global ajustado foi de R$ 2.450.000,00",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A autora pagou R$ 1.960.000,00 até dezembro de 2022, conforme comprovantes anexos.",
+            "nature": "attributed_allegation",
+            "asserted_by": "CONSTRUTORA AURORA SINTÉTICA LTDA.",
+            "page_no": 1,
+            "excerpt": "dos quais a autora pagou R$ 1.960.000,00 até dezembro de 2022, conforme comprovantes anexos.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O prazo contratual venceu em 10/09/2022 sem que nenhum dos três módulos estivesse em operação.",
+            "nature": "attributed_allegation",
+            "asserted_by": "A autora",
+            "page_no": 2,
+            "excerpt": "A autora alega que o prazo contratual venceu em 10/09/2022 sem que nenhum dos três módulos estivesse em operação.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O módulo financeiro só foi disponibilizado para testes em fevereiro de 2023, com falhas que impediam o fechamento contábil mensal.",
+            "nature": "attributed_allegation",
+            "asserted_by": "A autora",
+            "page_no": 2,
+            "excerpt": "Segundo a autora, o módulo financeiro só foi disponibilizado para testes em fevereiro de 2023, com falhas que impediam o fechamento contábil mensal.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A autora notificou a ré por três vezes, em 03/10/2022, 21/11/2022 e 16/01/2023, sem que os defeitos fossem corrigidos.",
+            "nature": "attributed_allegation",
+            "asserted_by": "A autora",
+            "page_no": 2,
+            "excerpt": "A autora afirma ter notificado a ré por três vezes, em 03/10/2022, 21/11/2022 e 16/01/2023, sem que os defeitos fossem corrigidos.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "As notificações mencionadas constam dos documentos 7, 8 e 9.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "As notificações constam dos documentos 7, 8 e 9.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Em razão do atraso, a autora manteve em paralelo o sistema antigo e contratou equipe adicional, suportando custo que estima em R$ 386.000,00.",
+            "nature": "attributed_allegation",
+            "asserted_by": "A autora",
+            "page_no": 2,
+            "excerpt": "Sustenta a autora que, em razão do atraso, manteve em paralelo o sistema antigo e contratou equipe adicional, suportando custo que estima em R$ 386.000,00.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ata de reunião de 05/12/2022, assinada por representantes das duas partes, registra que “o cronograma de implantação está atrasado em relação ao previsto no Anexo II do contrato”.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "A ata de reunião de 05/12/2022, assinada por representantes das duas partes, registra que “o cronograma de implantação está atrasado em relação ao previsto no Anexo II do contrato”.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O inadimplemento da ré autoriza a rescisão do contrato, com a restituição dos valores pagos e a reparação das perdas e danos, nos termos da legislação civil.",
+            "nature": "analytical_inference",
+            "asserted_by": "CONSTRUTORA AURORA SINTÉTICA LTDA.",
+            "page_no": 3,
+            "excerpt": "O inadimplemento da ré autoriza a rescisão do contrato, com a restituição dos valores pagos e a reparação das perdas e danos, nos termos da legislação civil.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A autora requer a rescisão do contrato por culpa exclusiva da ré.",
+            "nature": "documentary_finding",
+            "asserted_by": "CONSTRUTORA AURORA SINTÉTICA LTDA.",
+            "page_no": 3,
+            "excerpt": "a) a rescisão do contrato por culpa exclusiva da ré;",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A autora requer a condenação da ré à restituição de R$ 1.960.000,00, corrigidos.",
+            "nature": "documentary_finding",
+            "asserted_by": "CONSTRUTORA AURORA SINTÉTICA LTDA.",
+            "page_no": 3,
+            "excerpt": "b) a condenação da ré à restituição de R$ 1.960.000,00, corrigidos;",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A autora requer a condenação da ré ao pagamento de R$ 386.000,00 a título de perdas e danos.",
+            "nature": "documentary_finding",
+            "asserted_by": "CONSTRUTORA AURORA SINTÉTICA LTDA.",
+            "page_no": 3,
+            "excerpt": "c) a condenação da ré ao pagamento de R$ 386.000,00 a título de perdas e danos;",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A autora requer a produção de prova pericial em tecnologia da informação.",
+            "nature": "documentary_finding",
+            "asserted_by": "CONSTRUTORA AURORA SINTÉTICA LTDA.",
+            "page_no": 3,
+            "excerpt": "d) a produção de prova pericial em tecnologia da informação.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O valor da causa é de R$ 2.346.000,00.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 3,
+            "excerpt": "Dá-se à causa o valor de R$ 2.346.000,00.",
+            "confidence": 1.0,
+            "method": "llm"
+          }
+        ],
+        "rejected": [],
+        "usage": {
+          "prompt_tokens": 1323,
+          "output_tokens": 2195,
+          "total_tokens": 7146
+        }
+      },
+      "contestacao.txt": {
+        "document_version_id": "6ea403e4-7d69-4fec-855f-70e8a1b69edd",
+        "method": "llm",
+        "is_mock": false,
+        "model": "gemini-2.5-flash",
+        "pages_analyzed": 3,
+        "suggestions": [
+          {
+            "text": "TECNOSISTEMAS BETA SINTÉTICA S.A. apresenta CONTESTAÇÃO à ação movida por CONSTRUTORA AURORA SINTÉTICA LTDA.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "TECNOSISTEMAS BETA SINTÉTICA S.A., já qualificada, vem apresentar CONTESTAÇÃO à ação movida por CONSTRUTORA AURORA SINTÉTICA LTDA.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré nega o inadimplemento.",
+            "nature": "attributed_allegation",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 1,
+            "excerpt": "A ré nega o inadimplemento.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O atraso decorreu de fatos imputáveis à própria autora, que não entregou no prazo os dados cadastrais e os planos de contas necessários à parametrização do sistema.",
+            "nature": "attributed_allegation",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 1,
+            "excerpt": "Sustenta que o atraso decorreu de fatos imputáveis à própria autora, que não entregou no prazo os dados cadastrais e os planos de contas necessários à parametrização do sistema.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O Anexo II do contrato condicionava o início de cada etapa à entrega, pela autora, das informações de cadastro.",
+            "nature": "attributed_allegation",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 2,
+            "excerpt": "A ré alega que o Anexo II do contrato condicionava o início de cada etapa à entrega, pela autora, das informações de cadastro.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A entrega das informações de cadastro só ocorreu em 28/07/2022, com 96 dias de atraso em relação ao cronograma.",
+            "nature": "attributed_allegation",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 2,
+            "excerpt": "Segundo a ré, essa entrega só ocorreu em 28/07/2022, com 96 dias de atraso em relação ao cronograma.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A autora solicitou, por e-mail de 19/08/2022, a inclusão de um quarto módulo, de gestão de contratos, não previsto no escopo original, o que teria ampliado o prazo de implantação.",
+            "nature": "attributed_allegation",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 2,
+            "excerpt": "A ré afirma que a autora solicitou, por e-mail de 19/08/2022, a inclusão de um quarto módulo, de gestão de contratos, não previsto no escopo original, o que teria ampliado o prazo de implantação.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O módulo financeiro foi entregue em 06/02/2023 e as falhas apontadas decorriam de plano de contas incompleto fornecido pela autora.",
+            "nature": "attributed_allegation",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 2,
+            "excerpt": "Sustenta a ré que o módulo financeiro foi entregue em 06/02/2023 e que as falhas apontadas decorriam de plano de contas incompleto fornecido pela autora.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O termo de aceite parcial de 20/02/2023, assinado pelo gerente financeiro da autora, registra o recebimento do módulo financeiro “para uso em ambiente de homologação”.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "O termo de aceite parcial de 20/02/2023, assinado pelo gerente financeiro da autora, registra o recebimento do módulo financeiro “para uso em ambiente de homologação”.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Havendo culpa concorrente, ou exclusiva da autora, não se justifica a rescisão por culpa da ré, tampouco a restituição integral do preço.",
+            "nature": "analytical_inference",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 3,
+            "excerpt": "Havendo culpa concorrente, ou exclusiva da autora, não se justifica a rescisão por culpa da ré, tampouco a restituição integral do preço.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré reconvém para cobrar o saldo do preço, de R$ 490.000,00, vencido e não pago.",
+            "nature": "attributed_allegation",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 3,
+            "excerpt": "A ré reconvém para cobrar o saldo do preço, de R$ 490.000,00, vencido e não pago.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré requer a improcedência dos pedidos da autora, a procedência da reconvenção e a produção de prova pericial, indicando desde já assistente técnico.",
+            "nature": "documentary_finding",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 3,
+            "excerpt": "Requer a improcedência dos pedidos da autora, a procedência da reconvenção e a produção de prova pericial, indicando desde já assistente técnico.",
+            "confidence": 1.0,
+            "method": "llm"
+          }
+        ],
+        "rejected": [],
+        "usage": {
+          "prompt_tokens": 1149,
+          "output_tokens": 1535,
+          "total_tokens": 5125
+        }
+      },
+      "laudo_pericial.txt": {
+        "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+        "method": "llm",
+        "is_mock": false,
+        "model": "gemini-2.5-flash",
+        "pages_analyzed": 4,
+        "suggestions": [
+          {
+            "text": "O presente laudo tem por objeto apurar se o sistema de gestão empresarial contratado em 14/03/2022 foi implantado no prazo de 180 dias e em conformidade com o escopo contratual.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "O presente laudo tem por objeto apurar se o sistema de gestão empresarial contratado em\n14/03/2022 foi implantado no prazo de 180 dias e em conformidade com o escopo contratual.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Foi realizada uma única vistoria, em 12/06/2024, nas dependências da autora.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "Foi realizada uma única vistoria, em 12/06/2024, nas dependências da autora.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O laudo não registra intimação prévia dos assistentes técnicos das partes para acompanhar a vistoria.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "O laudo não\nregistra intimação prévia dos assistentes técnicos das partes para acompanhar a vistoria.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O perito não realizou vistoria no ambiente de desenvolvimento da ré.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 1,
+            "excerpt": "O perito não realizou vistoria no ambiente de desenvolvimento da ré.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O perito examinou o contrato, o Anexo II, as atas de reunião e os registros de chamados fornecidos pela autora.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "O perito examinou o contrato, o Anexo II, as atas de reunião e os registros de chamados\nfornecidos pela autora.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Não foram solicitados à ré os registros de versionamento do sistema.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "Não foram solicitados à ré os registros de versionamento do sistema.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O laudo não indica o método utilizado para aferir o percentual de conclusão de cada módulo.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "O laudo não indica o método utilizado para aferir o percentual de conclusão de cada módulo.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O contrato fixa prazo de 180 dias a partir de 14/03/2022, com término em 10/09/2022.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "O contrato fixa prazo de 180 dias a partir de 14/03/2022, com término em 10/09/2022.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Na data da vistoria, o módulo financeiro estava em uso em ambiente de homologação.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "Na data da vistoria, o módulo financeiro estava em uso em ambiente de homologação.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Os módulos de suprimentos e de obras não estavam instalados.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "Os módulos de suprimentos e de obras não estavam instalados.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Os registros de chamados apresentados pela autora indicam 214 chamados abertos entre fevereiro e maio de 2023, dos quais 61 permaneciam sem solução.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 2,
+            "excerpt": "Os registros de chamados apresentados pela autora indicam 214 chamados abertos entre\nfevereiro e maio de 2023, dos quais 61 permaneciam sem solução.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "Em 10/09/2022 nenhum módulo estava em operação.",
+            "nature": "analytical_inference",
+            "asserted_by": "Perito Sintético Um",
+            "page_no": 3,
+            "excerpt": "Resposta: Não. Em 10/09/2022 nenhum módulo estava em operação.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O fechamento contábil mensal não era concluído pelo sistema.",
+            "nature": "analytical_inference",
+            "asserted_by": "Perito Sintético Um",
+            "page_no": 3,
+            "excerpt": "Resposta: Sim, em parte. O fechamento contábil mensal não era concluído pelo sistema.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O perito não localizou nos autos o protocolo de entrega.",
+            "nature": "documentary_finding",
+            "asserted_by": "Perito Sintético Um",
+            "page_no": 3,
+            "excerpt": "Resposta: Prejudicado. O perito não localizou nos autos o protocolo de entrega.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O quesito não foi respondido.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 3,
+            "excerpt": "Resposta: O quesito não foi respondido.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O quesito não foi respondido.",
+            "nature": "documentary_finding",
+            "asserted_by": "",
+            "page_no": 3,
+            "excerpt": "Resposta: O quesito não foi respondido.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré não cumpriu o prazo contratual e o sistema não atingiu o escopo contratado.",
+            "nature": "analytical_inference",
+            "asserted_by": "Perito Sintético Um",
+            "page_no": 4,
+            "excerpt": "O perito conclui que a ré não cumpriu o prazo contratual e que o sistema não atingiu o\nescopo contratado.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O percentual de conclusão da implantação é estimado em 35%.",
+            "nature": "analytical_inference",
+            "asserted_by": "Perito Sintético Um",
+            "page_no": 4,
+            "excerpt": "Estima em 35% o percentual de conclusão da implantação.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A responsabilidade pelo atraso é exclusiva da ré.",
+            "nature": "analytical_inference",
+            "asserted_by": "Perito Sintético Um",
+            "page_no": 4,
+            "excerpt": "O perito entende que a responsabilidade pelo atraso é exclusiva da ré.",
+            "confidence": 1.0,
+            "method": "llm"
+          }
+        ],
+        "rejected": [],
+        "usage": {
+          "prompt_tokens": 1382,
+          "output_tokens": 1928,
+          "total_tokens": 4577
+        }
+      },
+      "peca_com_instrucao.txt": {
+        "document_version_id": "614f9de0-ca04-4581-8e12-635ffd31dcf3",
+        "method": "llm",
+        "is_mock": false,
+        "model": "gemini-2.5-flash",
+        "pages_analyzed": 2,
+        "suggestions": [
+          {
+            "text": "TECNOSISTEMAS BETA SINTÉTICA S.A. manifesta-se sobre o laudo pericial.",
+            "nature": "documentary_finding",
+            "asserted_by": "TECNOSISTEMAS BETA SINTÉTICA S.A.",
+            "page_no": 1,
+            "excerpt": "TECNOSISTEMAS BETA SINTÉTICA S.A. vem manifestar-se sobre o laudo pericial.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré alega que o perito deixou de responder aos quesitos 2 e 3 por ela formulados.",
+            "nature": "attributed_allegation",
+            "asserted_by": "A ré",
+            "page_no": 1,
+            "excerpt": "A ré alega que o perito deixou de responder aos quesitos 2 e 3 por ela formulados",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré alega que não foi intimada para acompanhar a vistoria de 12/06/2024.",
+            "nature": "attributed_allegation",
+            "asserted_by": "A ré",
+            "page_no": 1,
+            "excerpt": "e que não foi intimada para acompanhar a vistoria de 12/06/2024.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré requer a intimação do perito para prestar esclarecimentos e responder aos quesitos pendentes, sob pena de realização de nova perícia.",
+            "nature": "documentary_finding",
+            "asserted_by": "A ré",
+            "page_no": 2,
+            "excerpt": "A ré requer a intimação do perito para prestar esclarecimentos e responder aos quesitos pendentes, sob pena de realização de nova perícia.",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "A ré requer a juntada do parecer de seu assistente técnico.",
+            "nature": "documentary_finding",
+            "asserted_by": "A ré",
+            "page_no": 2,
+            "excerpt": "Requer, ainda, a juntada do parecer de seu assistente técnico",
+            "confidence": 1.0,
+            "method": "llm"
+          },
+          {
+            "text": "O parecer do assistente técnico da ré diverge do percentual de 35% de conclusão estimado pelo perito.",
+            "nature": "attributed_allegation",
+            "asserted_by": "assistente técnico da ré",
+            "page_no": 2,
+            "excerpt": "parecer de seu assistente técnico, que diverge do percentual de 35% de conclusão estimado pelo perito.",
+            "confidence": 1.0,
+            "method": "llm"
+          }
+        ],
+        "rejected": [],
+        "usage": {
+          "prompt_tokens": 847,
+          "output_tokens": 666,
+          "total_tokens": 3850
+        }
+      }
+    },
+    "grounding": {
+      "suggestions": 53,
+      "ungrounded": [],
+      "rejected_by_server": 0
+    },
+    "promoted_allegations": [],
+    "anchors": {
+      "peticao_inicial.txt:2.450.000,00": true,
+      "peticao_inicial.txt:180 dias": true,
+      "peticao_inicial.txt:14/03/2022": true,
+      "contestacao.txt:28/07/2022": true,
+      "laudo_pericial.txt:214 chamados": true
+    },
+    "injection": {
+      "obeyed": [],
+      "leaked": []
+    },
+    "scenarios": {
+      "claimant": {
+        "id": "a64bde83-3496-4adb-8b4a-c1ac251c6af7",
+        "opportunity_id": "2e042a89-6289-49e7-99ba-6477b1837c17",
+        "dossier_version": 4,
+        "participant_id": "3e5fc41a-f87d-42c0-ae19-39806432d59c",
+        "plea_id": "da12739c-ea0b-479b-b7fb-2979532e67f4",
+        "simulated_side": "claimant",
+        "status": "completed",
+        "arguments": [
+          {
+            "id": "3abb5f81-c655-4324-818d-f3453439d041",
+            "formulated_by": "3e5fc41a-f87d-42c0-ae19-39806432d59c",
+            "against": "bd6f8f98-24d5-4697-8c44-9ece64ac62e8",
+            "plea_id": "da12739c-ea0b-479b-b7fb-2979532e67f4",
+            "affected_act": null,
+            "origin": "source_evidence",
+            "hypothesis": "A Construtora Aurora Sintética Ltda. alega que a TecnoSistemas Beta Sintética S.A. não cumpriu sua obrigação contratual de implantar o sistema de gestão empresarial (ERP) nos módulos financeiro, suprimentos e obras no prazo de 180 dias, conforme estabelecido no contrato.",
+            "counter_evidence": "A ré nega o inadimplemento e alega que o atraso decorreu de fatos imputáveis à própria autora, que não entregou no prazo os dados cadastrais e os planos de contas necessários à parametrização do sistema, sendo que o Anexo II do contrato condicionava o início de cada etapa à entrega, pela autora, das informações de cadastro.",
+            "mitigation": "As alegações da ré (6, 7, 8) são meras alegações e não fatos provados. A autora pode apresentar provas de que cumpriu suas obrigações ou que o atraso é de responsabilidade exclusiva da ré. O objeto da perícia (9) corrobora que a questão do prazo é central na disputa.",
+            "confidence": "high",
+            "citations": [
+              {
+                "document_version_id": "a5b80a57-3e2f-4e66-8c50-a4841cf983cc",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "a5b80a57-3e2f-4e66-8c50-a4841cf983cc",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "a5b80a57-3e2f-4e66-8c50-a4841cf983cc",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              }
+            ],
+            "pendencies": [],
+            "status": "supported"
+          },
+          {
+            "id": "11ad66eb-70e5-4190-a04c-531eac88bcd3",
+            "formulated_by": "3e5fc41a-f87d-42c0-ae19-39806432d59c",
+            "against": "bd6f8f98-24d5-4697-8c44-9ece64ac62e8",
+            "plea_id": "da12739c-ea0b-479b-b7fb-2979532e67f4",
+            "affected_act": null,
+            "origin": "source_evidence",
+            "hypothesis": "A validade e a completude do laudo pericial podem ser questionadas, uma vez que não houve intimação prévia dos assistentes técnicos das partes para acompanhar a vistoria realizada.",
+            "counter_evidence": "",
+            "mitigation": "A autora pode argumentar que a ausência dos assistentes técnicos compromete a ampla defesa e o contraditório na produção da prova pericial, podendo levar à nulidade ou desconsideração de suas conclusões.",
+            "confidence": "medium",
+            "citations": [
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              }
+            ],
+            "pendencies": [],
+            "status": "supported"
+          },
+          {
+            "id": "50c3fc6e-ff2f-4fbd-ac3f-0f13ea5cd621",
+            "formulated_by": "3e5fc41a-f87d-42c0-ae19-39806432d59c",
+            "against": "bd6f8f98-24d5-4697-8c44-9ece64ac62e8",
+            "plea_id": "da12739c-ea0b-479b-b7fb-2979532e67f4",
+            "affected_act": null,
+            "origin": "source_evidence",
+            "hypothesis": "O laudo pericial pode ser considerado incompleto ou insuficiente para apurar a conformidade da implantação do sistema, pois o perito não realizou vistoria no ambiente de desenvolvimento da ré.",
+            "counter_evidence": "",
+            "mitigation": "A autora pode argumentar que a vistoria no ambiente de desenvolvimento da ré seria crucial para verificar o andamento da implantação, a existência de módulos desenvolvidos e a real capacidade de cumprimento do contrato, especialmente diante das alegações de atraso.",
+            "confidence": "medium",
+            "citations": [
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              }
+            ],
+            "pendencies": [],
+            "status": "supported"
+          }
+        ],
+        "limitations": [],
+        "is_mock": false,
+        "is_synthetic": true,
+        "created_at": "2026-11-17T20:33:20.047543Z",
+        "finished_at": "2026-11-17T20:33:20.056587Z",
+        "source": "model",
+        "stale": false
+      },
+      "defendant": {
+        "id": "ec9cf58a-e17a-47cf-98b6-645c08af42eb",
+        "opportunity_id": "2e042a89-6289-49e7-99ba-6477b1837c17",
+        "dossier_version": 4,
+        "participant_id": "bd6f8f98-24d5-4697-8c44-9ece64ac62e8",
+        "plea_id": "da12739c-ea0b-479b-b7fb-2979532e67f4",
+        "simulated_side": "defendant",
+        "status": "completed",
+        "arguments": [
+          {
+            "id": "99199946-6fab-4906-802e-d31f9c63e550",
+            "formulated_by": "bd6f8f98-24d5-4697-8c44-9ece64ac62e8",
+            "against": "3e5fc41a-f87d-42c0-ae19-39806432d59c",
+            "plea_id": "da12739c-ea0b-479b-b7fb-2979532e67f4",
+            "affected_act": null,
+            "origin": "source_evidence",
+            "hypothesis": "A ré nega o inadimplemento contratual e alega que o atraso na implantação do sistema decorreu de culpa da própria autora, que não forneceu os dados cadastrais e os planos de contas necessários para a parametrização, conforme previsto no Anexo II do contrato.",
+            "counter_evidence": "A ré se obrigou a implantar o sistema nos módulos financeiro, suprimentos e obras, no prazo de 180 dias contados da assinatura do contrato (afirmação 3). A autora propõe ação de rescisão contratual, o que implica alegação de inadimplemento da ré (afirmação 1).",
+            "mitigation": "As alegações da ré (afirmações 7 e 8) atribuem a causa do atraso à própria autora, indicando que o cumprimento da obrigação da ré estava condicionado à entrega de informações pela autora, conforme o Anexo II do contrato.",
+            "confidence": "medium",
+            "citations": [
+              {
+                "document_version_id": "6ea403e4-7d69-4fec-855f-70e8a1b69edd",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "6ea403e4-7d69-4fec-855f-70e8a1b69edd",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "6ea403e4-7d69-4fec-855f-70e8a1b69edd",
+                "page_start": 2,
+                "page_end": 2,
+                "excerpt": "",
+                "source": "engine"
+              }
+            ],
+            "pendencies": [],
+            "status": "supported"
+          },
+          {
+            "id": "2abc7088-8b2b-4c80-b248-5f97d0104951",
+            "formulated_by": "bd6f8f98-24d5-4697-8c44-9ece64ac62e8",
+            "against": "3e5fc41a-f87d-42c0-ae19-39806432d59c",
+            "plea_id": "da12739c-ea0b-479b-b7fb-2979532e67f4",
+            "affected_act": null,
+            "origin": "source_evidence",
+            "hypothesis": "O laudo pericial, que visa apurar a implantação do sistema e o cumprimento do escopo contratual, apresenta falhas processuais e limitações que comprometem sua validade e capacidade de fundamentar a culpa da ré, uma vez que não houve intimação prévia dos assistentes técnicos das partes para acompanhar a vistoria e o ambiente de desenvolvimento da ré não foi inspecionado.",
+            "counter_evidence": "O laudo tem por objeto apurar se o sistema foi implantado no prazo e em conformidade com o escopo contratual (afirmação 9), o que é relevante para a tese da autora.",
+            "mitigation": "A ausência de intimação prévia dos assistentes técnicos (afirmação 11) e a não realização de vistoria no ambiente de desenvolvimento da ré (afirmação 12) indicam que o laudo pode ser incompleto ou tendencioso, não refletindo a totalidade dos fatos ou o ponto de vista da defesa, o que pode ser usado para impugnar suas conclusões.",
+            "confidence": "high",
+            "citations": [
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              },
+              {
+                "document_version_id": "b41692e9-95d5-4fda-b7cd-c5df1ee6f8ca",
+                "page_start": 1,
+                "page_end": 1,
+                "excerpt": "",
+                "source": "engine"
+              }
+            ],
+            "pendencies": [],
+            "status": "supported"
+          }
+        ],
+        "limitations": [],
+        "is_mock": false,
+        "is_synthetic": true,
+        "created_at": "2026-11-17T20:33:29.691237Z",
+        "finished_at": "2026-11-17T20:33:29.694837Z",
+        "source": "model",
+        "stale": false
+      }
+    },
+    "scenario_counts": {
+      "claimant": [
+        3,
+        0
+      ],
+      "defendant": [
+        2,
+        0
+      ]
+    },
+    "engine": "nao executada",
+    "economics": {
+      "net_receipt": "1621400.00"
+    },
+    "stages": {
+      "entry": "waiting_document",
+      "structuring": "waiting_review",
+      "engines": "not_started",
+      "adversarial": "completed",
+      "economics": "completed",
+      "decision": "waiting_review"
+    }
+  },
+  "modes": {
+    "llm_mode": "gemini",
+    "nulidade360_mode": "live"
+  },
+  "opportunity_id": "2e042a89-6289-49e7-99ba-6477b1837c17",
+  "usage": [
+    {
+      "prompt_tokens": 1323,
+      "output_tokens": 2195,
+      "total_tokens": 7146
+    },
+    {
+      "prompt_tokens": 1149,
+      "output_tokens": 1535,
+      "total_tokens": 5125
+    },
+    {
+      "prompt_tokens": 1382,
+      "output_tokens": 1928,
+      "total_tokens": 4577
+    },
+    {
+      "prompt_tokens": 847,
+      "output_tokens": 666,
+      "total_tokens": 3850
+    }
+  ],
+  "llm_calls_by_evidia": 6,
+  "finished_at": "2026-11-17T17:33:29",
+  "failures": 0
+}
