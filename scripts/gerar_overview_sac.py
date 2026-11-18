@@ -12,7 +12,7 @@ import google.generativeai as genai
 sys.stdout.reconfigure(encoding='utf-8')
 sys.stderr.reconfigure(encoding='utf-8')
 
-API_KEY = "AQ.Ab8RN6Js8XhHq71dhdLCSVQEl1qnzePft4ny6VVzSxlj6Ldlqw"
+API_KEY = 
 genai.configure(api_key=API_KEY)
 
 TXT_PATH = r"E:\Backup_HD_Walter\Cruvinel_dados\Plataforma Fundos Investimentos\Dados\ELETROMAR X TOTVS\resultado_paginado_ELETROMAR  X TOTVS_20260805-1016_20260805-1409.txt"
